@@ -8,7 +8,6 @@ import {
   DrawerOverlay,
   Flex,
   IconButton,
-  Image,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -16,8 +15,6 @@ import {
 import { useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { FiLogOut, FiMenu } from "react-icons/fi"
-
-import Logo from "/assets/images/barasurya-logo.png"
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
 import OrganizationSwitcher from "./OrganizationSwitcher"
@@ -56,7 +53,9 @@ const Sidebar = () => {
           <DrawerBody py={8}>
             <Flex flexDir="column" justify="space-between" h="full">
               <Box>
-                <Image src={Logo} alt="logo" p={6} />
+                <Text fontSize="sm" fontWeight="bold" color={textColor} px={2} py={3}>
+                  Barasurya ERP
+                </Text>
 
                 {/* Organization Switcher - Mobile */}
                 <Box px={2} mb={4}>
@@ -104,7 +103,9 @@ const Sidebar = () => {
           borderRadius={12}
         >
           <Box>
-            <Image src={Logo} alt="Logo" w="180px" maxW="2xs" p={6} />
+            <Text fontSize="sm" fontWeight="bold" color={textColor} px={2} py={3}>
+              Barasurya ERP
+            </Text>
 
             {/* Organization Switcher - Desktop */}
             <Box mb={4}>
