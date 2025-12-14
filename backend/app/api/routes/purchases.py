@@ -25,6 +25,7 @@ from app.models import (
     Supplier,
     has_role_or_higher,
 )
+from app.services.journal import JournalService
 from app.utils import to_public
 
 router = APIRouter(prefix="/purchases", tags=["purchases"])
@@ -118,6 +119,10 @@ def create_purchase(
     session.add(purchase)
     session.commit()
     session.refresh(purchase)
+
+    journal_service = JournalService(session, current_user, current_org)
+    journal_service.create_journal_entry_for_purchase(purchase)
+
     return to_public(
         purchase,
         schema=PurchasePublic,

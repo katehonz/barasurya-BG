@@ -231,6 +231,83 @@ from app.models.invoice_line import (
     InvoiceLinePublic,
     InvoiceLinesPublic,
 )
+from app.models.bank_account import (
+    BankAccount,
+    BankAccountCreate,
+    BankAccountUpdate,
+    BankAccountPublic,
+    BankAccountsPublic,
+    BankAccountType,
+)
+from app.models.bank_transaction import (
+    BankTransaction,
+    BankTransactionCreate,
+    BankTransactionUpdate,
+    BankTransactionPublic,
+    BankTransactionsPublic,
+)
+from app.models.bank_statement import (
+    BankStatement,
+    BankStatementCreate,
+    BankStatementUpdate,
+    BankStatementPublic,
+    BankStatementsPublic,
+    BankStatementStatus,
+)
+from app.models.bank_import import (
+    BankImport,
+    BankImportCreate,
+    BankImportUpdate,
+    BankImportPublic,
+    BankImportsPublic,
+    BankImportType,
+    BankImportStatus,
+)
+from app.models.bank_profile import (
+    BankProfile,
+    BankProfileCreate,
+    BankProfileUpdate,
+    BankProfilePublic,
+    BankProfilesPublic,
+    BankImportFormat,
+)
+from app.models.journal_entry import (
+    JournalEntry,
+    JournalEntryCreate,
+    JournalEntryUpdate,
+    JournalEntryPublic,
+    JournalEntriesPublic,
+)
+from app.models.entry_line import (
+    EntryLine,
+    EntryLineCreate,
+    EntryLineUpdate,
+    EntryLinePublic,
+    EntryLinesPublic,
+)
+from app.models.vat_return import (
+    VatReturn,
+    VatReturnCreate,
+    VatReturnUpdate,
+    VatReturnPublic,
+    VatReturnsPublic,
+    VatReturnStatus,
+)
+from app.models.vat_sales_register import (
+    VatSalesRegister,
+    VatSalesRegisterCreate,
+    VatSalesRegisterUpdate,
+    VatSalesRegisterPublic,
+    VatSalesRegistersPublic,
+)
+from app.models.vat_purchase_register import (
+    VatPurchaseRegister,
+    VatPurchaseRegisterCreate,
+    VatPurchaseRegisterUpdate,
+    VatPurchaseRegisterPublic,
+    VatPurchaseRegistersPublic,
+    DeductibleCreditType,
+)
 
 
 __all__ = [
@@ -399,6 +476,66 @@ __all__ = [
     "InvoiceLineUpdate",
     "InvoiceLinePublic",
     "InvoiceLinesPublic",
+    # Bank module
+    "BankAccount",
+    "BankAccountCreate",
+    "BankAccountUpdate",
+    "BankAccountPublic",
+    "BankAccountsPublic",
+    "BankAccountType",
+    "BankTransaction",
+    "BankTransactionCreate",
+    "BankTransactionUpdate",
+    "BankTransactionPublic",
+    "BankTransactionsPublic",
+    "BankStatement",
+    "BankStatementCreate",
+    "BankStatementUpdate",
+    "BankStatementPublic",
+    "BankStatementsPublic",
+    "BankStatementStatus",
+    "BankImport",
+    "BankImportCreate",
+    "BankImportUpdate",
+    "BankImportPublic",
+    "BankImportsPublic",
+    "BankImportType",
+    "BankImportStatus",
+    "BankProfile",
+    "BankProfileCreate",
+    "BankProfileUpdate",
+    "BankProfilePublic",
+    "BankProfilesPublic",
+    "BankImportFormat",
+    # Journal entries
+    "JournalEntry",
+    "JournalEntryCreate",
+    "JournalEntryUpdate",
+    "JournalEntryPublic",
+    "JournalEntriesPublic",
+    "EntryLine",
+    "EntryLineCreate",
+    "EntryLineUpdate",
+    "EntryLinePublic",
+    "EntryLinesPublic",
+    # VAT module
+    "VatReturn",
+    "VatReturnCreate",
+    "VatReturnUpdate",
+    "VatReturnPublic",
+    "VatReturnsPublic",
+    "VatReturnStatus",
+    "VatSalesRegister",
+    "VatSalesRegisterCreate",
+    "VatSalesRegisterUpdate",
+    "VatSalesRegisterPublic",
+    "VatSalesRegistersPublic",
+    "VatPurchaseRegister",
+    "VatPurchaseRegisterCreate",
+    "VatPurchaseRegisterUpdate",
+    "VatPurchaseRegisterPublic",
+    "VatPurchaseRegistersPublic",
+    "DeductibleCreditType",
 ]
 
 # --- below same with above but auto-completion is not supported--- #

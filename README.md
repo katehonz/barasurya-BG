@@ -28,6 +28,23 @@
     - Role-based access control (Admin, Manager, Member)
     - Easy organization switching
 - 🌐 **Internationalization (i18n)** with Bulgarian and English support.
+- 🏦 **Bank Module** - Full banking integration
+    - Bank accounts management (IBAN, BIC, multiple currencies)
+    - Bank transactions with journal entry integration
+    - Bank statements and imports (MT940, CAMT053, Salt Edge)
+- 📋 **VAT Module** - Bulgarian VAT compliance (ЗДДС)
+    - VAT Returns (monthly/quarterly declarations)
+    - Sales Register (Дневник продажби)
+    - Purchase Register (Дневник покупки)
+    - VIES indicators and reverse charge support
+- 📊 **SAF-T Module** - Standard Audit File for Tax
+    - SAF-T BG schema compliance
+    - Header, MasterFiles, GeneralLedgerEntries, SourceDocuments
+    - XML generation for NAP reporting
+- 💼 **Accounting Module**
+    - Journal entries with debit/credit lines
+    - Fixed assets with depreciation schedules
+    - Chart of accounts integration
 - 🐋 [Docker Compose](https://www.docker.com) for development and production.
 - 🔒 Secure password hashing by default.
 - 🔑 JWT (JSON Web Token) authentication.
@@ -48,6 +65,10 @@
 ## Release Notes
 
 Check the file [release-notes.md](./release-notes.md).
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
 
 ## License
 

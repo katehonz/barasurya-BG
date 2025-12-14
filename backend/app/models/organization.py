@@ -10,12 +10,18 @@ from app.utils import utcnow
 if TYPE_CHECKING:
     from app.models.account import Account
     from app.models.account_transaction import AccountTransaction
+    from app.models.bank_account import BankAccount
+    from app.models.bank_import import BankImport
+    from app.models.bank_profile import BankProfile
+    from app.models.bank_statement import BankStatement
+    from app.models.bank_transaction import BankTransaction
     from app.models.customer import Customer
     from app.models.customer_type import CustomerType
     from app.models.invoice import Invoice
     from app.models.item import Item
     from app.models.item_category import ItemCategory
     from app.models.item_unit import ItemUnit
+    from app.models.journal_entry import JournalEntry
     from app.models.organization_member import OrganizationMember
     from app.models.payable import Payable
     from app.models.payment import Payment
@@ -30,12 +36,25 @@ if TYPE_CHECKING:
     from app.models.stock_transfer import StockTransfer
     from app.models.store import Store
     from app.models.supplier import Supplier
+    from app.models.vat_return import VatReturn
+    from app.models.vat_sales_register import VatSalesRegister
+    from app.models.vat_purchase_register import VatPurchaseRegister
 
 
 class OrganizationBase(BaseModel):
     name: str = Field(min_length=1, max_length=255, index=True)
     slug: str = Field(min_length=1, max_length=100, unique=True, index=True)
     is_active: bool = True
+    region_code: str | None = Field(default=None)
+    default_currency: str | None = Field(default=None)
+    tax_basis: str | None = Field(default=None)
+    accounts_receivable_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    sales_revenue_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    vat_payable_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    inventory_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    accounts_payable_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    vat_deductible_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    cash_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
 
 
 class OrganizationCreate(OrganizationBase):
@@ -46,12 +65,23 @@ class OrganizationUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=255)
     slug: str | None = Field(default=None, min_length=1, max_length=100)
     is_active: bool | None = None
+    region_code: str | None = Field(default=None)
+    default_currency: str | None = Field(default=None)
+    tax_basis: str | None = Field(default=None)
+    accounts_receivable_account_id: uuid.UUID | None = Field(default=None)
+    sales_revenue_account_id: uuid.UUID | None = Field(default=None)
+    vat_payable_account_id: uuid.UUID | None = Field(default=None)
+    inventory_account_id: uuid.UUID | None = Field(default=None)
+    accounts_payable_account_id: uuid.UUID | None = Field(default=None)
+    vat_deductible_account_id: uuid.UUID | None = Field(default=None)
+    cash_account_id: uuid.UUID | None = Field(default=None)
 
 
 class Organization(OrganizationBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
+    eik: str | None = Field(default=None)
 
     # Relationships
     members: list["OrganizationMember"] = Relationship(
@@ -118,6 +148,33 @@ class Organization(OrganizationBase, table=True):
         back_populates="organization", cascade_delete=True
     )
     invoices: list["Invoice"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    bank_accounts: list["BankAccount"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    bank_transactions: list["BankTransaction"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    bank_statements: list["BankStatement"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    bank_imports: list["BankImport"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    bank_profiles: list["BankProfile"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    journal_entries: list["JournalEntry"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    vat_returns: list["VatReturn"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    vat_sales_registers: list["VatSalesRegister"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    vat_purchase_registers: list["VatPurchaseRegister"] = Relationship(
         back_populates="organization", cascade_delete=True
     )
 

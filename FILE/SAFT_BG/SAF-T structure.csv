@@ -1,0 +1,30 @@
+,,,
+,,,
+,Структура на стандартния одитен файл за данъчни цели (SAF-T),,
+,,,
+,,,
+,Nr.,Секция,Подсекция
+,1,Header <Главна страница>,
+,2,MasterFiles <Fișierele Master>,
+,,,GeneralLedgerAccounts <Conturi Contabile Registru Jurnal>
+,,,Taxonomies <Taxonomii>
+,,,Customers <Clienți>
+,,,Suppliers <Furnizori>
+,,,Tax Table <Tabelă Taxe>
+,,,UOMTable <Tabela Unităților de Măsură UOM>
+,,,AnalysisTypeTable <Таблица с аналитичности> - опционална за подаване
+,,,MovementTypeTable <Tabelă Tipuri Mișcări>
+,,,Products <Produse>
+,,,PhysicalStock <Stocuri>
+,,,Owners <Proprietari>
+,,,Assets <Active>
+,3,GeneralLedgerEntries <Înregistrări Contabile -Registrul Jurnal>,
+,4,SourceDocuments <Documente sursă>,
+,,,Sales Invoices <Facturi de vânzare>
+,,,Purchase Invoices <Facturi de achiziție>
+,,,Payments <Plăți>
+,,,Movement of Goods <Mișcări de Bunuri>
+,,,Asset Transactions <Tranzacții cu active>
+,4.1,CorrespondingAccountsReport,Секцията е опционална за подаване
+,5,Structures <Structuri>,
+,6,SimpleTypes <Tipuri simple>,

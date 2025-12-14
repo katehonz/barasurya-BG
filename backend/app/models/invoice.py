@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from app.models.account import Account
     from app.models.organization import Organization
     from app.models.user import User
+    from app.models.vat_sales_register import VatSalesRegister
     from .invoice_line import InvoiceLine, InvoiceLinePublic, InvoiceLineCreate, InvoiceLineUpdate
 
 
@@ -89,6 +90,7 @@ class Invoice(InvoiceBase, table=True):
     child_invoices: List["Invoice"] = Relationship(back_populates="parent_invoice")
 
     invoice_lines: List["InvoiceLine"] = Relationship(back_populates="invoice", sa_relationship_kwargs={"cascade": "all, delete-orphan"})
+    vat_sales_register_entry: Optional["VatSalesRegister"] = Relationship(back_populates="invoice")
 
 
 class InvoiceCreate(InvoiceBase):
