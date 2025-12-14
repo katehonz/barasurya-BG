@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import {
   FiArchive,
+  FiCpu,
   FiCreditCard,
   FiDollarSign,
   FiFile,
@@ -21,6 +22,7 @@ import type { UserPublic } from "../../client"
 const menuItems = [
   { icon: FiHome, titleKey: "navigation.dashboard", path: "/" },
   { icon: FiFile, titleKey: "invoices.title", path: "/invoices" },
+  { icon: FiCpu, titleKey: "aiInvoices.title", path: "/ai-invoices" },
   { icon: FiPercent, titleKey: "vat.title", path: "/vat" },
   { icon: FiCreditCard, titleKey: "menu.accounts", path: "/accounts" },
   { icon: FiArchive, titleKey: "navigation.assets", path: "/assets" },

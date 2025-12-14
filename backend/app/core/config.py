@@ -100,6 +100,14 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: str
     FIRST_SUPERUSER_PASSWORD: str
 
+    # AI/Document Processing Configuration
+    AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: str | None = None
+    AZURE_DOCUMENT_INTELLIGENCE_KEY: str | None = None
+
+    # File upload settings
+    MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
+    UPLOAD_DIR: str = "uploads"
+
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":
             message = (

@@ -322,6 +322,22 @@ from app.models.exchange_rate import (
     ExchangeRatePublic,
     ExchangeRatesPublic,
 )
+from app.models.document_upload import (
+    DocumentUpload,
+    DocumentUploadCreate,
+    DocumentUploadUpdate,
+    DocumentUploadPublic,
+    DocumentUploadStatus,
+)
+from app.models.extracted_invoice import (
+    ExtractedInvoice,
+    ExtractedInvoiceCreate,
+    ExtractedInvoiceUpdate,
+    ExtractedInvoicePublic,
+    ExtractedInvoicesPublic,
+    ExtractedInvoiceStatus,
+    ExtractedInvoiceType,
+)
 
 from app.models.item import (
     Item,
@@ -633,6 +649,19 @@ __all__ = [
     "ExchangeRateUpdate",
     "ExchangeRatePublic",
     "ExchangeRatesPublic",
+    # Document processing
+    "DocumentUpload",
+    "DocumentUploadCreate",
+    "DocumentUploadUpdate",
+    "DocumentUploadPublic",
+    "DocumentUploadStatus",
+    "ExtractedInvoice",
+    "ExtractedInvoiceCreate",
+    "ExtractedInvoiceUpdate",
+    "ExtractedInvoicePublic",
+    "ExtractedInvoicesPublic",
+    "ExtractedInvoiceStatus",
+    "ExtractedInvoiceType",
     # Manufacturing module
     "Recipe",
     "RecipeCreate",

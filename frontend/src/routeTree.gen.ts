@@ -25,6 +25,7 @@ import { Route as LayoutInvoicesImport } from './routes/_layout/invoices'
 import { Route as LayoutCurrenciesImport } from './routes/_layout/currencies'
 import { Route as LayoutContraagentsImport } from './routes/_layout/contraagents'
 import { Route as LayoutAssetsImport } from './routes/_layout/assets'
+import { Route as LayoutAiInvoicesImport } from './routes/_layout/ai-invoices'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAccountsImport } from './routes/_layout/accounts'
 
@@ -100,6 +101,11 @@ const LayoutAssetsRoute = LayoutAssetsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutAiInvoicesRoute = LayoutAiInvoicesImport.update({
+  path: '/ai-invoices',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutAdminRoute = LayoutAdminImport.update({
   path: '/admin',
   getParentRoute: () => LayoutRoute,
@@ -146,6 +152,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/ai-invoices': {
+      preLoaderRoute: typeof LayoutAiInvoicesImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/assets': {
       preLoaderRoute: typeof LayoutAssetsImport
       parentRoute: typeof LayoutImport
@@ -187,6 +197,7 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAccountsRoute,
     LayoutAdminRoute,
+    LayoutAiInvoicesRoute,
     LayoutAssetsRoute,
     LayoutContraagentsRoute,
     LayoutCurrenciesRoute,

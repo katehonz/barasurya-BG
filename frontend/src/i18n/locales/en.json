@@ -384,5 +384,82 @@
       "generated": "VAT report generated successfully.",
       "exported": "VAT report exported successfully."
     }
+  },
+  "aiInvoices": {
+    "title": "AI Invoices",
+    "upload": "Upload",
+    "review": "Review",
+    "invoiceType": "Invoice Type",
+    "processing": "Processing files...",
+    "dropHere": "Drop files here",
+    "dragAndDrop": "Drag and drop PDF files here or click to select",
+    "onlyPdfMax": "Only PDF files supported (max 10MB)",
+    "howItWorks": "How AI processing works:",
+    "pendingReview": "Pending Review",
+    "processedInvoices": "Processed Invoices",
+    "invoiceDetails": "Invoice Details",
+    "viewDetails": "View",
+    "approve": "Approve",
+    "reject": "Reject",
+    "rejectReason": "Rejection Reason",
+    "rejectReasonPlaceholder": "Enter reason for rejection...",
+    "vendor": "Vendor",
+    "amounts": "Amounts",
+    "lineItems": "Line Items",
+    "types": {
+      "purchase": "Purchase (from supplier)",
+      "sales": "Sales"
+    },
+    "statuses": {
+      "pendingReview": "Pending Review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "converted": "Converted"
+    },
+    "stats": {
+      "total": "Total",
+      "pendingReview": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "fields": {
+      "filename": "File",
+      "invoiceNumber": "Invoice Number",
+      "invoiceDate": "Invoice Date",
+      "vendor": "Vendor",
+      "total": "Total",
+      "confidence": "Confidence",
+      "type": "Type",
+      "name": "Name",
+      "vatNumber": "VAT Number",
+      "address": "Address",
+      "subtotal": "Subtotal",
+      "vat": "VAT",
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "amount": "Amount"
+    },
+    "instructions": {
+      "step1": "Upload a PDF invoice from supplier or for sales",
+      "step2": "AI automatically extracts: number, date, amount, VAT, counterparty",
+      "step3": "Get a confidence score for data accuracy",
+      "step4": "Review and approve extracted data",
+      "step5": "After approval, an invoice is created in the system"
+    },
+    "messages": {
+      "invalidFiles": "Invalid Files",
+      "onlyPdf": "Please upload only PDF files.",
+      "uploadSuccess": "Upload Successful",
+      "filesProcessed": "{{count}} files processed with AI.",
+      "uploadError": "Upload Error",
+      "processingFailed": "An error occurred during processing.",
+      "approved": "Invoice approved successfully.",
+      "rejected": "Invoice rejected.",
+      "approveError": "Error approving invoice.",
+      "rejectError": "Error rejecting invoice.",
+      "loadError": "Error loading invoices.",
+      "noPending": "No invoices pending review. Upload new files from the Upload tab."
+    }
   }
 }
