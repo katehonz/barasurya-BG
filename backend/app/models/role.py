@@ -8,6 +8,7 @@ from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
+    from app.models.organization import Organization
     from app.models.role_permission import RolePermission
     from app.models.user import User
     from app.models.user_role import UserRole
@@ -34,19 +35,21 @@ class Role(RoleBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     editor_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(
-        back_populates="roles_owner",
-        sa_relationship_kwargs={"foreign_keys": "Role.owner_id"},
+    organization: "Organization" = Relationship(back_populates="roles")
+    created_by: "User" = Relationship(
+        sa_relationship_kwargs={"foreign_keys": "Role.created_by_id"},
     )
     editor: "User" = Relationship(
-        back_populates="roles_editor",
         sa_relationship_kwargs={"foreign_keys": "Role.editor_id"},
     )
     user_role: "UserRole" = Relationship(back_populates="role")
@@ -58,7 +61,8 @@ class RolePublic(RoleBase):
     id: uuid.UUID
     date_created: datetime
     date_updated: datetime
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     editor_id: uuid.UUID
 
 

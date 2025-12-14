@@ -9,6 +9,7 @@ from app.utils import utcnow
 
 if TYPE_CHECKING:
     from app.models.item import Item
+    from app.models.organization import Organization
     from app.models.user import User
 
 
@@ -31,11 +32,15 @@ class ItemCategory(ItemCategoryBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="item_categories")
+    organization: "Organization" = Relationship(back_populates="item_categories")
+    created_by: "User" = Relationship()
     items: list["Item"] = Relationship(
         back_populates="item_category", cascade_delete=True
     )
@@ -43,7 +48,8 @@ class ItemCategory(ItemCategoryBase, table=True):
 
 class ItemCategoryPublic(ItemCategoryBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     date_created: datetime
     date_updated: datetime
 

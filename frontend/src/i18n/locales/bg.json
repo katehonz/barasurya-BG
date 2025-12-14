@@ -179,5 +179,32 @@
     "confirmDelete": "Сигурни ли сте, че искате да изтриете?",
     "noChanges": "Няма промени за запазване",
     "unsavedChanges": "Имате незапазени промени"
+  },
+  "organizations": {
+    "organization": "Организация",
+    "organizations": "Организации",
+    "selectOrganization": "Изберете организация",
+    "createOrganization": "Създай организация",
+    "createNew": "Нова организация",
+    "name": "Име на организация",
+    "namePlaceholder": "Въведете име",
+    "slug": "URL идентификатор",
+    "slugPlaceholder": "url-identifikator",
+    "slugFormat": "Само малки букви, цифри и тирета",
+    "slugHelp": "Използва се в URL адреса. Само малки латински букви, цифри и тирета.",
+    "description": "Описание",
+    "switchSuccess": "Превключихте към организация",
+    "createSuccess": "Организацията е създадена успешно",
+    "members": "Членове",
+    "addMember": "Добави член",
+    "removeMember": "Премахни член",
+    "role": "Роля",
+    "roles": {
+      "admin": "Администратор",
+      "manager": "Мениджър",
+      "member": "Член"
+    },
+    "noOrganization": "Нямате организация",
+    "createFirst": "Създайте първата си организация, за да започнете"
   }
 }

@@ -11,7 +11,8 @@ export type AccountPublic = {
   balance?: number
   description?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   date_created: string
   date_updated: string
 }
@@ -48,7 +49,8 @@ export type CustomerPublic = {
   phone?: string | null
   address?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   customer_type_id: string
   customer_type_name: string
   date_created: string
@@ -69,7 +71,8 @@ export type CustomerTypePublic = {
   name: string
   description?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   date_created: string
   date_updated: string
 }
@@ -95,6 +98,97 @@ export type HTTPValidationError = {
   detail?: Array<ValidationError>
 }
 
+export type InvoiceCreate = {
+  issue_date: string
+  due_date?: string | null
+  tax_event_date?: string | null
+  billing_name: string
+  billing_address?: string | null
+  billing_vat_number?: string | null
+  billing_company_id?: string | null
+  subtotal?: number | string
+  tax_amount?: number | string
+  total_amount?: number | string
+  paid_amount?: number | string
+  currency?: string
+  payment_method?: string | null
+  notes?: string | null
+  payment_terms?: string | null
+  reference?: string | null
+  vat_document_type?: string
+  vat_reason?: string | null
+  oss_country?: string | null
+  oss_vat_rate?: number | string | null
+  contact_id: string
+  invoice_no: string
+  invoice_lines: Array<InvoiceLineCreate>
+}
+
+export type InvoiceLineCreate = {
+  description: string
+  quantity: number | string
+  unit_of_measure?: string
+  unit_price: number | string
+  discount_percent?: number | string
+  tax_rate?: number | string
+  product_id?: string | null
+}
+
+export type InvoiceLinePublic = {
+  description: string
+  quantity: string
+  unit_of_measure?: string
+  unit_price: string
+  discount_percent?: string
+  tax_rate?: string
+  id: string
+  subtotal: string
+  tax_amount: string
+  total_amount: string
+  product?: ItemPublic | null
+}
+
+export type InvoicePublic = {
+  issue_date: string
+  due_date?: string | null
+  tax_event_date?: string | null
+  billing_name: string
+  billing_address?: string | null
+  billing_vat_number?: string | null
+  billing_company_id?: string | null
+  subtotal?: string
+  tax_amount?: string
+  total_amount?: string
+  paid_amount?: string
+  currency?: string
+  payment_method?: string | null
+  notes?: string | null
+  payment_terms?: string | null
+  reference?: string | null
+  vat_document_type?: string
+  vat_reason?: string | null
+  oss_country?: string | null
+  oss_vat_rate?: string | null
+  id: string
+  invoice_no: string
+  status: InvoiceStatus
+  customer: CustomerPublic
+  invoice_lines: Array<InvoiceLinePublic>
+}
+
+export type InvoicesPublic = {
+  data: Array<InvoicePublic>
+  count: number
+}
+
+export type InvoiceStatus =
+  | "draft"
+  | "issued"
+  | "paid"
+  | "partially_paid"
+  | "overdue"
+  | "cancelled"
+
 export type ItemCategoriesPublic = {
   data: Array<ItemCategoryPublic>
   count: number
@@ -109,7 +203,8 @@ export type ItemCategoryPublic = {
   name: string
   description?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   date_created: string
   date_updated: string
 }
@@ -142,7 +237,8 @@ export type ItemPublic = {
   is_active?: boolean
   location?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   item_category_id: string
   item_category_name: string
   item_unit_id: string
@@ -165,7 +261,8 @@ export type ItemUnitPublic = {
   name: string
   description?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   date_created: string
   date_updated: string
 }
@@ -202,6 +299,62 @@ export type NewPassword = {
   new_password: string
 }
 
+export type OrganizationCreate = {
+  name: string
+  slug: string
+  is_active?: boolean
+}
+
+export type OrganizationMemberCreate = {
+  user_id: string
+  role?: OrganizationRole
+}
+
+export type OrganizationMemberPublic = {
+  role?: OrganizationRole
+  is_active?: boolean
+  id: string
+  user_id: string
+  organization_id: string
+  date_joined: string
+  date_updated: string
+}
+
+export type OrganizationMembersPublic = {
+  data: Array<OrganizationMemberPublic>
+  count: number
+}
+
+export type OrganizationMemberUpdate = {
+  role?: OrganizationRole | null
+  is_active?: boolean | null
+}
+
+export type OrganizationPublic = {
+  name: string
+  slug: string
+  is_active?: boolean
+  id: string
+  date_created: string
+  date_updated: string
+}
+
+/**
+ * Роли в организацията с йерархия: ADMIN > MANAGER > MEMBER
+ */
+export type OrganizationRole = "admin" | "manager" | "member"
+
+export type OrganizationsPublic = {
+  data: Array<OrganizationPublic>
+  count: number
+}
+
+export type OrganizationUpdate = {
+  name?: string | null
+  slug?: string | null
+  is_active?: boolean | null
+}
+
 export type PermissionCreate = {
   name: string
   description?: string | null
@@ -213,7 +366,8 @@ export type PermissionPublic = {
   id: string
   date_created: string
   date_updated: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   editor_id: string
 }
 
@@ -247,7 +401,8 @@ export type PurchasePublic = {
   amount?: number
   description?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   supplier_id: string
   supplier_name: string
   store_id: string
@@ -282,7 +437,8 @@ export type SalePublic = {
   amount?: number
   description?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   customer_id: string
   customer_name: string
   store_id: string
@@ -317,7 +473,8 @@ export type StorePublic = {
   latitude?: number | null
   longitude?: number | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   date_created: string
   date_updated: string
 }
@@ -345,7 +502,8 @@ export type SupplierPublic = {
   phone?: string | null
   address?: string | null
   id: string
-  owner_id: string
+  organization_id: string
+  created_by_id: string
   date_created: string
   date_updated: string
 }
@@ -385,6 +543,7 @@ export type UserPublic = {
   is_superuser?: boolean
   full_name?: string | null
   id: string
+  current_organization_id: string | null
   date_created: string
   date_updated: string
 }
@@ -514,6 +673,19 @@ export type CustomerTypesDeleteCustomerTypeData = {
 }
 
 export type CustomerTypesDeleteCustomerTypeResponse = Message
+
+export type InvoicesReadInvoicesData = {
+  limit?: number
+  skip?: number
+}
+
+export type InvoicesReadInvoicesResponse = InvoicesPublic
+
+export type InvoicesCreateInvoiceData = {
+  requestBody: InvoiceCreate
+}
+
+export type InvoicesCreateInvoiceResponse = InvoicePublic
 
 export type ItemCategoriesReadItemCategoriesData = {
   limit?: number
@@ -663,6 +835,92 @@ export type LoginRecoverPasswordHtmlContentData = {
 
 export type LoginRecoverPasswordHtmlContentResponse = string
 
+export type OrganizationsReadOrganizationsData = {
+  limit?: number
+  skip?: number
+}
+
+export type OrganizationsReadOrganizationsResponse = OrganizationsPublic
+
+export type OrganizationsCreateOrganizationData = {
+  requestBody: OrganizationCreate
+}
+
+export type OrganizationsCreateOrganizationResponse = OrganizationPublic
+
+export type OrganizationsReadCurrentOrganizationResponse = OrganizationPublic
+
+export type OrganizationsReadOrganizationData = {
+  id: string
+}
+
+export type OrganizationsReadOrganizationResponse = OrganizationPublic
+
+export type OrganizationsUpdateOrganizationData = {
+  id: string
+  requestBody: OrganizationUpdate
+}
+
+export type OrganizationsUpdateOrganizationResponse = OrganizationPublic
+
+export type OrganizationsDeleteOrganizationData = {
+  id: string
+}
+
+export type OrganizationsDeleteOrganizationResponse = Message
+
+export type OrganizationsSwitchOrganizationData = {
+  id: string
+}
+
+export type OrganizationsSwitchOrganizationResponse = OrganizationPublic
+
+export type OrganizationsReadOrganizationMembersData = {
+  id: string
+  limit?: number
+  skip?: number
+}
+
+export type OrganizationsReadOrganizationMembersResponse =
+  OrganizationMembersPublic
+
+export type OrganizationsAddOrganizationMemberData = {
+  id: string
+  requestBody: OrganizationMemberCreate
+}
+
+export type OrganizationsAddOrganizationMemberResponse =
+  OrganizationMemberPublic
+
+export type OrganizationsUpdateOrganizationMemberData = {
+  id: string
+  requestBody: OrganizationMemberUpdate
+  userId: string
+}
+
+export type OrganizationsUpdateOrganizationMemberResponse =
+  OrganizationMemberPublic
+
+export type OrganizationsRemoveOrganizationMemberData = {
+  id: string
+  userId: string
+}
+
+export type OrganizationsRemoveOrganizationMemberResponse = Message
+
+export type PermissionsReadPermissionsData = {
+  limit?: number
+  skip?: number
+}
+
+export type PermissionsReadPermissionsResponse = PermissionsPublic
+
+export type PermissionsCreatePermissionData = {
+  requestBody: PermissionCreate
+}
+
+export type PermissionsCreatePermissionResponse = PermissionPublic
+
 export type PermissionsReadPermissionData = {
   id: string
 }
@@ -681,19 +939,6 @@ export type PermissionsDeletePermissionData = {
 }
 
 export type PermissionsDeletePermissionResponse = Message
-
-export type PermissionsReadPermissionsData = {
-  limit?: number
-  skip?: number
-}
-
-export type PermissionsReadPermissionsResponse = PermissionsPublic
-
-export type PermissionsCreatePermissionData = {
-  requestBody: PermissionCreate
-}
-
-export type PermissionsCreatePermissionResponse = PermissionPublic
 
 export type PrivateCreateUserData = {
   requestBody: PrivateUserCreate

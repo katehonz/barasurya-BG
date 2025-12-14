@@ -6,10 +6,10 @@ from sqlmodel import Session, delete
 from app.core.config import settings
 from app.models import Item
 from app.tests.conftest import authentication_token_from_email
-from app.tests.utils.user import create_random_user
 from app.tests.utils.item import create_random_item
 from app.tests.utils.item_category import create_random_item_category
 from app.tests.utils.item_unit import create_random_item_unit
+from app.tests.utils.user import create_random_user
 
 
 def test_create_item(
@@ -294,7 +294,7 @@ def test_read_low_stock_items(
     assert response.status_code == 200
     content = response.json()
     assert len(content["data"]) == 1
-    
+
 
 def test_read_low_stock_items_with_owner(
     client: TestClient, db: Session
@@ -317,7 +317,7 @@ def test_activate_item(
 ) -> None:
     item = create_random_item(db, is_active=False)
     assert item.is_active == False
-    
+
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}/activate/",
         headers=superuser_token_headers,

@@ -179,5 +179,32 @@
     "confirmDelete": "Are you sure you want to delete?",
     "noChanges": "No changes to save",
     "unsavedChanges": "You have unsaved changes"
+  },
+  "organizations": {
+    "organization": "Organization",
+    "organizations": "Organizations",
+    "selectOrganization": "Select organization",
+    "createOrganization": "Create Organization",
+    "createNew": "New Organization",
+    "name": "Organization Name",
+    "namePlaceholder": "Enter name",
+    "slug": "URL Identifier",
+    "slugPlaceholder": "url-identifier",
+    "slugFormat": "Only lowercase letters, numbers and hyphens",
+    "slugHelp": "Used in the URL. Only lowercase Latin letters, numbers and hyphens.",
+    "description": "Description",
+    "switchSuccess": "Switched to organization",
+    "createSuccess": "Organization created successfully",
+    "members": "Members",
+    "addMember": "Add Member",
+    "removeMember": "Remove Member",
+    "role": "Role",
+    "roles": {
+      "admin": "Administrator",
+      "manager": "Manager",
+      "member": "Member"
+    },
+    "noOrganization": "No organization",
+    "createFirst": "Create your first organization to get started"
   }
 }

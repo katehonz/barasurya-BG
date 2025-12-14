@@ -5,8 +5,8 @@ from sqlmodel import Session
 
 from app.core.config import settings
 from app.tests.conftest import authentication_token_from_email
-from app.tests.utils.user import create_random_user
 from app.tests.utils.item_unit import create_random_item_unit
+from app.tests.utils.user import create_random_user
 
 
 def test_create_item_unit(

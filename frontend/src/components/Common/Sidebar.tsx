@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -13,14 +14,17 @@ import {
   useDisclosure,
 } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { FiLogOut, FiMenu } from "react-icons/fi"
 
 import Logo from "/assets/images/barasurya-logo.png"
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
+import OrganizationSwitcher from "./OrganizationSwitcher"
 import SidebarItems from "./SidebarItems"
 
 const Sidebar = () => {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const bgColor = useColorModeValue("ui.light", "ui.dark")
   const textColor = useColorModeValue("ui.dark", "ui.light")
@@ -50,9 +54,16 @@ const Sidebar = () => {
         <DrawerContent maxW="250px">
           <DrawerCloseButton />
           <DrawerBody py={8}>
-            <Flex flexDir="column" justify="space-between">
+            <Flex flexDir="column" justify="space-between" h="full">
               <Box>
                 <Image src={Logo} alt="logo" p={6} />
+
+                {/* Organization Switcher - Mobile */}
+                <Box px={2} mb={4}>
+                  <OrganizationSwitcher />
+                </Box>
+                <Divider mb={4} />
+
                 <SidebarItems onClose={onClose} />
                 <Flex
                   as="button"
@@ -63,12 +74,12 @@ const Sidebar = () => {
                   alignItems="center"
                 >
                   <FiLogOut />
-                  <Text ml={2}>Log out</Text>
+                  <Text ml={2}>{t("common.logout")}</Text>
                 </Flex>
               </Box>
               {currentUser?.email && (
                 <Text color={textColor} noOfLines={2} fontSize="sm" p={2}>
-                  Logged in as: {currentUser.email}
+                  {t("users.user")}: {currentUser.email}
                 </Text>
               )}
             </Flex>
@@ -94,6 +105,13 @@ const Sidebar = () => {
         >
           <Box>
             <Image src={Logo} alt="Logo" w="180px" maxW="2xs" p={6} />
+
+            {/* Organization Switcher - Desktop */}
+            <Box mb={4}>
+              <OrganizationSwitcher />
+            </Box>
+            <Divider mb={4} />
+
             <SidebarItems />
           </Box>
           {currentUser?.email && (
@@ -104,7 +122,7 @@ const Sidebar = () => {
               p={2}
               maxW="180px"
             >
-              Logged in as: {currentUser.email}
+              {t("users.user")}: {currentUser.email}
             </Text>
           )}
         </Flex>

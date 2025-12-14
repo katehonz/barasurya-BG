@@ -9,6 +9,7 @@ from app.utils import utcnow
 
 if TYPE_CHECKING:
     from app.models.account import Account
+    from app.models.organization import Organization
     from app.models.user import User
 
 
@@ -33,20 +34,25 @@ class PaymentCreate(PaymentBase):
 class Payment(PaymentBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     account_id: uuid.UUID = Field(
         foreign_key="account.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="payments")
+    organization: "Organization" = Relationship(back_populates="payments")
+    created_by: "User" = Relationship()
     account: "Account" = Relationship(back_populates="payments")
 
 
 class PaymentPublic(PaymentBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     account_id: uuid.UUID
     date_created: datetime
 

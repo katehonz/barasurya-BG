@@ -23,6 +23,11 @@
     - 🤖 An automatically generated frontend client.
     - 🧪 [Playwright](https://playwright.dev) for End-to-End testing.
     - 🦇 Dark mode support.
+- 🏢 **Multi-tenant architecture** with organization-based data isolation.
+    - Users can belong to multiple organizations
+    - Role-based access control (Admin, Manager, Member)
+    - Easy organization switching
+- 🌐 **Internationalization (i18n)** with Bulgarian and English support.
 - 🐋 [Docker Compose](https://www.docker.com) for development and production.
 - 🔒 Secure password hashing by default.
 - 🔑 JWT (JSON Web Token) authentication.
@@ -38,6 +43,7 @@
 - Backend: [backend/README.md](./backend/README.md).
 - Frontend: [frontend/README.md](./frontend/README.md).
 - Deployment: [deployment.md](./deployment.md).
+- Multi-tenant Architecture: [docs/multi-tenant-architecture.md](./docs/multi-tenant-architecture.md).
 
 ## Release Notes
 

@@ -58,6 +58,22 @@ from app.models.main import (
     Token,
     TokenPayload,
 )
+from app.models.organization import (
+    Organization,
+    OrganizationCreate,
+    OrganizationPublic,
+    OrganizationsPublic,
+    OrganizationUpdate,
+)
+from app.models.organization_member import (
+    OrganizationMember,
+    OrganizationMemberCreate,
+    OrganizationMemberPublic,
+    OrganizationMembersPublic,
+    OrganizationMemberUpdate,
+    OrganizationRole,
+    has_role_or_higher,
+)
 from app.models.payable import (
     Payable,
     PayableCreate,
@@ -199,6 +215,23 @@ from app.models.user_role import (
     UserRolesPublic,
     UserRoleUpdate,
 )
+from app.models.invoice import (
+    Invoice,
+    InvoiceCreate,
+    InvoiceUpdate,
+    InvoicePublic,
+    InvoicesPublic,
+    InvoiceStatus,
+    VatDocumentType,
+)
+from app.models.invoice_line import (
+    InvoiceLine,
+    InvoiceLineCreate,
+    InvoiceLineUpdate,
+    InvoiceLinePublic,
+    InvoiceLinesPublic,
+)
+
 
 __all__ = [
     "SQLModel",
@@ -241,6 +274,18 @@ __all__ = [
     "Message",
     "Token",
     "TokenPayload",
+    "Organization",
+    "OrganizationCreate",
+    "OrganizationUpdate",
+    "OrganizationPublic",
+    "OrganizationsPublic",
+    "OrganizationMember",
+    "OrganizationMemberCreate",
+    "OrganizationMemberUpdate",
+    "OrganizationMemberPublic",
+    "OrganizationMembersPublic",
+    "OrganizationRole",
+    "has_role_or_higher",
     "NewPassword",
     "Payment",
     "PaymentCreate",
@@ -342,6 +387,18 @@ __all__ = [
     "ReceivableUpdate",
     "ReceivablePublic",
     "ReceivablesPublic",
+    "Invoice",
+    "InvoiceCreate",
+    "InvoiceUpdate",
+    "InvoicePublic",
+    "InvoicesPublic",
+    "InvoiceStatus",
+    "VatDocumentType",
+    "InvoiceLine",
+    "InvoiceLineCreate",
+    "InvoiceLineUpdate",
+    "InvoiceLinePublic",
+    "InvoiceLinesPublic",
 ]
 
 # --- below same with above but auto-completion is not supported--- #
@@ -370,3 +427,9 @@ __all__ = [
 #                 __all__.append(attr)
 
 # TODO: consider to add "is_deleted" column (soft-delete)
+
+# Rebuild models with forward references
+InvoiceCreate.model_rebuild()
+InvoiceUpdate.model_rebuild()
+InvoicePublic.model_rebuild()
+InvoiceLinePublic.model_rebuild()

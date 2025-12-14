@@ -9,10 +9,11 @@ from app.models import (
 
 
 def create_customer_type(
-    *, session: Session, customer_type_in: CustomerTypeCreate, owner_id: uuid.UUID
+    *, session: Session, customer_type_in: CustomerTypeCreate, organization_id: uuid.UUID, created_by_id: uuid.UUID
 ) -> CustomerType:
     db_customer_type = CustomerType.model_validate(
-        customer_type_in, update={"owner_id": owner_id}
+        customer_type_in,
+        update={"organization_id": organization_id, "created_by_id": created_by_id}
     )
     session.add(db_customer_type)
     session.commit()

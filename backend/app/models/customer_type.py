@@ -9,6 +9,7 @@ from app.utils import utcnow
 
 if TYPE_CHECKING:
     from app.models.customer import Customer
+    from app.models.organization import Organization
     from app.models.user import User
 
 
@@ -31,11 +32,15 @@ class CustomerType(CustomerTypeBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="customer_types")
+    organization: "Organization" = Relationship(back_populates="customer_types")
+    created_by: "User" = Relationship()
     customers: list["Customer"] = Relationship(
         back_populates="customer_type", cascade_delete=True
     )
@@ -43,7 +48,8 @@ class CustomerType(CustomerTypeBase, table=True):
 
 class CustomerTypePublic(CustomerTypeBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     date_created: datetime
     date_updated: datetime
 

@@ -4,10 +4,10 @@ from fastapi.testclient import TestClient
 from sqlmodel import Session, delete
 
 from app.core.config import settings
-from app.tests.conftest import authentication_token_from_email
-from app.tests.utils.user import create_random_user
-from app.tests.utils.supplier import create_random_supplier
 from app.models import Supplier
+from app.tests.conftest import authentication_token_from_email
+from app.tests.utils.supplier import create_random_supplier
+from app.tests.utils.user import create_random_user
 
 
 def test_create_supplier(client: TestClient, db: Session) -> None:
@@ -87,7 +87,7 @@ def test_read_suppliers_superuser(client: TestClient, superuser_token_headers: d
     statement = delete(Supplier)
     db.exec(statement)
     db.commit()
-    
+
     create_random_supplier(db)
     create_random_supplier(db)
     response = client.get(

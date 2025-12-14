@@ -3,8 +3,8 @@
 Поддържа български и английски език.
 """
 import gettext
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 LOCALES_DIR = Path(__file__).parent / "locales"
 SUPPORTED_LANGUAGES = ["bg", "en"]

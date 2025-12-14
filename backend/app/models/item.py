@@ -10,6 +10,7 @@ from app.utils import utcnow
 if TYPE_CHECKING:
     from app.models.item_category import ItemCategory
     from app.models.item_unit import ItemUnit
+    from app.models.organization import Organization
     from app.models.purchase_item import PurchaseItem
     from app.models.purchase_return_item import PurchaseReturnItem
     from app.models.sale_item import SaleItem
@@ -49,7 +50,10 @@ class Item(ItemBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     item_category_id: uuid.UUID = Field(
@@ -59,7 +63,8 @@ class Item(ItemBase, table=True):
         foreign_key="item_unit.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="items")
+    organization: "Organization" = Relationship(back_populates="items")
+    created_by: "User" = Relationship()
     item_category: "ItemCategory" = Relationship(back_populates="items")
     item_unit: "ItemUnit" = Relationship(back_populates="items")
     purchase_items: list["PurchaseItem"] = Relationship(
@@ -85,7 +90,8 @@ class Item(ItemBase, table=True):
 # Properties to return via API, id is always required
 class ItemPublic(ItemBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     item_category_id: uuid.UUID
     item_category_name: str
     item_unit_id: uuid.UUID

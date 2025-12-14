@@ -2,6 +2,18 @@
 
 ## Latest Changes
 
+### Multi-tenant Architecture (Barasurya ERP)
+
+* 🏢 Add multi-tenant architecture with organization-based data isolation
+* ✨ Add Organization and OrganizationMember models
+* ✨ Add role-based access control (Admin, Manager, Member)
+* ✨ Add organization switching functionality
+* ✨ Update all business models with organization_id and created_by_id
+* ✨ Add OrganizationSwitcher component in frontend sidebar
+* ✨ Add useOrganization hook for React frontend
+* 🌐 Add i18n support with Bulgarian and English translations
+* 📝 Add multi-tenant architecture documentation
+
 ### Features
 
 * ✨ Add private, local only, API for usage in E2E tests. PR [#1429](https://github.com/fastapi/full-stack-fastapi-template/pull/1429) by [@patrick91](https://github.com/patrick91).

@@ -8,6 +8,7 @@ from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
+    from app.models.organization import Organization
     from app.models.payable import Payable
     from app.models.purchase_item import PurchaseItem
     from app.models.purchase_return import PurchaseReturn
@@ -38,7 +39,10 @@ class Purchase(PurchaseBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     supplier_id: uuid.UUID = Field(
@@ -48,7 +52,8 @@ class Purchase(PurchaseBase, table=True):
         foreign_key="store.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="purchases")
+    organization: "Organization" = Relationship(back_populates="purchases")
+    created_by: "User" = Relationship()
     supplier: "Supplier" = Relationship(back_populates="purchases")
     store: "Store" = Relationship(back_populates="purchases")
     purchase_items: list["PurchaseItem"] = Relationship(
@@ -64,7 +69,8 @@ class Purchase(PurchaseBase, table=True):
 
 class PurchasePublic(PurchaseBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     supplier_id: uuid.UUID
     supplier_name: str
     store_id: uuid.UUID

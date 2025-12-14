@@ -4,10 +4,10 @@ from fastapi.testclient import TestClient
 from sqlmodel import Session, delete
 
 from app.core.config import settings
-from app.tests.conftest import authentication_token_from_email
-from app.tests.utils.user import create_random_user
-from app.tests.utils.customer_type import create_random_customer_type
 from app.models import CustomerType
+from app.tests.conftest import authentication_token_from_email
+from app.tests.utils.customer_type import create_random_customer_type
+from app.tests.utils.user import create_random_user
 
 
 def test_create_customer_type(client: TestClient, db: Session) -> None:
@@ -86,7 +86,7 @@ def test_read_customer_types_superuser(client: TestClient, superuser_token_heade
     statement = delete(CustomerType)
     db.exec(statement)
     db.commit()
-    
+
     create_random_customer_type(db)
     create_random_customer_type(db)
     response = client.get(

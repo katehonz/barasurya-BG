@@ -8,6 +8,7 @@ from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
+    from app.models.organization import Organization
     from app.models.role_permission import RolePermission
     from app.models.user import User
 
@@ -33,19 +34,21 @@ class Permission(PermissionBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     editor_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(
-        back_populates="permissions_owner",
-        sa_relationship_kwargs={"foreign_keys": "Permission.owner_id"},
+    organization: "Organization" = Relationship(back_populates="permissions")
+    created_by: "User" = Relationship(
+        sa_relationship_kwargs={"foreign_keys": "Permission.created_by_id"},
     )
     editor: "User" = Relationship(
-        back_populates="permissions_editor",
         sa_relationship_kwargs={"foreign_keys": "Permission.editor_id"},
     )
     role_permission: "RolePermission" = Relationship(back_populates="permission")
@@ -56,7 +59,8 @@ class PermissionPublic(PermissionBase):
     id: uuid.UUID
     date_created: datetime
     date_updated: datetime
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     editor_id: uuid.UUID
 
 

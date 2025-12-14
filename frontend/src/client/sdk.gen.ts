@@ -34,6 +34,10 @@ import type {
   CustomerTypesUpdateCustomerTypeResponse,
   CustomerTypesDeleteCustomerTypeData,
   CustomerTypesDeleteCustomerTypeResponse,
+  InvoicesReadInvoicesData,
+  InvoicesReadInvoicesResponse,
+  InvoicesCreateInvoiceData,
+  InvoicesCreateInvoiceResponse,
   ItemCategoriesReadItemCategoriesData,
   ItemCategoriesReadItemCategoriesResponse,
   ItemCategoriesCreateItemCategoryData,
@@ -81,16 +85,37 @@ import type {
   LoginResetPasswordResponse,
   LoginRecoverPasswordHtmlContentData,
   LoginRecoverPasswordHtmlContentResponse,
+  OrganizationsReadOrganizationsData,
+  OrganizationsReadOrganizationsResponse,
+  OrganizationsCreateOrganizationData,
+  OrganizationsCreateOrganizationResponse,
+  OrganizationsReadCurrentOrganizationResponse,
+  OrganizationsReadOrganizationData,
+  OrganizationsReadOrganizationResponse,
+  OrganizationsUpdateOrganizationData,
+  OrganizationsUpdateOrganizationResponse,
+  OrganizationsDeleteOrganizationData,
+  OrganizationsDeleteOrganizationResponse,
+  OrganizationsSwitchOrganizationData,
+  OrganizationsSwitchOrganizationResponse,
+  OrganizationsReadOrganizationMembersData,
+  OrganizationsReadOrganizationMembersResponse,
+  OrganizationsAddOrganizationMemberData,
+  OrganizationsAddOrganizationMemberResponse,
+  OrganizationsUpdateOrganizationMemberData,
+  OrganizationsUpdateOrganizationMemberResponse,
+  OrganizationsRemoveOrganizationMemberData,
+  OrganizationsRemoveOrganizationMemberResponse,
+  PermissionsReadPermissionsData,
+  PermissionsReadPermissionsResponse,
+  PermissionsCreatePermissionData,
+  PermissionsCreatePermissionResponse,
   PermissionsReadPermissionData,
   PermissionsReadPermissionResponse,
   PermissionsUpdatePermissionData,
   PermissionsUpdatePermissionResponse,
   PermissionsDeletePermissionData,
   PermissionsDeletePermissionResponse,
-  PermissionsReadPermissionsData,
-  PermissionsReadPermissionsResponse,
-  PermissionsCreatePermissionData,
-  PermissionsCreatePermissionResponse,
   PrivateCreateUserData,
   PrivateCreateUserResponse,
   PurchasesReadPurchasesData,
@@ -161,7 +186,7 @@ import type {
 export class AccountsService {
   /**
    * Read Accounts
-   * Retrieve accounts.
+   * Retrieve accounts for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -186,7 +211,7 @@ export class AccountsService {
 
   /**
    * Create Account
-   * Create new account.
+   * Create new account. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns AccountPublic Successful Response
@@ -231,7 +256,7 @@ export class AccountsService {
 
   /**
    * Update Account
-   * Update a account.
+   * Update an account. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -257,7 +282,7 @@ export class AccountsService {
 
   /**
    * Delete Account
-   * Delete a account.
+   * Delete an account. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -282,7 +307,7 @@ export class AccountsService {
 export class CustomersService {
   /**
    * Read Customers
-   * Retrieve customer types.
+   * Retrieve customers for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -307,7 +332,7 @@ export class CustomersService {
 
   /**
    * Create Customer
-   * Create new customer type.
+   * Create new customer. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns CustomerPublic Successful Response
@@ -329,7 +354,7 @@ export class CustomersService {
 
   /**
    * Read Customer
-   * Get customer type by ID.
+   * Get customer by ID.
    * @param data The data for the request.
    * @param data.id
    * @returns CustomerPublic Successful Response
@@ -352,7 +377,7 @@ export class CustomersService {
 
   /**
    * Update Customer
-   * Update a customer.
+   * Update a customer. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -378,7 +403,7 @@ export class CustomersService {
 
   /**
    * Delete Customer
-   * Delete a customer type.
+   * Delete a customer. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -403,7 +428,7 @@ export class CustomersService {
 export class CustomerTypesService {
   /**
    * Read Customer Types
-   * Retrieve customer types.
+   * Retrieve customer types for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -428,7 +453,7 @@ export class CustomerTypesService {
 
   /**
    * Create Customer Type
-   * Create new customer type.
+   * Create new customer type. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns CustomerTypePublic Successful Response
@@ -473,7 +498,7 @@ export class CustomerTypesService {
 
   /**
    * Update Customer Type
-   * Update a customer_type.
+   * Update a customer type. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -499,7 +524,7 @@ export class CustomerTypesService {
 
   /**
    * Delete Customer Type
-   * Delete a customer type.
+   * Delete a customer type. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -521,10 +546,59 @@ export class CustomerTypesService {
   }
 }
 
+export class InvoicesService {
+  /**
+   * Read Invoices
+   * Retrieve invoices.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns InvoicesPublic Successful Response
+   * @throws ApiError
+   */
+  public static readInvoices(
+    data: InvoicesReadInvoicesData = {},
+  ): CancelablePromise<InvoicesReadInvoicesResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/invoices/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Invoice
+   * Create new invoice.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns InvoicePublic Successful Response
+   * @throws ApiError
+   */
+  public static createInvoice(
+    data: InvoicesCreateInvoiceData,
+  ): CancelablePromise<InvoicesCreateInvoiceResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/invoices/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
 export class ItemCategoriesService {
   /**
    * Read Item Categories
-   * Retrieve item categories.
+   * Retrieve item categories for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -549,7 +623,7 @@ export class ItemCategoriesService {
 
   /**
    * Create Item Category
-   * Create new item category.
+   * Create new item category. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns ItemCategoryPublic Successful Response
@@ -594,7 +668,7 @@ export class ItemCategoriesService {
 
   /**
    * Update Item Category
-   * Update an item category.
+   * Update an item category. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -620,7 +694,7 @@ export class ItemCategoriesService {
 
   /**
    * Delete Item Category
-   * Delete an item category.
+   * Delete an item category. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -645,7 +719,7 @@ export class ItemCategoriesService {
 export class ItemsService {
   /**
    * Read Items
-   * Retrieve items.
+   * Retrieve items for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -670,7 +744,7 @@ export class ItemsService {
 
   /**
    * Create Item
-   * Create new item.
+   * Create new item. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns ItemPublic Successful Response
@@ -715,7 +789,7 @@ export class ItemsService {
 
   /**
    * Update Item
-   * Update an item.
+   * Update an item. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -741,7 +815,7 @@ export class ItemsService {
 
   /**
    * Delete Item
-   * Delete an item.
+   * Delete an item. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -764,7 +838,7 @@ export class ItemsService {
 
   /**
    * Update Stock Item
-   * Update an item stock.
+   * Update an item stock. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.quantity
@@ -791,7 +865,7 @@ export class ItemsService {
 
   /**
    * Read Low Stock Items
-   * Retrieve low stock items.
+   * Retrieve low stock items for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -816,7 +890,7 @@ export class ItemsService {
 
   /**
    * Activate Item
-   * Update an item stock.
+   * Activate an item. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns ItemPublic Successful Response
@@ -839,7 +913,7 @@ export class ItemsService {
 
   /**
    * Deactivate Item
-   * Update an item stock.
+   * Deactivate an item. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns ItemPublic Successful Response
@@ -864,7 +938,7 @@ export class ItemsService {
 export class ItemUnitsService {
   /**
    * Read Item Units
-   * Retrieve item units.
+   * Retrieve item units for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -889,7 +963,7 @@ export class ItemUnitsService {
 
   /**
    * Create Item Unit
-   * Create new item unit.
+   * Create new item unit. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns ItemUnitPublic Successful Response
@@ -934,7 +1008,7 @@ export class ItemUnitsService {
 
   /**
    * Update Item Unit
-   * Update an item unit.
+   * Update an item unit. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -960,7 +1034,7 @@ export class ItemUnitsService {
 
   /**
    * Delete Item Unit
-   * Delete an item unit.
+   * Delete an item unit. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -1087,10 +1161,323 @@ export class LoginService {
   }
 }
 
+export class OrganizationsService {
+  /**
+   * Read Organizations
+   * Retrieve organizations the current user is a member of.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns OrganizationsPublic Successful Response
+   * @throws ApiError
+   */
+  public static readOrganizations(
+    data: OrganizationsReadOrganizationsData = {},
+  ): CancelablePromise<OrganizationsReadOrganizationsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/organizations/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Organization
+   * Create new organization. The creating user becomes an admin.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns OrganizationPublic Successful Response
+   * @throws ApiError
+   */
+  public static createOrganization(
+    data: OrganizationsCreateOrganizationData,
+  ): CancelablePromise<OrganizationsCreateOrganizationResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/organizations/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Current Organization
+   * Get the current active organization.
+   * @returns OrganizationPublic Successful Response
+   * @throws ApiError
+   */
+  public static readCurrentOrganization(): CancelablePromise<OrganizationsReadCurrentOrganizationResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/organizations/current",
+    })
+  }
+
+  /**
+   * Read Organization
+   * Get organization by ID.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns OrganizationPublic Successful Response
+   * @throws ApiError
+   */
+  public static readOrganization(
+    data: OrganizationsReadOrganizationData,
+  ): CancelablePromise<OrganizationsReadOrganizationResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/organizations/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Organization
+   * Update an organization. Requires admin role.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns OrganizationPublic Successful Response
+   * @throws ApiError
+   */
+  public static updateOrganization(
+    data: OrganizationsUpdateOrganizationData,
+  ): CancelablePromise<OrganizationsUpdateOrganizationResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/organizations/{id}",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Organization
+   * Delete an organization. Requires admin role.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteOrganization(
+    data: OrganizationsDeleteOrganizationData,
+  ): CancelablePromise<OrganizationsDeleteOrganizationResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/organizations/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Switch Organization
+   * Switch to a different organization.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns OrganizationPublic Successful Response
+   * @throws ApiError
+   */
+  public static switchOrganization(
+    data: OrganizationsSwitchOrganizationData,
+  ): CancelablePromise<OrganizationsSwitchOrganizationResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/organizations/{id}/switch",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Organization Members
+   * Get members of an organization.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.skip
+   * @param data.limit
+   * @returns OrganizationMembersPublic Successful Response
+   * @throws ApiError
+   */
+  public static readOrganizationMembers(
+    data: OrganizationsReadOrganizationMembersData,
+  ): CancelablePromise<OrganizationsReadOrganizationMembersResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/organizations/{id}/members",
+      path: {
+        id: data.id,
+      },
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Add Organization Member
+   * Add a member to an organization. Requires admin role.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns OrganizationMemberPublic Successful Response
+   * @throws ApiError
+   */
+  public static addOrganizationMember(
+    data: OrganizationsAddOrganizationMemberData,
+  ): CancelablePromise<OrganizationsAddOrganizationMemberResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/organizations/{id}/members",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Organization Member
+   * Update a member's role. Requires admin role.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.userId
+   * @param data.requestBody
+   * @returns OrganizationMemberPublic Successful Response
+   * @throws ApiError
+   */
+  public static updateOrganizationMember(
+    data: OrganizationsUpdateOrganizationMemberData,
+  ): CancelablePromise<OrganizationsUpdateOrganizationMemberResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/organizations/{id}/members/{user_id}",
+      path: {
+        id: data.id,
+        user_id: data.userId,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Remove Organization Member
+   * Remove a member from an organization. Requires admin role.
+   * Users can also remove themselves.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.userId
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static removeOrganizationMember(
+    data: OrganizationsRemoveOrganizationMemberData,
+  ): CancelablePromise<OrganizationsRemoveOrganizationMemberResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/organizations/{id}/members/{user_id}",
+      path: {
+        id: data.id,
+        user_id: data.userId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
 export class PermissionsService {
   /**
+   * Read Permissions
+   * Retrieve permissions for the current organization. Requires admin role.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns PermissionsPublic Successful Response
+   * @throws ApiError
+   */
+  public static readPermissions(
+    data: PermissionsReadPermissionsData = {},
+  ): CancelablePromise<PermissionsReadPermissionsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/permissions/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Permission
+   * Create new permission. Requires admin role.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns PermissionPublic Successful Response
+   * @throws ApiError
+   */
+  public static createPermission(
+    data: PermissionsCreatePermissionData,
+  ): CancelablePromise<PermissionsCreatePermissionResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/permissions/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
    * Read Permission
-   * Get permission by ID.
+   * Get permission by ID. Requires admin role.
    * @param data The data for the request.
    * @param data.id
    * @returns PermissionPublic Successful Response
@@ -1113,7 +1500,7 @@ export class PermissionsService {
 
   /**
    * Update Permission
-   * Update an permission.
+   * Update a permission. Requires admin role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -1139,7 +1526,7 @@ export class PermissionsService {
 
   /**
    * Delete Permission
-   * Delete an permission.
+   * Delete a permission. Requires admin role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -1154,53 +1541,6 @@ export class PermissionsService {
       path: {
         id: data.id,
       },
-      errors: {
-        422: "Validation Error",
-      },
-    })
-  }
-
-  /**
-   * Read Permissions
-   * Retrieve permissions.
-   * @param data The data for the request.
-   * @param data.skip
-   * @param data.limit
-   * @returns PermissionsPublic Successful Response
-   * @throws ApiError
-   */
-  public static readPermissions(
-    data: PermissionsReadPermissionsData = {},
-  ): CancelablePromise<PermissionsReadPermissionsResponse> {
-    return __request(OpenAPI, {
-      method: "GET",
-      url: "/api/v1/permissions/",
-      query: {
-        skip: data.skip,
-        limit: data.limit,
-      },
-      errors: {
-        422: "Validation Error",
-      },
-    })
-  }
-
-  /**
-   * Create Permission
-   * Create new permission.
-   * @param data The data for the request.
-   * @param data.requestBody
-   * @returns PermissionPublic Successful Response
-   * @throws ApiError
-   */
-  public static createPermission(
-    data: PermissionsCreatePermissionData,
-  ): CancelablePromise<PermissionsCreatePermissionResponse> {
-    return __request(OpenAPI, {
-      method: "POST",
-      url: "/api/v1/permissions/",
-      body: data.requestBody,
-      mediaType: "application/json",
       errors: {
         422: "Validation Error",
       },
@@ -1235,7 +1575,7 @@ export class PrivateService {
 export class PurchasesService {
   /**
    * Read Purchases
-   * Retrieve purchase types.
+   * Retrieve purchases for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -1260,7 +1600,7 @@ export class PurchasesService {
 
   /**
    * Create Purchase
-   * Create new purchase type.
+   * Create new purchase. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns PurchasePublic Successful Response
@@ -1282,7 +1622,7 @@ export class PurchasesService {
 
   /**
    * Read Purchase
-   * Get purchase type by ID.
+   * Get purchase by ID.
    * @param data The data for the request.
    * @param data.id
    * @returns PurchasePublic Successful Response
@@ -1305,7 +1645,7 @@ export class PurchasesService {
 
   /**
    * Update Purchase
-   * Update a purchase.
+   * Update a purchase. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -1331,7 +1671,7 @@ export class PurchasesService {
 
   /**
    * Delete Purchase
-   * Delete a purchase.
+   * Delete a purchase. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -1356,7 +1696,7 @@ export class PurchasesService {
 export class SalesService {
   /**
    * Read Sales
-   * Retrieve sale types.
+   * Retrieve sales for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -1381,7 +1721,7 @@ export class SalesService {
 
   /**
    * Create Sale
-   * Create new sale type.
+   * Create new sale. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns SalePublic Successful Response
@@ -1403,7 +1743,7 @@ export class SalesService {
 
   /**
    * Read Sale
-   * Get sale type by ID.
+   * Get sale by ID.
    * @param data The data for the request.
    * @param data.id
    * @returns SalePublic Successful Response
@@ -1426,7 +1766,7 @@ export class SalesService {
 
   /**
    * Update Sale
-   * Update a sale.
+   * Update a sale. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -1452,7 +1792,7 @@ export class SalesService {
 
   /**
    * Delete Sale
-   * Delete a sale.
+   * Delete a sale. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -1477,7 +1817,7 @@ export class SalesService {
 export class StoresService {
   /**
    * Read Stores
-   * Retrieve stores.
+   * Retrieve stores for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -1502,7 +1842,7 @@ export class StoresService {
 
   /**
    * Create Store
-   * Create new store.
+   * Create new store. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns StorePublic Successful Response
@@ -1547,7 +1887,7 @@ export class StoresService {
 
   /**
    * Update Store
-   * Update a store.
+   * Update a store. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -1573,7 +1913,7 @@ export class StoresService {
 
   /**
    * Delete Store
-   * Delete a store.
+   * Delete a store. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response
@@ -1598,7 +1938,7 @@ export class StoresService {
 export class SuppliersService {
   /**
    * Read Suppliers
-   * Retrieve suppliers.
+   * Retrieve suppliers for the current organization.
    * @param data The data for the request.
    * @param data.skip
    * @param data.limit
@@ -1623,7 +1963,7 @@ export class SuppliersService {
 
   /**
    * Create Supplier
-   * Create new supplier.
+   * Create new supplier. Requires at least member role.
    * @param data The data for the request.
    * @param data.requestBody
    * @returns SupplierPublic Successful Response
@@ -1668,7 +2008,7 @@ export class SuppliersService {
 
   /**
    * Update Supplier
-   * Update a supplier.
+   * Update a supplier. Requires at least manager role.
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
@@ -1694,7 +2034,7 @@ export class SuppliersService {
 
   /**
    * Delete Supplier
-   * Delete a supplier.
+   * Delete a supplier. Requires manager role.
    * @param data The data for the request.
    * @param data.id
    * @returns Message Successful Response

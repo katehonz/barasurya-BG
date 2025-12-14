@@ -8,6 +8,7 @@ from app.api.routes import (
     item_units,
     items,
     login,
+    organizations,
     permissions,
     private,
     purchases,
@@ -18,11 +19,13 @@ from app.api.routes import (
     utils,
 )
 from app.core.config import settings
+from app.sales.api import invoices_router
 
 api_router = APIRouter()
 api_router.include_router(accounts.router)
 api_router.include_router(customer_types.router)
 api_router.include_router(customers.router)
+api_router.include_router(organizations.router)
 api_router.include_router(item_categories.router)
 api_router.include_router(item_units.router)
 api_router.include_router(items.router)
@@ -34,6 +37,7 @@ api_router.include_router(stores.router)
 api_router.include_router(suppliers.router)
 api_router.include_router(users.router)
 api_router.include_router(utils.router)
+api_router.include_router(invoices_router, prefix="/invoices", tags=["invoices"])
 
 
 if settings.ENVIRONMENT == "local":

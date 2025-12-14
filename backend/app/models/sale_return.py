@@ -9,6 +9,7 @@ from app.utils import utcnow
 
 if TYPE_CHECKING:
     from app.models.customer import Customer
+    from app.models.organization import Organization
     from app.models.sale import Sale
     from app.models.sale_return_item import SaleReturnItem
     from app.models.user import User
@@ -35,7 +36,10 @@ class SaleReturn(SaleReturnBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     customer_id: uuid.UUID = Field(
@@ -45,7 +49,8 @@ class SaleReturn(SaleReturnBase, table=True):
         foreign_key="sale.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="sale_returns")
+    organization: "Organization" = Relationship(back_populates="sale_returns")
+    created_by: "User" = Relationship()
     customer: "Customer" = Relationship(back_populates="sale_returns")
     sale: "Sale" = Relationship(back_populates="sale_returns")
     sale_return_items: list["SaleReturnItem"] = Relationship(
@@ -55,7 +60,8 @@ class SaleReturn(SaleReturnBase, table=True):
 
 class SaleReturnPublic(SaleReturnBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     customer_id: uuid.UUID
     sale_id: uuid.UUID
     date_created: datetime

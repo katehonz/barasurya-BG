@@ -9,6 +9,7 @@ from app.utils import utcnow
 
 if TYPE_CHECKING:
     from app.models.customer_type import CustomerType
+    from app.models.organization import Organization
     from app.models.receivable import Receivable
     from app.models.sale import Sale
     from app.models.sale_return import SaleReturn
@@ -34,14 +35,18 @@ class Customer(CustomerBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     customer_type_id: uuid.UUID = Field(
         foreign_key="customer_type.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="customers")
+    organization: "Organization" = Relationship(back_populates="customers")
+    created_by: "User" = Relationship()
     customer_type: "CustomerType" = Relationship(back_populates="customers")
     sales: list["Sale"] = Relationship(back_populates="customer", cascade_delete=True)
     receivables: list["Receivable"] = Relationship(
@@ -54,7 +59,8 @@ class Customer(CustomerBase, table=True):
 
 class CustomerPublic(CustomerBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     customer_type_id: uuid.UUID
     customer_type_name: str
     date_created: datetime

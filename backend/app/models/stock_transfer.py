@@ -9,6 +9,7 @@ from app.utils import utcnow
 
 if TYPE_CHECKING:
     from app.models.item import Item
+    from app.models.organization import Organization
     from app.models.store import Store
     from app.models.user import User
 
@@ -29,7 +30,10 @@ class StockTransfer(StockTransferBase, table=True):
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     item_id: uuid.UUID = Field(
@@ -42,7 +46,8 @@ class StockTransfer(StockTransferBase, table=True):
         foreign_key="store.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="stock_transfers")
+    organization: "Organization" = Relationship(back_populates="stock_transfers")
+    created_by: "User" = Relationship()
     item: "Item" = Relationship(back_populates="stock_transfers")
     src_store: "Store" = Relationship(
         back_populates="src_stock_transfers",
@@ -57,7 +62,8 @@ class StockTransfer(StockTransferBase, table=True):
 class StockTransferPublic(StockTransferBase):
     id: uuid.UUID
     date_created: datetime
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     item_id: uuid.UUID
     src_store_id: uuid.UUID
     dst_store_id: uuid.UUID

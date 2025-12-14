@@ -8,6 +8,7 @@ from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
+    from app.models.organization import Organization
     from app.models.purchase import Purchase
     from app.models.purchase_return_item import PurchaseReturnItem
     from app.models.supplier import Supplier
@@ -35,7 +36,10 @@ class PurchaseReturn(PurchaseReturnBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
-    owner_id: uuid.UUID = Field(
+    organization_id: uuid.UUID = Field(
+        foreign_key="organization.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     supplier_id: uuid.UUID = Field(
@@ -45,7 +49,8 @@ class PurchaseReturn(PurchaseReturnBase, table=True):
         foreign_key="purchase.id", nullable=False, ondelete="CASCADE"
     )
 
-    owner: "User" = Relationship(back_populates="purchase_returns")
+    organization: "Organization" = Relationship(back_populates="purchase_returns")
+    created_by: "User" = Relationship()
     supplier: "Supplier" = Relationship(back_populates="purchase_returns")
     purchase: "Purchase" = Relationship(back_populates="purchase_returns")
     purchase_return_items: list["PurchaseReturnItem"] = Relationship(
@@ -55,7 +60,8 @@ class PurchaseReturn(PurchaseReturnBase, table=True):
 
 class PurchaseReturnPublic(PurchaseReturnBase):
     id: uuid.UUID
-    owner_id: uuid.UUID
+    organization_id: uuid.UUID
+    created_by_id: uuid.UUID
     supplier_id: uuid.UUID
     purchase_id: uuid.UUID
     date_created: datetime
