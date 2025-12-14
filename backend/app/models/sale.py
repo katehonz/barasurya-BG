@@ -8,7 +8,7 @@ from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
-    from app.models.customer import Customer
+    from app.models.contraagent import Contraagent
     from app.models.organization import Organization
     from app.models.receivable import Receivable
     from app.models.sale_item import SaleItem
@@ -24,14 +24,14 @@ class SaleBase(BaseModel):
 
 
 class SaleCreate(SaleBase):
-    customer_id: uuid.UUID
+    contraagent_id: uuid.UUID
     store_id: uuid.UUID
 
 
 class SaleUpdate(SaleBase):
     date_sale: datetime | None = Field(default=0)  # type: ignore
     amount: float | None = Field(default=0, ge=0)  # type: ignore
-    customer_id: uuid.UUID | None = Field(default=None)  # type: ignore
+    contraagent_id: uuid.UUID | None = Field(default=None)  # type: ignore
     store_id: uuid.UUID | None = Field(default=None)  # type: ignore
 
 
@@ -45,8 +45,8 @@ class Sale(SaleBase, table=True):
     created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
-    customer_id: uuid.UUID = Field(
-        foreign_key="customer.id", nullable=False, ondelete="CASCADE"
+    contraagent_id: uuid.UUID = Field(
+        foreign_key="contraagent.id", nullable=False, ondelete="CASCADE"
     )
     store_id: uuid.UUID = Field(
         foreign_key="store.id", nullable=False, ondelete="CASCADE"
@@ -54,7 +54,7 @@ class Sale(SaleBase, table=True):
 
     organization: "Organization" = Relationship(back_populates="sales")
     created_by: "User" = Relationship()
-    customer: "Customer" = Relationship(back_populates="sales")
+    contraagent: "Contraagent" = Relationship(back_populates="sales")
     store: "Store" = Relationship(back_populates="sales")
     sale_items: list["SaleItem"] = Relationship(
         back_populates="sale", cascade_delete=True
@@ -71,8 +71,8 @@ class SalePublic(SaleBase):
     id: uuid.UUID
     organization_id: uuid.UUID
     created_by_id: uuid.UUID
-    customer_id: uuid.UUID
-    customer_name: str
+    contraagent_id: uuid.UUID
+    contraagent_name: str
     store_id: uuid.UUID
     store_name: str
     date_created: datetime

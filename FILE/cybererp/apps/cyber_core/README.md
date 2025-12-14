@@ -1,3 +1,0 @@
-# CyberCore
-
-**TODO: Add description**

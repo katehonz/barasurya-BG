@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from app.models.asset_transaction import AssetTransaction
     from app.models.journal_entry import JournalEntry
     from app.models.organization import Organization
-    from app.models.supplier import Supplier
+    from app.models.contraagent import Contraagent
     from app.models.user import User
 
 
@@ -56,7 +56,7 @@ class AssetBase(BaseModel):
 
 
 class AssetCreate(AssetBase):
-    supplier_id: uuid.UUID | None = None
+    contraagent_id: uuid.UUID | None = None
     accounting_account_id: uuid.UUID | None = None
     expense_account_id: uuid.UUID | None = None
     accumulated_depreciation_account_id: uuid.UUID | None = None
@@ -77,8 +77,8 @@ class Asset(AssetBase, table=True):
     created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
-    supplier_id: uuid.UUID | None = Field(
-        default=None, foreign_key="supplier.id", ondelete="SET NULL"
+    contraagent_id: uuid.UUID | None = Field(
+        default=None, foreign_key="contraagent.id", ondelete="SET NULL"
     )
     accounting_account_id: uuid.UUID | None = Field(
         default=None, foreign_key="account.id", ondelete="SET NULL"
@@ -95,7 +95,7 @@ class Asset(AssetBase, table=True):
 
     organization: "Organization" = Relationship()
     created_by: "User" = Relationship()
-    supplier: Optional["Supplier"] = Relationship()
+    contraagent: Optional["Contraagent"] = Relationship()
     accounting_account: Optional["Account"] = Relationship(
         sa_relationship_kwargs=dict(foreign_keys="[Asset.accounting_account_id]")
     )

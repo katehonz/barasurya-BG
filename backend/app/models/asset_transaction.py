@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from app.models.asset import Asset
     from app.models.journal_entry import JournalEntry
     from app.models.organization import Organization
-    from app.models.supplier import Supplier
+    from app.models.contraagent import Contraagent
     from app.models.user import User
 
 
@@ -29,7 +29,7 @@ class AssetTransactionBase(SQLModel):
 
 class AssetTransactionCreate(AssetTransactionBase):
     asset_id: uuid.UUID
-    supplier_customer_id: uuid.UUID | None = None
+    contraagent_id: uuid.UUID | None = None
     journal_entry_id: uuid.UUID | None = None
 
 
@@ -50,8 +50,8 @@ class AssetTransaction(AssetTransactionBase, table=True):
     asset_id: uuid.UUID = Field(
         foreign_key="asset.id", nullable=False, ondelete="CASCADE"
     )
-    supplier_customer_id: uuid.UUID | None = Field(
-        default=None, foreign_key="supplier.id", ondelete="SET NULL"
+    contraagent_id: uuid.UUID | None = Field(
+        default=None, foreign_key="contraagent.id", ondelete="SET NULL"
     )
     journal_entry_id: uuid.UUID | None = Field(
         default=None, foreign_key="journal_entry.id", ondelete="SET NULL"
@@ -60,7 +60,7 @@ class AssetTransaction(AssetTransactionBase, table=True):
     organization: "Organization" = Relationship()
     created_by: "User" = Relationship()
     asset: "Asset" = Relationship(back_populates="transactions")
-    supplier_customer: Optional["Supplier"] = Relationship()
+    contraagent: Optional["Contraagent"] = Relationship()
     journal_entry: Optional["JournalEntry"] = Relationship()
 
 

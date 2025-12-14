@@ -21,6 +21,74 @@ fileConfig(config.config_file_name)
 from app.models import BaseModel  # noqa
 from app.core.config import settings # noqa
 
+# Explicitly import all models to ensure they are registered with BaseModel.metadata
+from app.models.main import *
+from app.models.purchase_item import *
+from app.models.purchase_return_item import *
+from app.models.role_permission import *
+from app.models.sale_item import *
+from app.models.sale_return_item import *
+from app.models.user_role import *
+from app.models.organization_member import *
+from app.models.account_transaction import *
+from app.models.purchase_return import *
+from app.models.sale_return import *
+from app.models.stock_adjustment import *
+from app.models.stock_transfer import *
+from app.models.role import *
+from app.models.permission import *
+from app.models.user import *
+from app.models.saft.asset_movement_type import *
+from app.models.saft.country import *
+from app.models.saft.iban_format import *
+from app.models.saft.inventory_type import *
+from app.models.saft.invoice_type import *
+from app.models.saft.nc8_taric import *
+from app.models.saft.payment_method import *
+from app.models.saft.stock_movement_type import *
+from app.models.saft.vat_tax_type import *
+from app.models.asset_transaction import *
+from app.models.bank_account import *
+from app.models.bank_transaction import *
+from app.models.bank_statement import *
+from app.models.bank_import import *
+from app.models.bank_profile import *
+from app.models.vat_return import *
+from app.models.vat_purchase_register import *
+from app.models.vat_sales_register import *
+from app.models.invoice_line import *
+from app.models.payment import *
+from app.models.asset import *
+from app.models.asset_depreciation_schedule import *
+from app.models.entry_line import *
+from app.models.journal_entry import *
+from app.models.payable import *
+from app.models.purchase import *
+from app.models.receivable import *
+from app.models.sale import *
+from app.models.contraagent_bank_account import *
+from app.models.contraagent import *
+from app.models.account import *
+from app.models.currency import *
+from app.models.exchange_rate import *
+from app.models.invoice import *
+from app.models.product import *
+from app.models.measurement_unit import *
+from app.models.product_unit import *
+from app.models.lot import *
+from app.models.stock_level import *
+from app.models.stock_movement import *
+from app.models.organization import *
+from app.models.store import *
+from app.models.recipe import *
+from app.models.recipe_item import *
+from app.models.purchase_order_line import *
+from app.models.quotation_line import *
+from app.models.warehouse import *
+from app.models.purchase_order import *
+from app.models.quotation import *
+from app.models.item import *
+
 target_metadata = BaseModel.metadata
 
 # other values from the config, defined by the needs of env.py,

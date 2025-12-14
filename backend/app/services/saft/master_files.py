@@ -9,12 +9,12 @@ from sqlmodel import Session, func, select
 
 from app.models.account import Account
 from app.models.asset import Asset
-from app.models.customer import Customer
+from app.models.contraagent import Contraagent # Changed from Customer
 from app.models.entry_line import EntryLine
 from app.models.journal_entry import JournalEntry
 from app.models.organization import Organization
-from app.models.item import Item
-from app.models.supplier import Supplier
+from app.models.product import Product # Changed from Item
+# Removed from app.models.supplier import Supplier
 
 
 class SAFTMasterFiles:
@@ -89,21 +89,23 @@ class SAFTMasterFiles:
         """
 
     def _build_customers(self) -> str:
-        customers = self._get_customers()
-        customers_xml = "\n".join([self._build_customer(customer) for customer in customers])
+        contraagents = self._get_contraagents(is_customer=True)
+        contraagents_xml = "\n".join([self._build_contraagent_customer(ca) for ca in contraagents])
         return f"""
       <nsSAFT:Customers>
-  {customers_xml}
+  {contraagents_xml}
       </nsSAFT:Customers>
         """
-    def _build_customer(self, customer: Any) -> str:
-        opening_balance = customer.opening_debit_balance or Decimal(0)
-        closing_balance = customer.closing_debit_balance or Decimal(0)
+
+    def _build_contraagent_customer(self, contraagent: Contraagent) -> str:
+        # Contraagent fields for SAF-T Customer
+        opening_balance = contraagent.opening_debit_balance or Decimal(0)
+        closing_balance = contraagent.closing_debit_balance or Decimal(0)
         return f"""
           <nsSAFT:Customer>
-    {self._build_company_structure(customer)}
-            <nsSAFT:CustomerID>{customer.registration_number or customer.id}</nsSAFT:CustomerID>
-            <nsSAFT:SelfBillingIndicator>{"Y" if customer.self_billing_indicator else "N"}</nsSAFT:SelfBillingIndicator>
+    {self._build_company_structure(contraagent)}
+            <nsSAFT:CustomerID>{contraagent.registration_number or contraagent.id}</nsSAFT:CustomerID>
+            <nsSAFT:SelfBillingIndicator>{"Y" if contraagent.self_billing_indicator else "N"}</nsSAFT:SelfBillingIndicator>
             <nsSAFT:AccountID>411</nsSAFT:AccountID>
             <nsSAFT:OpeningDebitBalance>{self._format_decimal(opening_balance)}</nsSAFT:OpeningDebitBalance>
             <nsSAFT:ClosingDebitBalance>{self._format_decimal(closing_balance)}</nsSAFT:ClosingDebitBalance>
@@ -111,22 +113,23 @@ class SAFTMasterFiles:
         """
 
     def _build_suppliers(self) -> str:
-        suppliers = self._get_suppliers()
-        suppliers_xml = "\n".join([self._build_supplier(supplier) for supplier in suppliers])
+        contraagents = self._get_contraagents(is_supplier=True)
+        contraagents_xml = "\n".join([self._build_contraagent_supplier(ca) for ca in contraagents])
         return f"""
       <nsSAFT:Suppliers>
-  {suppliers_xml}
+  {contraagents_xml}
       </nsSAFT:Suppliers>
         """
 
-    def _build_supplier(self, supplier: Any) -> str:
-        opening_balance = supplier.opening_credit_balance or Decimal(0)
-        closing_balance = supplier.closing_credit_balance or Decimal(0)
+    def _build_contraagent_supplier(self, contraagent: Contraagent) -> str:
+        # Contraagent fields for SAF-T Supplier
+        opening_balance = contraagent.opening_credit_balance or Decimal(0)
+        closing_balance = contraagent.closing_credit_balance or Decimal(0)
         return f"""
           <nsSAFT:Supplier>
-    {self._build_company_structure(supplier)}
-            <nsSAFT:SupplierID>{supplier.registration_number or supplier.id}</nsSAFT:SupplierID>
-            <nsSAFT:SelfBillingIndicator>{"Y" if supplier.self_billing_indicator else "N"}</nsSAFT:SelfBillingIndicator>
+    {self._build_company_structure(contraagent)}
+            <nsSAFT:SupplierID>{contraagent.registration_number or contraagent.id}</nsSAFT:SupplierID>
+            <nsSAFT:SelfBillingIndicator>{"Y" if contraagent.self_billing_indicator else "N"}</nsSAFT:SelfBillingIndicator>
             <nsSAFT:AccountID>401</nsSAFT:AccountID>
             <nsSAFT:OpeningCreditBalance>{self._format_decimal(opening_balance)}</nsSAFT:OpeningCreditBalance>
             <nsSAFT:ClosingCreditBalance>{self._format_decimal(closing_balance)}</nsSAFT:ClosingCreditBalance>
@@ -245,10 +248,13 @@ class SAFTMasterFiles:
       </nsSAFT:Products>
         """
 
-    def _build_product(self, product: Any) -> str:
+    def _build_product(self, product: Product) -> str:
         # TODO: Get cn_code and goods_services_id
-        cn_code = ""
-        goods_services_id = "G"
+        cn_code = product.cn_code or ""
+        goods_services_id = "G" # Default to Goods
+        if product.category == "services":
+            goods_services_id = "S"
+        
         return f"""
           <nsSAFT:Product>
             <nsSAFT:ProductCode>{product.sku or product.id}</nsSAFT:ProductCode>
@@ -304,7 +310,7 @@ class SAFTMasterFiles:
             <nsSAFT:AssetID>{asset.code}</nsSAFT:AssetID>
             <nsSAFT:AccountID>{asset.account_code or "205"}</nsSAFT:AccountID>
             <nsSAFT:Description>{self._escape_xml(asset.name)}</nsSAFT:Description>
-    {self._build_asset_supplier(asset)}
+    {self._build_asset_contraagent(asset)} # Changed from _build_asset_supplier
             <nsSAFT:PurchaseOrderDate>{self._format_date(asset.purchase_order_date or asset.acquisition_date)}</nsSAFT:PurchaseOrderDate>
             <nsSAFT:DateOfAcquisition>{self._format_date(asset.acquisition_date)}</nsSAFT:DateOfAcquisition>
             <nsSAFT:StartUpDate>{self._format_date(asset.startup_date or asset.acquisition_date)}</nsSAFT:StartUpDate>
@@ -312,16 +318,16 @@ class SAFTMasterFiles:
           </nsSAFT:Asset>
         """
 
-    def _build_asset_supplier(self, asset: Any) -> str:
-        if not asset.supplier:
+    def _build_asset_contraagent(self, asset: Any) -> str: # Changed from _build_asset_supplier
+        if not asset.contraagent: # Changed from asset.supplier
             return ""
         return f"""
             <nsSAFT:AssetSupplier>
-              <nsSAFT:SupplierName>{self._escape_xml(asset.supplier.name)}</nsSAFT:SupplierName>
-              <nsSAFT:SupplierID>{asset.supplier.vat_number or asset.supplier.eik or ""}</nsSAFT:SupplierID>
+              <nsSAFT:SupplierName>{self._escape_xml(asset.contraagent.name)}</nsSAFT:SupplierName> # Changed from asset.supplier.name
+              <nsSAFT:SupplierID>{asset.contraagent.vat_number or asset.contraagent.registration_number or ""}</nsSAFT:SupplierID> # Changed from asset.supplier.vat_number or asset.supplier.eik
               <nsSAFT:PostalAddress>
-                <nsSAFT:City>{self._escape_xml(asset.supplier.city or "")}</nsSAFT:City>
-                <nsSAFT:Country>{asset.supplier.country or "BG"}</nsSAFT:Country>
+                <nsSAFT:City>{self._escape_xml(asset.contraagent.city or "")}</nsSAFT:City> # Changed from asset.supplier.city
+                <nsSAFT:Country>{asset.contraagent.country or "BG"}</nsSAFT:Country> # Changed from asset.supplier.country
               </nsSAFT:PostalAddress>
             </nsSAFT:AssetSupplier>
         """
@@ -387,3 +393,47 @@ class SAFTMasterFiles:
         if not eik:
             return ""
         return eik.zfill(12)
+
+    def _get_contraagents(self, is_customer: bool = False, is_supplier: bool = False) -> List[Contraagent]:
+        """Retrieve contraagents filtered by customer/supplier status."""
+        with Session(self.organization.db_engine) as session:
+            statement = select(Contraagent).where(Contraagent.organization_id == self.organization.id)
+            if is_customer:
+                statement = statement.where(Contraagent.is_customer == True)
+            if is_supplier:
+                statement = statement.where(Contraagent.is_supplier == True)
+            return session.exec(statement).all()
+
+    def _get_products(self) -> List[Product]:
+        """Retrieve products for the organization."""
+        with Session(self.organization.db_engine) as session:
+            return session.exec(select(Product).where(Product.organization_id == self.organization.id)).all()
+
+    def _get_accounts_with_balances(self) -> List[Account]:
+        """Retrieve accounts for the organization with calculated balances."""
+        with Session(self.organization.db_engine) as session:
+            # This is a simplified example; actual balance calculation is complex
+            return session.exec(select(Account).where(Account.organization_id == self.organization.id)).all()
+
+    def _get_assets(self) -> List[Asset]:
+        """Retrieve assets for the organization."""
+        with Session(self.organization.db_engine) as session:
+            return session.exec(select(Asset).where(Asset.organization_id == self.organization.id)).all()
+
+    def _get_journal_entries(self) -> List[JournalEntry]:
+        """Retrieve journal entries for the organization filtered by year/month."""
+        with Session(self.organization.db_engine) as session:
+            statement = select(JournalEntry).where(
+                JournalEntry.organization_id == self.organization.id,
+                func.extract("year", JournalEntry.date) == self.year
+            )
+            if self.month:
+                statement = statement.where(func.extract("month", JournalEntry.date) == self.month)
+            return session.exec(statement).all()
+
+    def _get_entry_lines_for_journal_entry(self, journal_entry_id: UUID) -> List[EntryLine]:
+        """Retrieve entry lines for a specific journal entry."""
+        with Session(self.organization.db_engine) as session:
+            return session.exec(
+                select(EntryLine).where(EntryLine.journal_entry_id == journal_entry_id)
+            ).all()

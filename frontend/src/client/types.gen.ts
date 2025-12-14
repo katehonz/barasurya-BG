@@ -83,7 +83,7 @@ export type AssetCreate = {
     acquisition_cost_begin_year?: (number | null);
     book_value_begin_year?: (number | null);
     accumulated_depreciation_begin_year?: (number | null);
-    supplier_id?: (string | null);
+    contraagent_id?: (string | null);
     accounting_account_id?: (string | null);
     expense_account_id?: (string | null);
     accumulated_depreciation_account_id?: (string | null);
@@ -808,63 +808,6 @@ export type CurrencyUpdate = {
     description?: (string | null);
 };
 
-export type CustomerCreate = {
-    name: string;
-    phone?: (string | null);
-    address?: (string | null);
-    customer_type_id: string;
-};
-
-export type CustomerPublic = {
-    name: string;
-    phone?: (string | null);
-    address?: (string | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    customer_type_id: string;
-    customer_type_name: string;
-    date_created: string;
-    date_updated: string;
-};
-
-export type CustomersPublic = {
-    data: Array<CustomerPublic>;
-    count: number;
-};
-
-export type CustomerTypeCreate = {
-    name: string;
-    description?: (string | null);
-};
-
-export type CustomerTypePublic = {
-    name: string;
-    description?: (string | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    date_created: string;
-    date_updated: string;
-};
-
-export type CustomerTypesPublic = {
-    data: Array<CustomerTypePublic>;
-    count: number;
-};
-
-export type CustomerTypeUpdate = {
-    name?: (string | null);
-    description?: (string | null);
-};
-
-export type CustomerUpdate = {
-    name?: (string | null);
-    phone?: (string | null);
-    address?: (string | null);
-    customer_type_id?: (string | null);
-};
-
 export type ExchangeRatePublic = {
     /**
      * Source currency ID
@@ -918,217 +861,6 @@ export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
 
-export type InvoiceCreate = {
-    issue_date: string;
-    due_date?: (string | null);
-    tax_event_date?: (string | null);
-    billing_name: string;
-    billing_address?: (string | null);
-    billing_vat_number?: (string | null);
-    billing_company_id?: (string | null);
-    subtotal?: (number | string);
-    tax_amount?: (number | string);
-    total_amount?: (number | string);
-    paid_amount?: (number | string);
-    /**
-     * Invoice currency code (ISO 4217)
-     */
-    currency_code?: string;
-    /**
-     * Currency reference
-     */
-    currency_id?: (string | null);
-    /**
-     * Exchange rate to base currency
-     */
-    exchange_rate?: (number | string | null);
-    /**
-     * Whether this is a multi-currency invoice
-     */
-    is_multicurrency?: boolean;
-    payment_method?: (string | null);
-    notes?: (string | null);
-    payment_terms?: (string | null);
-    reference?: (string | null);
-    vat_document_type?: string;
-    vat_reason?: (string | null);
-    oss_country?: (string | null);
-    oss_vat_rate?: (number | string | null);
-    contact_id: string;
-    invoice_no: string;
-    invoice_lines: Array<InvoiceLineCreate>;
-};
-
-export type InvoiceLineCreate = {
-    description: string;
-    quantity: (number | string);
-    unit_of_measure?: string;
-    unit_price: (number | string);
-    discount_percent?: (number | string);
-    tax_rate?: (number | string);
-    product_id?: (string | null);
-};
-
-export type InvoiceLinePublic = {
-    description: string;
-    quantity: string;
-    unit_of_measure?: string;
-    unit_price: string;
-    discount_percent?: string;
-    tax_rate?: string;
-    id: string;
-    subtotal: string;
-    tax_amount: string;
-    total_amount: string;
-    product?: (ItemPublic | null);
-};
-
-export type InvoicePublic = {
-    issue_date: string;
-    due_date?: (string | null);
-    tax_event_date?: (string | null);
-    billing_name: string;
-    billing_address?: (string | null);
-    billing_vat_number?: (string | null);
-    billing_company_id?: (string | null);
-    subtotal?: string;
-    tax_amount?: string;
-    total_amount?: string;
-    paid_amount?: string;
-    /**
-     * Invoice currency code (ISO 4217)
-     */
-    currency_code?: string;
-    /**
-     * Currency reference
-     */
-    currency_id?: (string | null);
-    /**
-     * Exchange rate to base currency
-     */
-    exchange_rate?: (string | null);
-    /**
-     * Whether this is a multi-currency invoice
-     */
-    is_multicurrency?: boolean;
-    payment_method?: (string | null);
-    notes?: (string | null);
-    payment_terms?: (string | null);
-    reference?: (string | null);
-    vat_document_type?: string;
-    vat_reason?: (string | null);
-    oss_country?: (string | null);
-    oss_vat_rate?: (string | null);
-    id: string;
-    invoice_no: string;
-    status: InvoiceStatus;
-    customer: CustomerPublic;
-    invoice_lines: Array<InvoiceLinePublic>;
-};
-
-export type InvoicesPublic = {
-    data: Array<InvoicePublic>;
-    count: number;
-};
-
-export type InvoiceStatus = 'draft' | 'issued' | 'paid' | 'partially_paid' | 'overdue' | 'cancelled';
-
-export type ItemCategoriesPublic = {
-    data: Array<ItemCategoryPublic>;
-    count: number;
-};
-
-export type ItemCategoryCreate = {
-    name: string;
-    description?: (string | null);
-};
-
-export type ItemCategoryPublic = {
-    name: string;
-    description?: (string | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    date_created: string;
-    date_updated: string;
-};
-
-export type ItemCategoryUpdate = {
-    name?: (string | null);
-    description?: (string | null);
-};
-
-export type ItemCreate = {
-    title: string;
-    description?: (string | null);
-    price_purchase?: (number | null);
-    price_sell?: (number | null);
-    stock_minimum?: number;
-    is_active?: boolean;
-    item_category_id: string;
-    item_unit_id: string;
-};
-
-export type ItemPublic = {
-    title: string;
-    description?: (string | null);
-    price_purchase?: (number | null);
-    price_sell?: (number | null);
-    stock_minimum?: number;
-    is_active?: boolean;
-    id: string;
-    stock: number;
-    organization_id: string;
-    created_by_id: string;
-    item_category_id: string;
-    item_category_name: string;
-    item_unit_id: string;
-    item_unit_name: string;
-    date_created: string;
-    date_updated: string;
-};
-
-export type ItemsPublic = {
-    data: Array<ItemPublic>;
-    count: number;
-};
-
-export type ItemUnitCreate = {
-    name: string;
-    description?: (string | null);
-};
-
-export type ItemUnitPublic = {
-    name: string;
-    description?: (string | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    date_created: string;
-    date_updated: string;
-};
-
-export type ItemUnitsPublic = {
-    data: Array<ItemUnitPublic>;
-    count: number;
-};
-
-export type ItemUnitUpdate = {
-    name?: (string | null);
-    description?: (string | null);
-};
-
-export type ItemUpdate = {
-    title?: (string | null);
-    description?: (string | null);
-    price_purchase?: (number | null);
-    price_sell?: (number | null);
-    stock_minimum?: number;
-    is_active?: boolean;
-    item_category_id?: (string | null);
-    item_unit_id?: (string | null);
-};
-
 export type Message = {
     message: string;
 };
@@ -1140,33 +872,33 @@ export type NewPassword = {
 
 export type OrganizationCreate = {
     name: string;
-    slug: string;
+    name_latin?: (string | null);
+    name_cyrillic?: (string | null);
+    registration_number?: (string | null);
+    vat_number?: (string | null);
+    street_name?: (string | null);
+    building_number?: (string | null);
+    building?: (string | null);
+    postal_code?: (string | null);
+    city?: (string | null);
+    region?: (string | null);
+    country?: (string | null);
+    email?: (string | null);
+    phone?: (string | null);
+    website?: (string | null);
     is_active?: boolean;
-    region_code?: (string | null);
-    /**
-     * Default currency code (ISO 4217)
-     */
-    default_currency_code?: (string | null);
-    /**
-     * Base currency reference
-     */
-    base_currency_id?: (string | null);
-    tax_basis?: (string | null);
-    /**
-     * Whether organization is in Eurozone
-     */
-    in_eurozone?: boolean;
-    /**
-     * Date when organization entered Eurozone
-     */
-    eurozone_entry_date?: (string | null);
-    accounts_receivable_account_id?: (string | null);
-    sales_revenue_account_id?: (string | null);
-    vat_payable_account_id?: (string | null);
-    inventory_account_id?: (string | null);
-    accounts_payable_account_id?: (string | null);
-    vat_deductible_account_id?: (string | null);
-    cash_account_id?: (string | null);
+    tax_authority?: (string | null);
+    tax_accounting_basis?: (string | null);
+    currency_code?: (string | null);
+    date_format?: (string | null);
+    fiscal_year_start_date?: (string | null);
+    bank_name?: (string | null);
+    bank_account_number?: (string | null);
+    bank_iban?: (string | null);
+    bank_swift?: (string | null);
+    legal_representative_name?: (string | null);
+    legal_representative_id?: (string | null);
+    notes?: (string | null);
 };
 
 export type OrganizationMemberCreate = {
@@ -1196,33 +928,33 @@ export type OrganizationMemberUpdate = {
 
 export type OrganizationPublic = {
     name: string;
-    slug: string;
+    name_latin?: (string | null);
+    name_cyrillic?: (string | null);
+    registration_number?: (string | null);
+    vat_number?: (string | null);
+    street_name?: (string | null);
+    building_number?: (string | null);
+    building?: (string | null);
+    postal_code?: (string | null);
+    city?: (string | null);
+    region?: (string | null);
+    country?: (string | null);
+    email?: (string | null);
+    phone?: (string | null);
+    website?: (string | null);
     is_active?: boolean;
-    region_code?: (string | null);
-    /**
-     * Default currency code (ISO 4217)
-     */
-    default_currency_code?: (string | null);
-    /**
-     * Base currency reference
-     */
-    base_currency_id?: (string | null);
-    tax_basis?: (string | null);
-    /**
-     * Whether organization is in Eurozone
-     */
-    in_eurozone?: boolean;
-    /**
-     * Date when organization entered Eurozone
-     */
-    eurozone_entry_date?: (string | null);
-    accounts_receivable_account_id?: (string | null);
-    sales_revenue_account_id?: (string | null);
-    vat_payable_account_id?: (string | null);
-    inventory_account_id?: (string | null);
-    accounts_payable_account_id?: (string | null);
-    vat_deductible_account_id?: (string | null);
-    cash_account_id?: (string | null);
+    tax_authority?: (string | null);
+    tax_accounting_basis?: (string | null);
+    currency_code?: (string | null);
+    date_format?: (string | null);
+    fiscal_year_start_date?: (string | null);
+    bank_name?: (string | null);
+    bank_account_number?: (string | null);
+    bank_iban?: (string | null);
+    bank_swift?: (string | null);
+    legal_representative_name?: (string | null);
+    legal_representative_id?: (string | null);
+    notes?: (string | null);
     id: string;
     date_created: string;
     date_updated: string;
@@ -1240,21 +972,33 @@ export type OrganizationsPublic = {
 
 export type OrganizationUpdate = {
     name?: (string | null);
-    slug?: (string | null);
-    is_active?: (boolean | null);
-    region_code?: (string | null);
-    default_currency_code?: (string | null);
-    base_currency_id?: (string | null);
-    tax_basis?: (string | null);
-    in_eurozone?: (boolean | null);
-    eurozone_entry_date?: (string | null);
-    accounts_receivable_account_id?: (string | null);
-    sales_revenue_account_id?: (string | null);
-    vat_payable_account_id?: (string | null);
-    inventory_account_id?: (string | null);
-    accounts_payable_account_id?: (string | null);
-    vat_deductible_account_id?: (string | null);
-    cash_account_id?: (string | null);
+    name_latin?: (string | null);
+    name_cyrillic?: (string | null);
+    registration_number?: (string | null);
+    vat_number?: (string | null);
+    street_name?: (string | null);
+    building_number?: (string | null);
+    building?: (string | null);
+    postal_code?: (string | null);
+    city?: (string | null);
+    region?: (string | null);
+    country?: (string | null);
+    email?: (string | null);
+    phone?: (string | null);
+    website?: (string | null);
+    is_active?: boolean;
+    tax_authority?: (string | null);
+    tax_accounting_basis?: (string | null);
+    currency_code?: (string | null);
+    date_format?: (string | null);
+    fiscal_year_start_date?: (string | null);
+    bank_name?: (string | null);
+    bank_account_number?: (string | null);
+    bank_iban?: (string | null);
+    bank_swift?: (string | null);
+    legal_representative_name?: (string | null);
+    legal_representative_id?: (string | null);
+    notes?: (string | null);
 };
 
 export type PaymentCreate = {
@@ -1332,8 +1076,346 @@ export type PurchaseCreate = {
     date_purchase: string;
     amount?: number;
     description?: (string | null);
-    supplier_id: string;
+    contraagent_id: string;
     store_id: string;
+};
+
+/**
+ * Schema for creating a purchase order.
+ */
+export type PurchaseOrderCreate = {
+    /**
+     * Purchase order number
+     */
+    order_no: string;
+    /**
+     * Order date
+     */
+    order_date: string;
+    /**
+     * Expected delivery date
+     */
+    expected_delivery_date?: (string | null);
+    /**
+     * Contraagent reference number
+     */
+    contraagent_reference?: (string | null);
+    /**
+     * Contraagent contact person
+     */
+    contraagent_contact?: (string | null);
+    /**
+     * Delivery address
+     */
+    delivery_address?: (string | null);
+    /**
+     * Delivery instructions
+     */
+    delivery_instructions?: (string | null);
+    subtotal?: (number | string);
+    tax_amount?: (number | string);
+    total_amount?: (number | string);
+    discount_amount?: (number | string);
+    discount_percent?: (number | string);
+    /**
+     * Currency code
+     */
+    currency_code?: string;
+    exchange_rate?: (number | string | null);
+    status?: PurchaseOrderStatus;
+    priority?: PurchaseOrderPriority;
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    delivery_terms?: (string | null);
+    internal_notes?: (string | null);
+    /**
+     * Employee who requested the order
+     */
+    requested_by?: (string | null);
+    contraagent_id: string;
+    warehouse_id?: (string | null);
+    purchase_order_lines: Array<PurchaseOrderLineCreate>;
+};
+
+/**
+ * Schema for creating a purchase order line.
+ */
+export type PurchaseOrderLineCreate = {
+    product_id: string;
+    /**
+     * Product SKU/code
+     */
+    product_code: string;
+    /**
+     * Product name
+     */
+    product_name: string;
+    /**
+     * Line description
+     */
+    description?: (string | null);
+    /**
+     * Ordered quantity
+     */
+    quantity: (number | string);
+    /**
+     * Unit of measure
+     */
+    unit: string;
+    /**
+     * Unit price
+     */
+    unit_price: (number | string);
+    /**
+     * Discount percentage
+     */
+    discount_percent?: (number | string);
+    /**
+     * Discount amount
+     */
+    discount_amount?: (number | string);
+    /**
+     * VAT rate %
+     */
+    tax_rate?: (number | string);
+    /**
+     * VAT amount
+     */
+    tax_amount?: (number | string);
+    /**
+     * Line total before tax
+     */
+    line_total?: (number | string);
+    /**
+     * Line total with tax
+     */
+    line_total_with_tax?: (number | string);
+    /**
+     * Received quantity
+     */
+    received_quantity?: (number | string);
+    /**
+     * Remaining quantity to receive
+     */
+    remaining_quantity?: (number | string);
+    /**
+     * Expected delivery date for this line
+     */
+    expected_delivery_date?: (string | null);
+    /**
+     * Line notes
+     */
+    notes?: (string | null);
+};
+
+/**
+ * Public purchase order line schema.
+ */
+export type PurchaseOrderLinePublic = {
+    product_id: string;
+    /**
+     * Product SKU/code
+     */
+    product_code: string;
+    /**
+     * Product name
+     */
+    product_name: string;
+    /**
+     * Line description
+     */
+    description?: (string | null);
+    /**
+     * Ordered quantity
+     */
+    quantity: string;
+    /**
+     * Unit of measure
+     */
+    unit: string;
+    /**
+     * Unit price
+     */
+    unit_price: string;
+    /**
+     * Discount percentage
+     */
+    discount_percent?: string;
+    /**
+     * Discount amount
+     */
+    discount_amount?: string;
+    /**
+     * VAT rate %
+     */
+    tax_rate?: string;
+    /**
+     * VAT amount
+     */
+    tax_amount?: string;
+    /**
+     * Line total before tax
+     */
+    line_total?: string;
+    /**
+     * Line total with tax
+     */
+    line_total_with_tax?: string;
+    /**
+     * Received quantity
+     */
+    received_quantity?: string;
+    /**
+     * Remaining quantity to receive
+     */
+    remaining_quantity?: string;
+    /**
+     * Expected delivery date for this line
+     */
+    expected_delivery_date?: (string | null);
+    /**
+     * Line notes
+     */
+    notes?: (string | null);
+    id: string;
+    purchase_order_id: string;
+};
+
+/**
+ * Schema for updating a purchase order line.
+ */
+export type PurchaseOrderLineUpdate = {
+    product_id?: (string | null);
+    product_code?: (string | null);
+    product_name?: (string | null);
+    description?: (string | null);
+    quantity?: (number | string | null);
+    unit?: (string | null);
+    unit_price?: (number | string | null);
+    discount_percent?: (number | string | null);
+    discount_amount?: (number | string | null);
+    tax_rate?: (number | string | null);
+    tax_amount?: (number | string | null);
+    line_total?: (number | string | null);
+    line_total_with_tax?: (number | string | null);
+    received_quantity?: (number | string | null);
+    remaining_quantity?: (number | string | null);
+    expected_delivery_date?: (string | null);
+    notes?: (string | null);
+};
+
+/**
+ * Purchase order priority levels.
+ */
+export type PurchaseOrderPriority = 'low' | 'normal' | 'high' | 'urgent';
+
+/**
+ * Public purchase order schema.
+ */
+export type PurchaseOrderPublic = {
+    /**
+     * Purchase order number
+     */
+    order_no: string;
+    /**
+     * Order date
+     */
+    order_date: string;
+    /**
+     * Expected delivery date
+     */
+    expected_delivery_date?: (string | null);
+    /**
+     * Contraagent reference number
+     */
+    contraagent_reference?: (string | null);
+    /**
+     * Contraagent contact person
+     */
+    contraagent_contact?: (string | null);
+    /**
+     * Delivery address
+     */
+    delivery_address?: (string | null);
+    /**
+     * Delivery instructions
+     */
+    delivery_instructions?: (string | null);
+    subtotal?: string;
+    tax_amount?: string;
+    total_amount?: string;
+    discount_amount?: string;
+    discount_percent?: string;
+    /**
+     * Currency code
+     */
+    currency_code?: string;
+    exchange_rate?: (string | null);
+    status?: PurchaseOrderStatus;
+    priority?: PurchaseOrderPriority;
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    delivery_terms?: (string | null);
+    internal_notes?: (string | null);
+    /**
+     * Employee who requested the order
+     */
+    requested_by?: (string | null);
+    id: string;
+    organization_id: string;
+    created_by_id: string;
+    contraagent_id: string;
+    contraagent_name: string;
+    warehouse_id?: (string | null);
+    warehouse_name?: (string | null);
+    date_created: string;
+    date_updated: string;
+    sent_date?: (string | null);
+    confirmed_date?: (string | null);
+    received_date?: (string | null);
+    document_uid: string;
+    purchase_order_lines: Array<PurchaseOrderLinePublic>;
+};
+
+/**
+ * List of purchase orders with count.
+ */
+export type PurchaseOrdersPublic = {
+    data: Array<PurchaseOrderPublic>;
+    count: number;
+};
+
+/**
+ * Purchase order status workflow.
+ */
+export type PurchaseOrderStatus = 'draft' | 'sent' | 'confirmed' | 'partially_received' | 'received' | 'cancelled' | 'closed';
+
+/**
+ * Schema for updating a purchase order.
+ */
+export type PurchaseOrderUpdate = {
+    order_date?: (string | null);
+    expected_delivery_date?: (string | null);
+    contraagent_reference?: (string | null);
+    contraagent_contact?: (string | null);
+    delivery_address?: (string | null);
+    delivery_instructions?: (string | null);
+    subtotal?: (number | string | null);
+    tax_amount?: (number | string | null);
+    total_amount?: (number | string | null);
+    discount_amount?: (number | string | null);
+    discount_percent?: (number | string | null);
+    currency_code?: (string | null);
+    exchange_rate?: (number | string | null);
+    status?: (PurchaseOrderStatus | null);
+    priority?: (PurchaseOrderPriority | null);
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    delivery_terms?: (string | null);
+    internal_notes?: (string | null);
+    requested_by?: (string | null);
+    warehouse_id?: (string | null);
+    purchase_order_lines?: (Array<PurchaseOrderLineUpdate> | null);
 };
 
 export type PurchasePublic = {
@@ -1343,8 +1425,8 @@ export type PurchasePublic = {
     id: string;
     organization_id: string;
     created_by_id: string;
-    supplier_id: string;
-    supplier_name: string;
+    contraagent_id: string;
+    contraagent_name: string;
     store_id: string;
     store_name: string;
     date_created: string;
@@ -1360,15 +1442,618 @@ export type PurchaseUpdate = {
     date_purchase?: (string | null);
     amount?: (number | null);
     description?: (string | null);
-    supplier_id?: (string | null);
+    contraagent_id?: (string | null);
     store_id?: (string | null);
+};
+
+/**
+ * Schema for creating a quotation.
+ */
+export type QuotationCreate = {
+    /**
+     * Quotation number
+     */
+    quotation_no: string;
+    /**
+     * Quotation date
+     */
+    quotation_date: string;
+    /**
+     * Valid until date
+     */
+    valid_until: string;
+    /**
+     * Contraagent reference/PO number
+     */
+    contraagent_reference?: (string | null);
+    /**
+     * Contraagent contact person
+     */
+    contraagent_contact?: (string | null);
+    /**
+     * Billing address
+     */
+    billing_address?: (string | null);
+    /**
+     * Delivery address
+     */
+    delivery_address?: (string | null);
+    /**
+     * Delivery instructions
+     */
+    delivery_instructions?: (string | null);
+    subtotal?: (number | string);
+    tax_amount?: (number | string);
+    total_amount?: (number | string);
+    discount_amount?: (number | string);
+    discount_percent?: (number | string);
+    /**
+     * Currency code
+     */
+    currency_code?: string;
+    exchange_rate?: (number | string | null);
+    status?: QuotationStatus;
+    priority?: QuotationPriority;
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    delivery_terms?: (string | null);
+    warranty_terms?: (string | null);
+    internal_notes?: (string | null);
+    /**
+     * Sales person responsible
+     */
+    sales_person?: (string | null);
+    /**
+     * Follow-up date
+     */
+    follow_up_date?: (string | null);
+    /**
+     * Reason for rejection
+     */
+    rejection_reason?: (string | null);
+    contraagent_id: string;
+    probability?: (number | string | null);
+    quotation_lines: Array<QuotationLineCreate>;
+};
+
+/**
+ * Schema for creating a quotation line.
+ */
+export type QuotationLineCreate = {
+    product_id: string;
+    /**
+     * Product SKU/code
+     */
+    product_code: string;
+    /**
+     * Product name
+     */
+    product_name: string;
+    /**
+     * Line description
+     */
+    description?: (string | null);
+    /**
+     * Quoted quantity
+     */
+    quantity: (number | string);
+    /**
+     * Unit of measure
+     */
+    unit: string;
+    /**
+     * Unit price
+     */
+    unit_price: (number | string);
+    /**
+     * Discount percentage
+     */
+    discount_percent?: (number | string);
+    /**
+     * Discount amount
+     */
+    discount_amount?: (number | string);
+    /**
+     * VAT rate %
+     */
+    tax_rate?: (number | string);
+    /**
+     * VAT amount
+     */
+    tax_amount?: (number | string);
+    /**
+     * Line total before tax
+     */
+    line_total?: (number | string);
+    /**
+     * Line total with tax
+     */
+    line_total_with_tax?: (number | string);
+    /**
+     * Whether this line is optional
+     */
+    optional?: boolean;
+    /**
+     * Alternative product suggestion
+     */
+    alternative_product?: (string | null);
+    /**
+     * Delivery time for this line
+     */
+    delivery_time?: (string | null);
+    /**
+     * Line notes
+     */
+    notes?: (string | null);
+};
+
+/**
+ * Public quotation line schema.
+ */
+export type QuotationLinePublic = {
+    product_id: string;
+    /**
+     * Product SKU/code
+     */
+    product_code: string;
+    /**
+     * Product name
+     */
+    product_name: string;
+    /**
+     * Line description
+     */
+    description?: (string | null);
+    /**
+     * Quoted quantity
+     */
+    quantity: string;
+    /**
+     * Unit of measure
+     */
+    unit: string;
+    /**
+     * Unit price
+     */
+    unit_price: string;
+    /**
+     * Discount percentage
+     */
+    discount_percent?: string;
+    /**
+     * Discount amount
+     */
+    discount_amount?: string;
+    /**
+     * VAT rate %
+     */
+    tax_rate?: string;
+    /**
+     * VAT amount
+     */
+    tax_amount?: string;
+    /**
+     * Line total before tax
+     */
+    line_total?: string;
+    /**
+     * Line total with tax
+     */
+    line_total_with_tax?: string;
+    /**
+     * Whether this line is optional
+     */
+    optional?: boolean;
+    /**
+     * Alternative product suggestion
+     */
+    alternative_product?: (string | null);
+    /**
+     * Delivery time for this line
+     */
+    delivery_time?: (string | null);
+    /**
+     * Line notes
+     */
+    notes?: (string | null);
+    id: string;
+    quotation_id: string;
+};
+
+/**
+ * Schema for updating a quotation line.
+ */
+export type QuotationLineUpdate = {
+    product_id?: (string | null);
+    product_code?: (string | null);
+    product_name?: (string | null);
+    description?: (string | null);
+    quantity?: (number | string | null);
+    unit?: (string | null);
+    unit_price?: (number | string | null);
+    discount_percent?: (number | string | null);
+    discount_amount?: (number | string | null);
+    tax_rate?: (number | string | null);
+    tax_amount?: (number | string | null);
+    line_total?: (number | string | null);
+    line_total_with_tax?: (number | string | null);
+    optional?: (boolean | null);
+    alternative_product?: (string | null);
+    delivery_time?: (string | null);
+    notes?: (string | null);
+};
+
+/**
+ * Quotation priority levels.
+ */
+export type QuotationPriority = 'low' | 'normal' | 'high' | 'urgent';
+
+/**
+ * Public quotation schema.
+ */
+export type QuotationPublic = {
+    /**
+     * Quotation number
+     */
+    quotation_no: string;
+    /**
+     * Quotation date
+     */
+    quotation_date: string;
+    /**
+     * Valid until date
+     */
+    valid_until: string;
+    /**
+     * Contraagent reference/PO number
+     */
+    contraagent_reference?: (string | null);
+    /**
+     * Contraagent contact person
+     */
+    contraagent_contact?: (string | null);
+    /**
+     * Billing address
+     */
+    billing_address?: (string | null);
+    /**
+     * Delivery address
+     */
+    delivery_address?: (string | null);
+    /**
+     * Delivery instructions
+     */
+    delivery_instructions?: (string | null);
+    subtotal?: string;
+    tax_amount?: string;
+    total_amount?: string;
+    discount_amount?: string;
+    discount_percent?: string;
+    /**
+     * Currency code
+     */
+    currency_code?: string;
+    exchange_rate?: (string | null);
+    status?: QuotationStatus;
+    priority?: QuotationPriority;
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    delivery_terms?: (string | null);
+    warranty_terms?: (string | null);
+    internal_notes?: (string | null);
+    /**
+     * Sales person responsible
+     */
+    sales_person?: (string | null);
+    /**
+     * Follow-up date
+     */
+    follow_up_date?: (string | null);
+    /**
+     * Reason for rejection
+     */
+    rejection_reason?: (string | null);
+    id: string;
+    organization_id: string;
+    created_by_id: string;
+    contraagent_id: string;
+    contraagent_name: string;
+    date_created: string;
+    date_updated: string;
+    sent_date?: (string | null);
+    accepted_date?: (string | null);
+    rejected_date?: (string | null);
+    document_uid: string;
+    probability?: (string | null);
+    quotation_lines: Array<QuotationLinePublic>;
+};
+
+/**
+ * List of quotations with count.
+ */
+export type QuotationsPublic = {
+    data: Array<QuotationPublic>;
+    count: number;
+};
+
+/**
+ * Quotation status workflow.
+ */
+export type QuotationStatus = 'draft' | 'sent' | 'open' | 'accepted' | 'rejected' | 'expired' | 'converted_to_invoice' | 'cancelled';
+
+/**
+ * Schema for updating a quotation.
+ */
+export type QuotationUpdate = {
+    quotation_date?: (string | null);
+    valid_until?: (string | null);
+    contraagent_reference?: (string | null);
+    contraagent_contact?: (string | null);
+    billing_address?: (string | null);
+    delivery_address?: (string | null);
+    delivery_instructions?: (string | null);
+    subtotal?: (number | string | null);
+    tax_amount?: (number | string | null);
+    total_amount?: (number | string | null);
+    discount_amount?: (number | string | null);
+    discount_percent?: (number | string | null);
+    currency_code?: (string | null);
+    exchange_rate?: (number | string | null);
+    status?: (QuotationStatus | null);
+    priority?: (QuotationPriority | null);
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    delivery_terms?: (string | null);
+    warranty_terms?: (string | null);
+    internal_notes?: (string | null);
+    sales_person?: (string | null);
+    follow_up_date?: (string | null);
+    rejection_reason?: (string | null);
+    probability?: (number | string | null);
+    quotation_lines?: (Array<QuotationLineUpdate> | null);
+};
+
+/**
+ * Схема за създаване на рецепта.
+ */
+export type RecipeCreate = {
+    /**
+     * Уникален код на рецептата
+     */
+    code: string;
+    /**
+     * Наименование
+     */
+    name: string;
+    description?: (string | null);
+    /**
+     * Изходно количество
+     */
+    output_quantity?: (number | string);
+    /**
+     * Мерна единица
+     */
+    unit?: string;
+    /**
+     * Версия на рецептата
+     */
+    version?: string;
+    /**
+     * Активна рецепта
+     */
+    is_active?: boolean;
+    /**
+     * Производствена цена
+     */
+    production_cost?: (number | string);
+    notes?: (string | null);
+    /**
+     * ID на изходния продукт
+     */
+    output_item_id: string;
+};
+
+/**
+ * Схема за създаване на компонент.
+ */
+export type RecipeItemCreate = {
+    /**
+     * Пореден номер на реда
+     */
+    line_no?: number;
+    /**
+     * Описание
+     */
+    description?: (string | null);
+    /**
+     * Количество
+     */
+    quantity: (number | string);
+    /**
+     * Мерна единица
+     */
+    unit?: string;
+    /**
+     * Процент брак/загуба
+     */
+    wastage_percent?: (number | string);
+    /**
+     * Цена на компонента
+     */
+    cost?: (number | string);
+    notes?: (string | null);
+    /**
+     * ID на материала/продукта
+     */
+    product_id: string;
+};
+
+/**
+ * Публична схема за компонент.
+ */
+export type RecipeItemPublic = {
+    /**
+     * Пореден номер на реда
+     */
+    line_no?: number;
+    /**
+     * Описание
+     */
+    description?: (string | null);
+    /**
+     * Количество
+     */
+    quantity: string;
+    /**
+     * Мерна единица
+     */
+    unit?: string;
+    /**
+     * Процент брак/загуба
+     */
+    wastage_percent?: string;
+    /**
+     * Цена на компонента
+     */
+    cost?: string;
+    notes?: (string | null);
+    id: string;
+    recipe_id: string;
+    product_id: string;
+};
+
+/**
+ * Списък с компоненти.
+ */
+export type RecipeItemsPublic = {
+    data: Array<RecipeItemPublic>;
+    count: number;
+};
+
+/**
+ * Схема за обновяване на компонент.
+ */
+export type RecipeItemUpdate = {
+    line_no?: (number | null);
+    description?: (string | null);
+    quantity?: (number | string | null);
+    unit?: (string | null);
+    wastage_percent?: (number | string | null);
+    cost?: (number | string | null);
+    notes?: (string | null);
+};
+
+/**
+ * Публична схема за рецепта.
+ */
+export type RecipePublic = {
+    /**
+     * Уникален код на рецептата
+     */
+    code: string;
+    /**
+     * Наименование
+     */
+    name: string;
+    description?: (string | null);
+    /**
+     * Изходно количество
+     */
+    output_quantity?: string;
+    /**
+     * Мерна единица
+     */
+    unit?: string;
+    /**
+     * Версия на рецептата
+     */
+    version?: string;
+    /**
+     * Активна рецепта
+     */
+    is_active?: boolean;
+    /**
+     * Производствена цена
+     */
+    production_cost?: string;
+    notes?: (string | null);
+    id: string;
+    output_item_id: string;
+    organization_id: string;
+    date_created: string;
+    date_updated: string;
+};
+
+/**
+ * Публична схема за рецепта с включени компоненти.
+ */
+export type RecipePublicWithItems = {
+    /**
+     * Уникален код на рецептата
+     */
+    code: string;
+    /**
+     * Наименование
+     */
+    name: string;
+    description?: (string | null);
+    /**
+     * Изходно количество
+     */
+    output_quantity?: string;
+    /**
+     * Мерна единица
+     */
+    unit?: string;
+    /**
+     * Версия на рецептата
+     */
+    version?: string;
+    /**
+     * Активна рецепта
+     */
+    is_active?: boolean;
+    /**
+     * Производствена цена
+     */
+    production_cost?: string;
+    notes?: (string | null);
+    id: string;
+    output_item_id: string;
+    organization_id: string;
+    date_created: string;
+    date_updated: string;
+    recipe_items?: Array<RecipeItemPublic>;
+};
+
+/**
+ * Списък с рецепти.
+ */
+export type RecipesPublic = {
+    data: Array<RecipePublic>;
+    count: number;
+};
+
+/**
+ * Схема за обновяване на рецепта.
+ */
+export type RecipeUpdate = {
+    code?: (string | null);
+    name?: (string | null);
+    description?: (string | null);
+    output_quantity?: (number | string | null);
+    unit?: (string | null);
+    version?: (string | null);
+    is_active?: (boolean | null);
+    production_cost?: (number | string | null);
+    notes?: (string | null);
 };
 
 export type SaleCreate = {
     date_sale: string;
     amount?: number;
     description?: (string | null);
-    customer_id: string;
+    contraagent_id: string;
     store_id: string;
 };
 
@@ -1379,8 +2064,8 @@ export type SalePublic = {
     id: string;
     organization_id: string;
     created_by_id: string;
-    customer_id: string;
-    customer_name: string;
+    contraagent_id: string;
+    contraagent_name: string;
     store_id: string;
     store_name: string;
     date_created: string;
@@ -1396,34 +2081,111 @@ export type SaleUpdate = {
     date_sale?: (string | null);
     amount?: (number | null);
     description?: (string | null);
-    customer_id?: (string | null);
+    contraagent_id?: (string | null);
     store_id?: (string | null);
 };
 
+/**
+ * Schema for creating a stock level.
+ */
 export type StockLevelCreate = {
-    quantity?: number;
-    item_id: string;
-    store_id: string;
+    /**
+     * Quantity on hand
+     */
+    quantity_on_hand?: (number | string);
+    /**
+     * Reserved quantity
+     */
+    quantity_reserved?: (number | string);
+    /**
+     * Available quantity (on_hand - reserved)
+     */
+    quantity_available?: (number | string);
+    /**
+     * Minimum quantity threshold
+     */
+    minimum_quantity?: (number | string);
+    /**
+     * Reorder point
+     */
+    reorder_point?: (number | string);
+    /**
+     * Average cost per unit
+     */
+    average_cost?: (number | string | null);
+    /**
+     * Last purchase cost
+     */
+    last_cost?: (number | string | null);
+    /**
+     * Total inventory value
+     */
+    total_value?: (number | string | null);
+    organization_id: string;
+    product_id: string;
+    warehouse_id: string;
 };
 
+/**
+ * Public stock level schema.
+ */
 export type StockLevelPublic = {
-    quantity?: number;
+    /**
+     * Quantity on hand
+     */
+    quantity_on_hand?: string;
+    /**
+     * Reserved quantity
+     */
+    quantity_reserved?: string;
+    /**
+     * Available quantity (on_hand - reserved)
+     */
+    quantity_available?: string;
+    /**
+     * Minimum quantity threshold
+     */
+    minimum_quantity?: string;
+    /**
+     * Reorder point
+     */
+    reorder_point?: string;
+    /**
+     * Average cost per unit
+     */
+    average_cost?: (string | null);
+    /**
+     * Last purchase cost
+     */
+    last_cost?: (string | null);
+    /**
+     * Total inventory value
+     */
+    total_value?: (string | null);
     id: string;
     organization_id: string;
-    created_by_id: string;
-    item_id: string;
-    store_id: string;
-    date_created: string;
-    date_updated: string;
+    product_id: string;
+    warehouse_id: string;
 };
 
+/**
+ * List of stock levels with count.
+ */
 export type StockLevelsPublic = {
     data: Array<StockLevelPublic>;
     count: number;
 };
 
+/**
+ * Schema for updating a stock level.
+ */
 export type StockLevelUpdate = {
-    quantity?: number;
+    quantity_on_hand?: (number | string | null);
+    quantity_reserved?: (number | string | null);
+    minimum_quantity?: (number | string | null);
+    reorder_point?: (number | string | null);
+    average_cost?: (number | string | null);
+    last_cost?: (number | string | null);
 };
 
 export type StoreCreate = {
@@ -1455,34 +2217,6 @@ export type StoreUpdate = {
     address?: (string | null);
     latitude?: (number | null);
     longitude?: (number | null);
-};
-
-export type SupplierCreate = {
-    name: string;
-    phone?: (string | null);
-    address?: (string | null);
-};
-
-export type SupplierPublic = {
-    name: string;
-    phone?: (string | null);
-    address?: (string | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    date_created: string;
-    date_updated: string;
-};
-
-export type SuppliersPublic = {
-    data: Array<SupplierPublic>;
-    count: number;
-};
-
-export type SupplierUpdate = {
-    name?: (string | null);
-    phone?: (string | null);
-    address?: (string | null);
 };
 
 export type Token = {
@@ -1847,198 +2581,6 @@ export type CurrenciesUpdateEcbRatesResponse = ({
     [key: string]: unknown;
 });
 
-export type CustomersReadCustomersData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type CustomersReadCustomersResponse = (CustomersPublic);
-
-export type CustomersCreateCustomerData = {
-    requestBody: CustomerCreate;
-};
-
-export type CustomersCreateCustomerResponse = (CustomerPublic);
-
-export type CustomersReadCustomerData = {
-    id: string;
-};
-
-export type CustomersReadCustomerResponse = (CustomerPublic);
-
-export type CustomersUpdateCustomerData = {
-    id: string;
-    requestBody: CustomerUpdate;
-};
-
-export type CustomersUpdateCustomerResponse = (CustomerPublic);
-
-export type CustomersDeleteCustomerData = {
-    id: string;
-};
-
-export type CustomersDeleteCustomerResponse = (Message);
-
-export type CustomerTypesReadCustomerTypesData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type CustomerTypesReadCustomerTypesResponse = (CustomerTypesPublic);
-
-export type CustomerTypesCreateCustomerTypeData = {
-    requestBody: CustomerTypeCreate;
-};
-
-export type CustomerTypesCreateCustomerTypeResponse = (CustomerTypePublic);
-
-export type CustomerTypesReadCustomerTypeData = {
-    id: string;
-};
-
-export type CustomerTypesReadCustomerTypeResponse = (CustomerTypePublic);
-
-export type CustomerTypesUpdateCustomerTypeData = {
-    id: string;
-    requestBody: CustomerTypeUpdate;
-};
-
-export type CustomerTypesUpdateCustomerTypeResponse = (CustomerTypePublic);
-
-export type CustomerTypesDeleteCustomerTypeData = {
-    id: string;
-};
-
-export type CustomerTypesDeleteCustomerTypeResponse = (Message);
-
-export type InvoicesReadInvoicesData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type InvoicesReadInvoicesResponse = (InvoicesPublic);
-
-export type InvoicesCreateInvoiceData = {
-    requestBody: InvoiceCreate;
-};
-
-export type InvoicesCreateInvoiceResponse = (InvoicePublic);
-
-export type ItemCategoriesReadItemCategoriesData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type ItemCategoriesReadItemCategoriesResponse = (ItemCategoriesPublic);
-
-export type ItemCategoriesCreateItemCategoryData = {
-    requestBody: ItemCategoryCreate;
-};
-
-export type ItemCategoriesCreateItemCategoryResponse = (ItemCategoryPublic);
-
-export type ItemCategoriesReadItemCategoryData = {
-    id: string;
-};
-
-export type ItemCategoriesReadItemCategoryResponse = (ItemCategoryPublic);
-
-export type ItemCategoriesUpdateItemCategoryData = {
-    id: string;
-    requestBody: ItemCategoryUpdate;
-};
-
-export type ItemCategoriesUpdateItemCategoryResponse = (ItemCategoryPublic);
-
-export type ItemCategoriesDeleteItemCategoryData = {
-    id: string;
-};
-
-export type ItemCategoriesDeleteItemCategoryResponse = (Message);
-
-export type ItemsReadItemsData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type ItemsReadItemsResponse = (ItemsPublic);
-
-export type ItemsCreateItemData = {
-    requestBody: ItemCreate;
-};
-
-export type ItemsCreateItemResponse = (ItemPublic);
-
-export type ItemsReadItemData = {
-    id: string;
-};
-
-export type ItemsReadItemResponse = (ItemPublic);
-
-export type ItemsUpdateItemData = {
-    id: string;
-    requestBody: ItemUpdate;
-};
-
-export type ItemsUpdateItemResponse = (ItemPublic);
-
-export type ItemsDeleteItemData = {
-    id: string;
-};
-
-export type ItemsDeleteItemResponse = (Message);
-
-export type ItemsReadLowStockItemsData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type ItemsReadLowStockItemsResponse = (ItemsPublic);
-
-export type ItemsActivateItemData = {
-    id: string;
-};
-
-export type ItemsActivateItemResponse = (ItemPublic);
-
-export type ItemsDeactivateItemData = {
-    id: string;
-};
-
-export type ItemsDeactivateItemResponse = (ItemPublic);
-
-export type ItemUnitsReadItemUnitsData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type ItemUnitsReadItemUnitsResponse = (ItemUnitsPublic);
-
-export type ItemUnitsCreateItemUnitData = {
-    requestBody: ItemUnitCreate;
-};
-
-export type ItemUnitsCreateItemUnitResponse = (ItemUnitPublic);
-
-export type ItemUnitsReadItemUnitData = {
-    id: string;
-};
-
-export type ItemUnitsReadItemUnitResponse = (ItemUnitPublic);
-
-export type ItemUnitsUpdateItemUnitData = {
-    id: string;
-    requestBody: ItemUnitUpdate;
-};
-
-export type ItemUnitsUpdateItemUnitResponse = (ItemUnitPublic);
-
-export type ItemUnitsDeleteItemUnitData = {
-    id: string;
-};
-
-export type ItemUnitsDeleteItemUnitResponse = (Message);
-
 export type LoginLoginAccessTokenData = {
     formData: Body_login_login_access_token;
 };
@@ -2186,6 +2728,58 @@ export type PrivateCreateUserData = {
 
 export type PrivateCreateUserResponse = (UserPublic);
 
+export type PurchaseOrdersReadPurchaseOrdersData = {
+    contraagentId?: (string | null);
+    limit?: number;
+    skip?: number;
+    status?: (PurchaseOrderStatus | null);
+};
+
+export type PurchaseOrdersReadPurchaseOrdersResponse = (PurchaseOrdersPublic);
+
+export type PurchaseOrdersCreatePurchaseOrderData = {
+    requestBody: PurchaseOrderCreate;
+};
+
+export type PurchaseOrdersCreatePurchaseOrderResponse = (PurchaseOrderPublic);
+
+export type PurchaseOrdersReadPurchaseOrderData = {
+    id: string;
+};
+
+export type PurchaseOrdersReadPurchaseOrderResponse = (PurchaseOrderPublic);
+
+export type PurchaseOrdersUpdatePurchaseOrderData = {
+    id: string;
+    requestBody: PurchaseOrderUpdate;
+};
+
+export type PurchaseOrdersUpdatePurchaseOrderResponse = (PurchaseOrderPublic);
+
+export type PurchaseOrdersDeletePurchaseOrderData = {
+    id: string;
+};
+
+export type PurchaseOrdersDeletePurchaseOrderResponse = (Message);
+
+export type PurchaseOrdersSendPurchaseOrderData = {
+    id: string;
+};
+
+export type PurchaseOrdersSendPurchaseOrderResponse = (Message);
+
+export type PurchaseOrdersConfirmPurchaseOrderData = {
+    id: string;
+};
+
+export type PurchaseOrdersConfirmPurchaseOrderResponse = (Message);
+
+export type PurchaseOrdersCancelPurchaseOrderData = {
+    id: string;
+};
+
+export type PurchaseOrdersCancelPurchaseOrderResponse = (Message);
+
 export type PurchasesReadPurchasesData = {
     limit?: number;
     skip?: number;
@@ -2217,6 +2811,144 @@ export type PurchasesDeletePurchaseData = {
 };
 
 export type PurchasesDeletePurchaseResponse = (Message);
+
+export type QuotationsReadQuotationsData = {
+    contraagentId?: (string | null);
+    limit?: number;
+    skip?: number;
+    status?: (QuotationStatus | null);
+};
+
+export type QuotationsReadQuotationsResponse = (QuotationsPublic);
+
+export type QuotationsCreateQuotationData = {
+    requestBody: QuotationCreate;
+};
+
+export type QuotationsCreateQuotationResponse = (QuotationPublic);
+
+export type QuotationsReadQuotationData = {
+    id: string;
+};
+
+export type QuotationsReadQuotationResponse = (QuotationPublic);
+
+export type QuotationsUpdateQuotationData = {
+    id: string;
+    requestBody: QuotationUpdate;
+};
+
+export type QuotationsUpdateQuotationResponse = (QuotationPublic);
+
+export type QuotationsDeleteQuotationData = {
+    id: string;
+};
+
+export type QuotationsDeleteQuotationResponse = (Message);
+
+export type QuotationsSendQuotationData = {
+    id: string;
+};
+
+export type QuotationsSendQuotationResponse = (Message);
+
+export type QuotationsAcceptQuotationData = {
+    id: string;
+};
+
+export type QuotationsAcceptQuotationResponse = (Message);
+
+export type QuotationsRejectQuotationData = {
+    id: string;
+    rejectionReason: string;
+};
+
+export type QuotationsRejectQuotationResponse = (Message);
+
+export type QuotationsCancelQuotationData = {
+    id: string;
+};
+
+export type QuotationsCancelQuotationResponse = (Message);
+
+export type QuotationsConvertQuotationToInvoiceData = {
+    id: string;
+};
+
+export type QuotationsConvertQuotationToInvoiceResponse = (Message);
+
+export type RecipesReadRecipesData = {
+    isActive?: (boolean | null);
+    limit?: number;
+    skip?: number;
+};
+
+export type RecipesReadRecipesResponse = (RecipesPublic);
+
+export type RecipesCreateRecipeEndpointData = {
+    requestBody: RecipeCreate;
+};
+
+export type RecipesCreateRecipeEndpointResponse = (RecipePublic);
+
+export type RecipesReadRecipeData = {
+    recipeId: string;
+};
+
+export type RecipesReadRecipeResponse = (RecipePublicWithItems);
+
+export type RecipesUpdateRecipeEndpointData = {
+    recipeId: string;
+    requestBody: RecipeUpdate;
+};
+
+export type RecipesUpdateRecipeEndpointResponse = (RecipePublic);
+
+export type RecipesDeleteRecipeEndpointData = {
+    recipeId: string;
+};
+
+export type RecipesDeleteRecipeEndpointResponse = (Message);
+
+export type RecipesActivateRecipeData = {
+    recipeId: string;
+};
+
+export type RecipesActivateRecipeResponse = (RecipePublic);
+
+export type RecipesDeactivateRecipeData = {
+    recipeId: string;
+};
+
+export type RecipesDeactivateRecipeResponse = (RecipePublic);
+
+export type RecipesReadRecipeItemsData = {
+    recipeId: string;
+};
+
+export type RecipesReadRecipeItemsResponse = (RecipeItemsPublic);
+
+export type RecipesCreateRecipeItemEndpointData = {
+    recipeId: string;
+    requestBody: RecipeItemCreate;
+};
+
+export type RecipesCreateRecipeItemEndpointResponse = (RecipeItemPublic);
+
+export type RecipesUpdateRecipeItemEndpointData = {
+    productId: string;
+    recipeId: string;
+    requestBody: RecipeItemUpdate;
+};
+
+export type RecipesUpdateRecipeItemEndpointResponse = (RecipeItemPublic);
+
+export type RecipesDeleteRecipeItemEndpointData = {
+    productId: string;
+    recipeId: string;
+};
+
+export type RecipesDeleteRecipeItemEndpointResponse = (Message);
 
 export type SaftGenerateSaftData = {
     month?: (number | null);
@@ -2321,38 +3053,6 @@ export type StoresDeleteStoreData = {
 };
 
 export type StoresDeleteStoreResponse = (Message);
-
-export type SuppliersReadSuppliersData = {
-    limit?: number;
-    skip?: number;
-};
-
-export type SuppliersReadSuppliersResponse = (SuppliersPublic);
-
-export type SuppliersCreateSupplierData = {
-    requestBody: SupplierCreate;
-};
-
-export type SuppliersCreateSupplierResponse = (SupplierPublic);
-
-export type SuppliersReadSupplierData = {
-    id: string;
-};
-
-export type SuppliersReadSupplierResponse = (SupplierPublic);
-
-export type SuppliersUpdateSupplierData = {
-    id: string;
-    requestBody: SupplierUpdate;
-};
-
-export type SuppliersUpdateSupplierResponse = (SupplierPublic);
-
-export type SuppliersDeleteSupplierData = {
-    id: string;
-};
-
-export type SuppliersDeleteSupplierResponse = (Message);
 
 export type UsersReadUsersData = {
     limit?: number;

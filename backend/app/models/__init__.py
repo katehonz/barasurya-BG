@@ -38,41 +38,6 @@ from app.models.account_transaction import (
     AccountTransactionPublic,
     AccountTransactionsPublic,
 )
-from app.models.customer import (
-    Customer,
-    CustomerCreate,
-    CustomerPublic,
-    CustomersPublic,
-    CustomerUpdate,
-)
-from app.models.customer_type import (
-    CustomerType,
-    CustomerTypeCreate,
-    CustomerTypePublic,
-    CustomerTypesPublic,
-    CustomerTypeUpdate,
-)
-from app.models.item import (
-    Item,
-    ItemCreate,
-    ItemPublic,
-    ItemsPublic,
-    ItemUpdate,
-)
-from app.models.item_category import (
-    ItemCategoriesPublic,
-    ItemCategory,
-    ItemCategoryCreate,
-    ItemCategoryPublic,
-    ItemCategoryUpdate,
-)
-from app.models.item_unit import (
-    ItemUnit,
-    ItemUnitCreate,
-    ItemUnitPublic,
-    ItemUnitsPublic,
-    ItemUnitUpdate,
-)
 from app.models.main import (
     Message,
     Token,
@@ -122,7 +87,7 @@ from app.models.purchase import (
     PurchasesPublic,
     PurchaseUpdate,
 )
-from app.models.purchase_item import (
+from app.models.purchase_item import ( # This is still needed as purchase_item refers to product (new)
     PurchaseItem,
     PurchaseItemCreate,
     PurchaseItemPublic,
@@ -136,7 +101,7 @@ from app.models.purchase_return import (
     PurchaseReturnsPublic,
     PurchaseReturnUpdate,
 )
-from app.models.purchase_return_item import (
+from app.models.purchase_return_item import ( # This is still needed
     PurchaseReturnItem,
     PurchaseReturnItemCreate,
     PurchaseReturnItemPublic,
@@ -171,7 +136,7 @@ from app.models.sale import (
     SalesPublic,
     SaleUpdate,
 )
-from app.models.sale_item import (
+from app.models.sale_item import ( # This is still needed
     SaleItem,
     SaleItemCreate,
     SaleItemPublic,
@@ -185,7 +150,7 @@ from app.models.sale_return import (
     SaleReturnsPublic,
     SaleReturnUpdate,
 )
-from app.models.sale_return_item import (
+from app.models.sale_return_item import ( # This is still needed
     SaleReturnItem,
     SaleReturnItemCreate,
     SaleReturnItemPublic,
@@ -218,13 +183,6 @@ from app.models.store import (
     StoresPublic,
     StoreUpdate,
 )
-from app.models.supplier import (
-    Supplier,
-    SupplierCreate,
-    SupplierPublic,
-    SuppliersPublic,
-    SupplierUpdate,
-)
 from app.models.user import (
     NewPassword,
     UpdatePassword,
@@ -243,22 +201,23 @@ from app.models.user_role import (
     UserRolesPublic,
     UserRoleUpdate,
 )
-from app.models.invoice import (
-    Invoice,
-    InvoiceCreate,
-    InvoiceUpdate,
-    InvoicePublic,
-    InvoicesPublic,
-    InvoiceStatus,
-    VatDocumentType,
-)
-from app.models.invoice_line import (
-    InvoiceLine,
-    InvoiceLineCreate,
-    InvoiceLineUpdate,
-    InvoiceLinePublic,
-    InvoiceLinesPublic,
-)
+# TODO: Fix forward reference issues in invoice models
+# from app.models.invoice import (
+#     Invoice,
+#     InvoiceCreate,
+#     InvoiceUpdate,
+#     InvoicePublic,
+#     InvoicesPublic,
+#     InvoiceStatus,
+#     VatDocumentType,
+# )
+# from app.models.invoice_line import (
+#     InvoiceLine,
+#     InvoiceLineCreate,
+#     InvoiceLineUpdate,
+#     InvoiceLinePublic,
+#     InvoiceLinesPublic,
+# )
 from app.models.bank_account import (
     BankAccount,
     BankAccountCreate,
@@ -364,6 +323,14 @@ from app.models.exchange_rate import (
     ExchangeRatePublic,
     ExchangeRatesPublic,
 )
+
+from app.models.item import (
+    Item,
+    ItemCreate,
+    ItemUpdate,
+    ItemPublic,
+    ItemsPublic,
+)
 # Inventory module (from CyberERP)
 from app.models.product import (
     Product,
@@ -412,17 +379,42 @@ from app.models.stock_movement import (
     MOVEMENT_TYPES,
     MOVEMENT_STATUSES,
 )
+from app.models.purchase_order import (
+    PurchaseOrder,
+    PurchaseOrderCreate,
+    PurchaseOrderUpdate,
+    PurchaseOrderPublic,
+    PurchaseOrdersPublic,
+    PurchaseOrderStatus,
+    PurchaseOrderPriority,
+)
+from app.models.purchase_order_line import (
+    PurchaseOrderLine,
+    PurchaseOrderLineCreate,
+    PurchaseOrderLineUpdate,
+    PurchaseOrderLinePublic,
+)
+from app.models.quotation import (
+    Quotation,
+    QuotationCreate,
+    QuotationUpdate,
+    QuotationPublic,
+    QuotationsPublic,
+    QuotationStatus,
+    QuotationPriority,
+)
+from app.models.quotation_line import (
+    QuotationLine,
+    QuotationLineCreate,
+    QuotationLineUpdate,
+    QuotationLinePublic,
+)
 
 
 __all__ = [
     "SQLModel",
     "BaseModel",
     "BaseModelUpdate",
-    "CustomerType",
-    "CustomerTypeCreate",
-    "CustomerTypeUpdate",
-    "CustomerTypePublic",
-    "CustomerTypesPublic",
     "Account",
     "AccountCreate",
     "AccountUpdate",
@@ -432,26 +424,6 @@ __all__ = [
     "AccountTransactionCreate",
     "AccountTransactionPublic",
     "AccountTransactionsPublic",
-    "Customer",
-    "CustomerCreate",
-    "CustomerUpdate",
-    "CustomerPublic",
-    "CustomersPublic",
-    "ItemCategory",
-    "ItemCategoryCreate",
-    "ItemCategoryUpdate",
-    "ItemCategoryPublic",
-    "ItemCategoriesPublic",
-    "ItemUnit",
-    "ItemUnitCreate",
-    "ItemUnitUpdate",
-    "ItemUnitPublic",
-    "ItemUnitsPublic",
-    "Item",
-    "ItemCreate",
-    "ItemUpdate",
-    "ItemPublic",
-    "ItemsPublic",
     "Message",
     "Token",
     "TokenPayload",
@@ -550,11 +522,6 @@ __all__ = [
     "StoreUpdate",
     "StorePublic",
     "StoresPublic",
-    "Supplier",
-    "SupplierCreate",
-    "SupplierUpdate",
-    "SupplierPublic",
-    "SuppliersPublic",
     "User",
     "UserCreate",
     "UserUpdate",
@@ -573,18 +540,19 @@ __all__ = [
     "ReceivableUpdate",
     "ReceivablePublic",
     "ReceivablesPublic",
-    "Invoice",
-    "InvoiceCreate",
-    "InvoiceUpdate",
-    "InvoicePublic",
-    "InvoicesPublic",
-    "InvoiceStatus",
-    "VatDocumentType",
-    "InvoiceLine",
-    "InvoiceLineCreate",
-    "InvoiceLineUpdate",
-    "InvoiceLinePublic",
-    "InvoiceLinesPublic",
+    # TODO: Re-enable when invoice models are fixed
+    # "Invoice",
+    # "InvoiceCreate",
+    # "InvoiceUpdate",
+    # "InvoicePublic",
+    # "InvoicesPublic",
+    # "InvoiceStatus",
+    # "VatDocumentType",
+    # "InvoiceLine",
+    # "InvoiceLineCreate",
+    # "InvoiceLineUpdate",
+    # "InvoiceLinePublic",
+    # "InvoiceLinesPublic",
     # Bank module
     "BankAccount",
     "BankAccountCreate",
@@ -678,32 +646,75 @@ __all__ = [
     "RecipeItemUpdate",
     "RecipeItemPublic",
     "RecipeItemsPublic",
+    # Item module
+    "Item",
+    "ItemCreate",
+    "ItemUpdate",
+    "ItemPublic",
+    "ItemsPublic",
+    # Purchase Order module
+    "PurchaseOrder",
+    "PurchaseOrderCreate",
+    "PurchaseOrderUpdate",
+    "PurchaseOrderPublic",
+    "PurchaseOrdersPublic",
+    "PurchaseOrderStatus",
+    "PurchaseOrderPriority",
+    "PurchaseOrderLine",
+    "PurchaseOrderLineCreate",
+    "PurchaseOrderLineUpdate",
+    "PurchaseOrderLinePublic",
+    # Quotation module
+    "Quotation",
+    "QuotationCreate",
+    "QuotationUpdate",
+    "QuotationPublic",
+    "QuotationsPublic",
+    "QuotationStatus",
+    "QuotationPriority",
+    "QuotationLine",
+    "QuotationLineCreate",
+    "QuotationLineUpdate",
+    "QuotationLinePublic",
+    # Inventory module (from CyberERP)
+    "Product",
+    "ProductCreate",
+    "ProductUpdate",
+    "ProductPublic",
+    "ProductsPublic",
+    "PRODUCT_CATEGORIES",
+    "MeasurementUnit",
+    "MeasurementUnitCreate",
+    "MeasurementUnitUpdate",
+    "MeasurementUnitPublic",
+    "MeasurementUnitsPublic",
+    "STANDARD_UNITS",
+    "ProductUnit",
+    "ProductUnitCreate",
+    "ProductUnitUpdate",
+    "ProductUnitPublic",
+    "ProductUnitsPublic",
+    "Warehouse",
+    "WarehouseCreate",
+    "WarehouseUpdate",
+    "WarehousePublic",
+    "WarehousesPublic",
+    "COSTING_METHODS",
+    "Lot",
+    "LotCreate",
+    "LotUpdate",
+    "LotPublic",
+    "LotsPublic",
+    "StockMovement",
+    "StockMovementCreate",
+    "StockMovementUpdate",
+    "StockMovementPublic",
+    "StockMovementsPublic",
+    "MOVEMENT_TYPES",
+    "MOVEMENT_STATUSES",
 ]
 
-# --- below same with above but auto-completion is not supported--- #
-# import os
-# import importlib
-# import pkgutil
 
-
-# # get the current directory name
-# package_dir = os.path.dirname(__file__)
-# package_name = __name__
-
-# __all__ = []
-
-# # auto-import all modules on this directory
-# # loop every module (.py) inside this directory (except __init__.py)
-# for _, module_name, is_pkg in pkgutil.iter_modules([package_dir]):
-#     if not is_pkg:
-#         # Impor modulnya, misalnya models.item
-#         module = importlib.import_module(f".{module_name}", package=package_name)
-
-#         # Tambahkan semua objek yang tidak diawali _
-#         for attr in dir(module):
-#             if not attr.startswith("_"):
-#                 globals()[attr] = getattr(module, attr)
-#                 __all__.append(attr)
 
 # TODO: consider to add "is_deleted" column (soft-delete)
 from app.models.recipe import (
@@ -722,16 +733,9 @@ from app.models.recipe_item import (
     RecipeItemsPublic,
 )
 
-# Rebuild models with forward references
-InvoiceCreate.model_rebuild()
-InvoiceUpdate.model_rebuild()
-InvoicePublic.model_rebuild()
-InvoiceLinePublic.model_rebuild()
-CurrencyCreate.model_rebuild()
-CurrencyUpdate.model_rebuild()
-CurrencyPublic.model_rebuild()
-ExchangeRateCreate.model_rebuild()
-ExchangeRateUpdate.model_rebuild()
-ExchangeRatePublic.model_rebuild()
-Recipe.model_rebuild()
-RecipeItem.model_rebuild()
+# TODO: Rebuild invoice models when they are properly fixed
+# The forward references need to be resolved for Pydantic v2
+# InvoiceCreate.model_rebuild()
+# InvoiceUpdate.model_rebuild()
+# InvoicePublic.model_rebuild()
+# InvoiceLinePublic.model_rebuild()

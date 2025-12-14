@@ -95,7 +95,7 @@ def create_recipe_item(
     *, session: Session, recipe_id: uuid.UUID, item_in: RecipeItemCreate
 ) -> RecipeItem:
     """Добавя компонент към рецепта."""
-    db_item = RecipeItem.model_validate(item_in, update={"recipe_id": recipe_id})
+    db_item = RecipeItem.model_validate(item_in, update={"recipe_id": recipe_id, "product_id": item_in.product_id})
     session.add(db_item)
     session.commit()
     session.refresh(db_item)
@@ -103,11 +103,11 @@ def create_recipe_item(
 
 
 def get_recipe_item(
-    *, session: Session, item_id: uuid.UUID, recipe_id: uuid.UUID
+    *, session: Session, product_id: uuid.UUID, recipe_id: uuid.UUID
 ) -> RecipeItem | None:
     """Връща компонент по ID."""
     statement = select(RecipeItem).where(
-        RecipeItem.id == item_id,
+        RecipeItem.product_id == product_id,
         RecipeItem.recipe_id == recipe_id,
     )
     return session.exec(statement).first()
@@ -144,11 +144,11 @@ def delete_recipe_item(*, session: Session, db_item: RecipeItem) -> None:
 
 
 def get_recipes_by_output_item(
-    *, session: Session, organization_id: uuid.UUID, output_item_id: uuid.UUID
+    *, session: Session, organization_id: uuid.UUID, output_product_id: uuid.UUID
 ) -> Sequence[Recipe]:
     """Връща рецептите за даден изходен продукт."""
     statement = select(Recipe).where(
         Recipe.organization_id == organization_id,
-        Recipe.output_item_id == output_item_id,
+        Recipe.output_product_id == output_product_id,
     )
     return session.exec(statement).all()

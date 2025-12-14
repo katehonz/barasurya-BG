@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from app.models.organization import Organization
     from app.models.purchase import Purchase
     from app.models.purchase_return_item import PurchaseReturnItem
-    from app.models.supplier import Supplier
+    from app.models.contraagent import Contraagent
     from app.models.user import User
 
 
@@ -42,8 +42,8 @@ class PurchaseReturn(PurchaseReturnBase, table=True):
     created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
-    supplier_id: uuid.UUID = Field(
-        foreign_key="supplier.id", nullable=False, ondelete="CASCADE"
+    contraagent_id: uuid.UUID = Field(
+        foreign_key="contraagent.id", nullable=False, ondelete="CASCADE"
     )
     purchase_id: uuid.UUID = Field(
         foreign_key="purchase.id", nullable=False, ondelete="CASCADE"
@@ -51,7 +51,7 @@ class PurchaseReturn(PurchaseReturnBase, table=True):
 
     organization: "Organization" = Relationship(back_populates="purchase_returns")
     created_by: "User" = Relationship()
-    supplier: "Supplier" = Relationship(back_populates="purchase_returns")
+    contraagent: "Contraagent" = Relationship(back_populates="purchase_returns")
     purchase: "Purchase" = Relationship(back_populates="purchase_returns")
     purchase_return_items: list["PurchaseReturnItem"] = Relationship(
         back_populates="purchase_return", cascade_delete=True
@@ -62,7 +62,7 @@ class PurchaseReturnPublic(PurchaseReturnBase):
     id: uuid.UUID
     organization_id: uuid.UUID
     created_by_id: uuid.UUID
-    supplier_id: uuid.UUID
+    contraagent_id: uuid.UUID
     purchase_id: uuid.UUID
     date_created: datetime
     date_updated: datetime

@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { AccountsReadAccountsData, AccountsReadAccountsResponse, AccountsCreateAccountData, AccountsCreateAccountResponse, AccountsReadAccountData, AccountsReadAccountResponse, AccountsUpdateAccountData, AccountsUpdateAccountResponse, AccountsDeleteAccountData, AccountsDeleteAccountResponse, AssetsListAssetsData, AssetsListAssetsResponse, AssetsCreateAssetData, AssetsCreateAssetResponse, AssetsGetAssetData, AssetsGetAssetResponse, AssetsUpdateAssetData, AssetsUpdateAssetResponse, AssetsDeleteAssetData, AssetsDeleteAssetResponse, AssetsGetAssetStatisticsResponse, BankAccountsListBankAccountsData, BankAccountsListBankAccountsResponse, BankAccountsCreateBankAccountData, BankAccountsCreateBankAccountResponse, BankAccountsGetBankAccountData, BankAccountsGetBankAccountResponse, BankAccountsUpdateBankAccountData, BankAccountsUpdateBankAccountResponse, BankAccountsDeleteBankAccountData, BankAccountsDeleteBankAccountResponse, BankTransactionsListBankTransactionsData, BankTransactionsListBankTransactionsResponse, BankTransactionsCreateBankTransactionData, BankTransactionsCreateBankTransactionResponse, BankTransactionsGetBankTransactionData, BankTransactionsGetBankTransactionResponse, BankTransactionsUpdateBankTransactionData, BankTransactionsUpdateBankTransactionResponse, BankTransactionsDeleteBankTransactionData, BankTransactionsDeleteBankTransactionResponse, BankTransactionsProcessBankTransactionData, BankTransactionsProcessBankTransactionResponse, ContraagentsReadContraagentsData, ContraagentsReadContraagentsResponse, ContraagentsCreateContraagentData, ContraagentsCreateContraagentResponse, ContraagentsReadContraagentData, ContraagentsReadContraagentResponse, ContraagentsUpdateContraagentData, ContraagentsUpdateContraagentResponse, ContraagentsDeleteContraagentData, ContraagentsDeleteContraagentResponse, ContraagentsValidateVatNumberData, ContraagentsValidateVatNumberResponse, ContraagentsSetOpeningBalanceData, ContraagentsSetOpeningBalanceResponse, ContraagentsRemoveOpeningBalanceData, ContraagentsRemoveOpeningBalanceResponse, ContraagentsGetOpeningBalancesSummaryResponse, ContraagentsReadContraagentBankAccountsData, ContraagentsReadContraagentBankAccountsResponse, ContraagentsCreateContraagentBankAccountData, ContraagentsCreateContraagentBankAccountResponse, ContraagentsUpdateContraagentBankAccountData, ContraagentsUpdateContraagentBankAccountResponse, ContraagentsDeleteContraagentBankAccountData, ContraagentsDeleteContraagentBankAccountResponse, CurrenciesReadCurrenciesData, CurrenciesReadCurrenciesResponse, CurrenciesCreateCurrencyData, CurrenciesCreateCurrencyResponse, CurrenciesUpdateCurrencyData, CurrenciesUpdateCurrencyResponse, CurrenciesReadCurrencyData, CurrenciesReadCurrencyResponse, CurrenciesDeleteCurrencyData, CurrenciesDeleteCurrencyResponse, CurrenciesReadExchangeRatesData, CurrenciesReadExchangeRatesResponse, CurrenciesUpdateEcbRatesResponse, CustomersReadCustomersData, CustomersReadCustomersResponse, CustomersCreateCustomerData, CustomersCreateCustomerResponse, CustomersReadCustomerData, CustomersReadCustomerResponse, CustomersUpdateCustomerData, CustomersUpdateCustomerResponse, CustomersDeleteCustomerData, CustomersDeleteCustomerResponse, CustomerTypesReadCustomerTypesData, CustomerTypesReadCustomerTypesResponse, CustomerTypesCreateCustomerTypeData, CustomerTypesCreateCustomerTypeResponse, CustomerTypesReadCustomerTypeData, CustomerTypesReadCustomerTypeResponse, CustomerTypesUpdateCustomerTypeData, CustomerTypesUpdateCustomerTypeResponse, CustomerTypesDeleteCustomerTypeData, CustomerTypesDeleteCustomerTypeResponse, InvoicesReadInvoicesData, InvoicesReadInvoicesResponse, InvoicesCreateInvoiceData, InvoicesCreateInvoiceResponse, ItemCategoriesReadItemCategoriesData, ItemCategoriesReadItemCategoriesResponse, ItemCategoriesCreateItemCategoryData, ItemCategoriesCreateItemCategoryResponse, ItemCategoriesReadItemCategoryData, ItemCategoriesReadItemCategoryResponse, ItemCategoriesUpdateItemCategoryData, ItemCategoriesUpdateItemCategoryResponse, ItemCategoriesDeleteItemCategoryData, ItemCategoriesDeleteItemCategoryResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, ItemsReadLowStockItemsData, ItemsReadLowStockItemsResponse, ItemsActivateItemData, ItemsActivateItemResponse, ItemsDeactivateItemData, ItemsDeactivateItemResponse, ItemUnitsReadItemUnitsData, ItemUnitsReadItemUnitsResponse, ItemUnitsCreateItemUnitData, ItemUnitsCreateItemUnitResponse, ItemUnitsReadItemUnitData, ItemUnitsReadItemUnitResponse, ItemUnitsUpdateItemUnitData, ItemUnitsUpdateItemUnitResponse, ItemUnitsDeleteItemUnitData, ItemUnitsDeleteItemUnitResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OrganizationsReadOrganizationsData, OrganizationsReadOrganizationsResponse, OrganizationsCreateOrganizationData, OrganizationsCreateOrganizationResponse, OrganizationsReadCurrentOrganizationResponse, OrganizationsReadOrganizationData, OrganizationsReadOrganizationResponse, OrganizationsUpdateOrganizationData, OrganizationsUpdateOrganizationResponse, OrganizationsDeleteOrganizationData, OrganizationsDeleteOrganizationResponse, OrganizationsSwitchOrganizationData, OrganizationsSwitchOrganizationResponse, OrganizationsReadOrganizationMembersData, OrganizationsReadOrganizationMembersResponse, OrganizationsAddOrganizationMemberData, OrganizationsAddOrganizationMemberResponse, OrganizationsUpdateOrganizationMemberData, OrganizationsUpdateOrganizationMemberResponse, OrganizationsRemoveOrganizationMemberData, OrganizationsRemoveOrganizationMemberResponse, PaymentsReadPaymentsData, PaymentsReadPaymentsResponse, PaymentsCreatePaymentData, PaymentsCreatePaymentResponse, PermissionsReadPermissionsData, PermissionsReadPermissionsResponse, PermissionsCreatePermissionData, PermissionsCreatePermissionResponse, PermissionsReadPermissionData, PermissionsReadPermissionResponse, PermissionsUpdatePermissionData, PermissionsUpdatePermissionResponse, PermissionsDeletePermissionData, PermissionsDeletePermissionResponse, PrivateCreateUserData, PrivateCreateUserResponse, PurchasesReadPurchasesData, PurchasesReadPurchasesResponse, PurchasesCreatePurchaseData, PurchasesCreatePurchaseResponse, PurchasesReadPurchaseData, PurchasesReadPurchaseResponse, PurchasesUpdatePurchaseData, PurchasesUpdatePurchaseResponse, PurchasesDeletePurchaseData, PurchasesDeletePurchaseResponse, SaftGenerateSaftData, SaftGenerateSaftResponse, SalesReadSalesData, SalesReadSalesResponse, SalesCreateSaleData, SalesCreateSaleResponse, SalesReadSaleData, SalesReadSaleResponse, SalesUpdateSaleData, SalesUpdateSaleResponse, SalesDeleteSaleData, SalesDeleteSaleResponse, StockLevelsReadStockLevelsData, StockLevelsReadStockLevelsResponse, StockLevelsCreateStockLevelData, StockLevelsCreateStockLevelResponse, StockLevelsReadStockLevelData, StockLevelsReadStockLevelResponse, StockLevelsUpdateStockLevelData, StockLevelsUpdateStockLevelResponse, StockLevelsDeleteStockLevelData, StockLevelsDeleteStockLevelResponse, StoresReadStoresData, StoresReadStoresResponse, StoresCreateStoreData, StoresCreateStoreResponse, StoresReadStoreData, StoresReadStoreResponse, StoresUpdateStoreData, StoresUpdateStoreResponse, StoresDeleteStoreData, StoresDeleteStoreResponse, SuppliersReadSuppliersData, SuppliersReadSuppliersResponse, SuppliersCreateSupplierData, SuppliersCreateSupplierResponse, SuppliersReadSupplierData, SuppliersReadSupplierResponse, SuppliersUpdateSupplierData, SuppliersUpdateSupplierResponse, SuppliersDeleteSupplierData, SuppliersDeleteSupplierResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadSpecialData, UsersReadSpecialResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { AccountsReadAccountsData, AccountsReadAccountsResponse, AccountsCreateAccountData, AccountsCreateAccountResponse, AccountsReadAccountData, AccountsReadAccountResponse, AccountsUpdateAccountData, AccountsUpdateAccountResponse, AccountsDeleteAccountData, AccountsDeleteAccountResponse, AssetsListAssetsData, AssetsListAssetsResponse, AssetsCreateAssetData, AssetsCreateAssetResponse, AssetsGetAssetData, AssetsGetAssetResponse, AssetsUpdateAssetData, AssetsUpdateAssetResponse, AssetsDeleteAssetData, AssetsDeleteAssetResponse, AssetsGetAssetStatisticsResponse, BankAccountsListBankAccountsData, BankAccountsListBankAccountsResponse, BankAccountsCreateBankAccountData, BankAccountsCreateBankAccountResponse, BankAccountsGetBankAccountData, BankAccountsGetBankAccountResponse, BankAccountsUpdateBankAccountData, BankAccountsUpdateBankAccountResponse, BankAccountsDeleteBankAccountData, BankAccountsDeleteBankAccountResponse, BankTransactionsListBankTransactionsData, BankTransactionsListBankTransactionsResponse, BankTransactionsCreateBankTransactionData, BankTransactionsCreateBankTransactionResponse, BankTransactionsGetBankTransactionData, BankTransactionsGetBankTransactionResponse, BankTransactionsUpdateBankTransactionData, BankTransactionsUpdateBankTransactionResponse, BankTransactionsDeleteBankTransactionData, BankTransactionsDeleteBankTransactionResponse, BankTransactionsProcessBankTransactionData, BankTransactionsProcessBankTransactionResponse, ContraagentsReadContraagentsData, ContraagentsReadContraagentsResponse, ContraagentsCreateContraagentData, ContraagentsCreateContraagentResponse, ContraagentsReadContraagentData, ContraagentsReadContraagentResponse, ContraagentsUpdateContraagentData, ContraagentsUpdateContraagentResponse, ContraagentsDeleteContraagentData, ContraagentsDeleteContraagentResponse, ContraagentsValidateVatNumberData, ContraagentsValidateVatNumberResponse, ContraagentsSetOpeningBalanceData, ContraagentsSetOpeningBalanceResponse, ContraagentsRemoveOpeningBalanceData, ContraagentsRemoveOpeningBalanceResponse, ContraagentsGetOpeningBalancesSummaryResponse, ContraagentsReadContraagentBankAccountsData, ContraagentsReadContraagentBankAccountsResponse, ContraagentsCreateContraagentBankAccountData, ContraagentsCreateContraagentBankAccountResponse, ContraagentsUpdateContraagentBankAccountData, ContraagentsUpdateContraagentBankAccountResponse, ContraagentsDeleteContraagentBankAccountData, ContraagentsDeleteContraagentBankAccountResponse, CurrenciesReadCurrenciesData, CurrenciesReadCurrenciesResponse, CurrenciesCreateCurrencyData, CurrenciesCreateCurrencyResponse, CurrenciesUpdateCurrencyData, CurrenciesUpdateCurrencyResponse, CurrenciesReadCurrencyData, CurrenciesReadCurrencyResponse, CurrenciesDeleteCurrencyData, CurrenciesDeleteCurrencyResponse, CurrenciesReadExchangeRatesData, CurrenciesReadExchangeRatesResponse, CurrenciesUpdateEcbRatesResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OrganizationsReadOrganizationsData, OrganizationsReadOrganizationsResponse, OrganizationsCreateOrganizationData, OrganizationsCreateOrganizationResponse, OrganizationsReadCurrentOrganizationResponse, OrganizationsReadOrganizationData, OrganizationsReadOrganizationResponse, OrganizationsUpdateOrganizationData, OrganizationsUpdateOrganizationResponse, OrganizationsDeleteOrganizationData, OrganizationsDeleteOrganizationResponse, OrganizationsSwitchOrganizationData, OrganizationsSwitchOrganizationResponse, OrganizationsReadOrganizationMembersData, OrganizationsReadOrganizationMembersResponse, OrganizationsAddOrganizationMemberData, OrganizationsAddOrganizationMemberResponse, OrganizationsUpdateOrganizationMemberData, OrganizationsUpdateOrganizationMemberResponse, OrganizationsRemoveOrganizationMemberData, OrganizationsRemoveOrganizationMemberResponse, PaymentsReadPaymentsData, PaymentsReadPaymentsResponse, PaymentsCreatePaymentData, PaymentsCreatePaymentResponse, PermissionsReadPermissionsData, PermissionsReadPermissionsResponse, PermissionsCreatePermissionData, PermissionsCreatePermissionResponse, PermissionsReadPermissionData, PermissionsReadPermissionResponse, PermissionsUpdatePermissionData, PermissionsUpdatePermissionResponse, PermissionsDeletePermissionData, PermissionsDeletePermissionResponse, PrivateCreateUserData, PrivateCreateUserResponse, PurchaseOrdersReadPurchaseOrdersData, PurchaseOrdersReadPurchaseOrdersResponse, PurchaseOrdersCreatePurchaseOrderData, PurchaseOrdersCreatePurchaseOrderResponse, PurchaseOrdersReadPurchaseOrderData, PurchaseOrdersReadPurchaseOrderResponse, PurchaseOrdersUpdatePurchaseOrderData, PurchaseOrdersUpdatePurchaseOrderResponse, PurchaseOrdersDeletePurchaseOrderData, PurchaseOrdersDeletePurchaseOrderResponse, PurchaseOrdersSendPurchaseOrderData, PurchaseOrdersSendPurchaseOrderResponse, PurchaseOrdersConfirmPurchaseOrderData, PurchaseOrdersConfirmPurchaseOrderResponse, PurchaseOrdersCancelPurchaseOrderData, PurchaseOrdersCancelPurchaseOrderResponse, PurchasesReadPurchasesData, PurchasesReadPurchasesResponse, PurchasesCreatePurchaseData, PurchasesCreatePurchaseResponse, PurchasesReadPurchaseData, PurchasesReadPurchaseResponse, PurchasesUpdatePurchaseData, PurchasesUpdatePurchaseResponse, PurchasesDeletePurchaseData, PurchasesDeletePurchaseResponse, QuotationsReadQuotationsData, QuotationsReadQuotationsResponse, QuotationsCreateQuotationData, QuotationsCreateQuotationResponse, QuotationsReadQuotationData, QuotationsReadQuotationResponse, QuotationsUpdateQuotationData, QuotationsUpdateQuotationResponse, QuotationsDeleteQuotationData, QuotationsDeleteQuotationResponse, QuotationsSendQuotationData, QuotationsSendQuotationResponse, QuotationsAcceptQuotationData, QuotationsAcceptQuotationResponse, QuotationsRejectQuotationData, QuotationsRejectQuotationResponse, QuotationsCancelQuotationData, QuotationsCancelQuotationResponse, QuotationsConvertQuotationToInvoiceData, QuotationsConvertQuotationToInvoiceResponse, RecipesReadRecipesData, RecipesReadRecipesResponse, RecipesCreateRecipeEndpointData, RecipesCreateRecipeEndpointResponse, RecipesReadRecipeData, RecipesReadRecipeResponse, RecipesUpdateRecipeEndpointData, RecipesUpdateRecipeEndpointResponse, RecipesDeleteRecipeEndpointData, RecipesDeleteRecipeEndpointResponse, RecipesActivateRecipeData, RecipesActivateRecipeResponse, RecipesDeactivateRecipeData, RecipesDeactivateRecipeResponse, RecipesReadRecipeItemsData, RecipesReadRecipeItemsResponse, RecipesCreateRecipeItemEndpointData, RecipesCreateRecipeItemEndpointResponse, RecipesUpdateRecipeItemEndpointData, RecipesUpdateRecipeItemEndpointResponse, RecipesDeleteRecipeItemEndpointData, RecipesDeleteRecipeItemEndpointResponse, SaftGenerateSaftData, SaftGenerateSaftResponse, SalesReadSalesData, SalesReadSalesResponse, SalesCreateSaleData, SalesCreateSaleResponse, SalesReadSaleData, SalesReadSaleResponse, SalesUpdateSaleData, SalesUpdateSaleResponse, SalesDeleteSaleData, SalesDeleteSaleResponse, StockLevelsReadStockLevelsData, StockLevelsReadStockLevelsResponse, StockLevelsCreateStockLevelData, StockLevelsCreateStockLevelResponse, StockLevelsReadStockLevelData, StockLevelsReadStockLevelResponse, StockLevelsUpdateStockLevelData, StockLevelsUpdateStockLevelResponse, StockLevelsDeleteStockLevelData, StockLevelsDeleteStockLevelResponse, StoresReadStoresData, StoresReadStoresResponse, StoresCreateStoreData, StoresCreateStoreResponse, StoresReadStoreData, StoresReadStoreResponse, StoresUpdateStoreData, StoresUpdateStoreResponse, StoresDeleteStoreData, StoresDeleteStoreResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadSpecialData, UsersReadSpecialResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class AccountsService {
     /**
@@ -955,230 +955,6 @@ export class CurrenciesService {
     
 }
 
-export class CustomersService {
-    /**
-     * Read Customers
-     * Retrieve customers for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns CustomersPublic Successful Response
-     * @throws ApiError
-     */
-    public static readCustomers(data: CustomersReadCustomersData = {}): CancelablePromise<CustomersReadCustomersResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/customers/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Customer
-     * Create new customer. Requires at least member role.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns CustomerPublic Successful Response
-     * @throws ApiError
-     */
-    public static createCustomer(data: CustomersCreateCustomerData): CancelablePromise<CustomersCreateCustomerResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/customers/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Customer
-     * Get customer by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns CustomerPublic Successful Response
-     * @throws ApiError
-     */
-    public static readCustomer(data: CustomersReadCustomerData): CancelablePromise<CustomersReadCustomerResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/customers/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Customer
-     * Update a customer. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns CustomerPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateCustomer(data: CustomersUpdateCustomerData): CancelablePromise<CustomersUpdateCustomerResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/customers/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Customer
-     * Delete a customer. Requires manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteCustomer(data: CustomersDeleteCustomerData): CancelablePromise<CustomersDeleteCustomerResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/customers/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-}
-
-export class CustomerTypesService {
-    /**
-     * Read Customer Types
-     * Retrieve customer types for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns CustomerTypesPublic Successful Response
-     * @throws ApiError
-     */
-    public static readCustomerTypes(data: CustomerTypesReadCustomerTypesData = {}): CancelablePromise<CustomerTypesReadCustomerTypesResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/customer_types/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Customer Type
-     * Create new customer type. Requires at least member role.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns CustomerTypePublic Successful Response
-     * @throws ApiError
-     */
-    public static createCustomerType(data: CustomerTypesCreateCustomerTypeData): CancelablePromise<CustomerTypesCreateCustomerTypeResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/customer_types/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Customer Type
-     * Get customer type by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns CustomerTypePublic Successful Response
-     * @throws ApiError
-     */
-    public static readCustomerType(data: CustomerTypesReadCustomerTypeData): CancelablePromise<CustomerTypesReadCustomerTypeResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/customer_types/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Customer Type
-     * Update a customer type. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns CustomerTypePublic Successful Response
-     * @throws ApiError
-     */
-    public static updateCustomerType(data: CustomerTypesUpdateCustomerTypeData): CancelablePromise<CustomerTypesUpdateCustomerTypeResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/customer_types/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Customer Type
-     * Delete a customer type. Requires manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteCustomerType(data: CustomerTypesDeleteCustomerTypeData): CancelablePromise<CustomerTypesDeleteCustomerTypeResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/customer_types/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-}
-
 export class ExchangeRatesService {
     /**
      * Read Exchange Rates
@@ -1213,453 +989,6 @@ export class ExchangeRatesService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/currencies/exchange-rates/update-ecb'
-        });
-    }
-    
-}
-
-export class InvoicesService {
-    /**
-     * Read Invoices
-     * Retrieve invoices.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns InvoicesPublic Successful Response
-     * @throws ApiError
-     */
-    public static readInvoices(data: InvoicesReadInvoicesData = {}): CancelablePromise<InvoicesReadInvoicesResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/invoices/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Invoice
-     * Create new invoice.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns InvoicePublic Successful Response
-     * @throws ApiError
-     */
-    public static createInvoice(data: InvoicesCreateInvoiceData): CancelablePromise<InvoicesCreateInvoiceResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/invoices/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-}
-
-export class ItemCategoriesService {
-    /**
-     * Read Item Categories
-     * Retrieve item categories for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns ItemCategoriesPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItemCategories(data: ItemCategoriesReadItemCategoriesData = {}): CancelablePromise<ItemCategoriesReadItemCategoriesResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/item_categories/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Item Category
-     * Create new item category. Requires at least member role.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns ItemCategoryPublic Successful Response
-     * @throws ApiError
-     */
-    public static createItemCategory(data: ItemCategoriesCreateItemCategoryData): CancelablePromise<ItemCategoriesCreateItemCategoryResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/item_categories/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Item Category
-     * Get item category by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns ItemCategoryPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItemCategory(data: ItemCategoriesReadItemCategoryData): CancelablePromise<ItemCategoriesReadItemCategoryResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/item_categories/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Item Category
-     * Update an item category. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns ItemCategoryPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateItemCategory(data: ItemCategoriesUpdateItemCategoryData): CancelablePromise<ItemCategoriesUpdateItemCategoryResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/item_categories/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Item Category
-     * Delete an item category. Requires manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteItemCategory(data: ItemCategoriesDeleteItemCategoryData): CancelablePromise<ItemCategoriesDeleteItemCategoryResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/item_categories/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-}
-
-export class ItemsService {
-    /**
-     * Read Items
-     * Retrieve items for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns ItemsPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItems(data: ItemsReadItemsData = {}): CancelablePromise<ItemsReadItemsResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/items/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Item
-     * Create new item. Requires at least member role.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static createItem(data: ItemsCreateItemData): CancelablePromise<ItemsCreateItemResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/items/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Item
-     * Get item by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItem(data: ItemsReadItemData): CancelablePromise<ItemsReadItemResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/items/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Item
-     * Update an item. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateItem(data: ItemsUpdateItemData): CancelablePromise<ItemsUpdateItemResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/items/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Item
-     * Delete an item. Requires manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteItem(data: ItemsDeleteItemData): CancelablePromise<ItemsDeleteItemResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/items/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Low Stock Items
-     * Retrieve low stock items for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns ItemsPublic Successful Response
-     * @throws ApiError
-     */
-    public static readLowStockItems(data: ItemsReadLowStockItemsData = {}): CancelablePromise<ItemsReadLowStockItemsResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/items/low_stock/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Activate Item
-     * Activate an item. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static activateItem(data: ItemsActivateItemData): CancelablePromise<ItemsActivateItemResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/items/{id}/activate',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Deactivate Item
-     * Deactivate an item. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static deactivateItem(data: ItemsDeactivateItemData): CancelablePromise<ItemsDeactivateItemResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/items/{id}/deactivate',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-}
-
-export class ItemUnitsService {
-    /**
-     * Read Item Units
-     * Retrieve item units for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns ItemUnitsPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItemUnits(data: ItemUnitsReadItemUnitsData = {}): CancelablePromise<ItemUnitsReadItemUnitsResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/item_units/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Item Unit
-     * Create new item unit. Requires at least member role.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns ItemUnitPublic Successful Response
-     * @throws ApiError
-     */
-    public static createItemUnit(data: ItemUnitsCreateItemUnitData): CancelablePromise<ItemUnitsCreateItemUnitResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/item_units/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Item Unit
-     * Get item unit by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns ItemUnitPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItemUnit(data: ItemUnitsReadItemUnitData): CancelablePromise<ItemUnitsReadItemUnitResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/item_units/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Item Unit
-     * Update an item unit. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns ItemUnitPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateItemUnit(data: ItemUnitsUpdateItemUnitData): CancelablePromise<ItemUnitsUpdateItemUnitResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/item_units/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Item Unit
-     * Delete an item unit. Requires manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteItemUnit(data: ItemUnitsDeleteItemUnitData): CancelablePromise<ItemUnitsDeleteItemUnitResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/item_units/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
         });
     }
     
@@ -2191,6 +1520,185 @@ export class PrivateService {
     
 }
 
+export class PurchaseOrdersService {
+    /**
+     * Read Purchase Orders
+     * Retrieve purchase orders for the current organization.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @param data.status
+     * @param data.contraagentId
+     * @returns PurchaseOrdersPublic Successful Response
+     * @throws ApiError
+     */
+    public static readPurchaseOrders(data: PurchaseOrdersReadPurchaseOrdersData = {}): CancelablePromise<PurchaseOrdersReadPurchaseOrdersResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/purchase-orders/',
+            query: {
+                skip: data.skip,
+                limit: data.limit,
+                status: data.status,
+                contraagent_id: data.contraagentId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Purchase Order
+     * Create new purchase order. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns PurchaseOrderPublic Successful Response
+     * @throws ApiError
+     */
+    public static createPurchaseOrder(data: PurchaseOrdersCreatePurchaseOrderData): CancelablePromise<PurchaseOrdersCreatePurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/purchase-orders/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Purchase Order
+     * Get purchase order by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns PurchaseOrderPublic Successful Response
+     * @throws ApiError
+     */
+    public static readPurchaseOrder(data: PurchaseOrdersReadPurchaseOrderData): CancelablePromise<PurchaseOrdersReadPurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/purchase-orders/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Purchase Order
+     * Update a purchase order. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns PurchaseOrderPublic Successful Response
+     * @throws ApiError
+     */
+    public static updatePurchaseOrder(data: PurchaseOrdersUpdatePurchaseOrderData): CancelablePromise<PurchaseOrdersUpdatePurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/purchase-orders/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Purchase Order
+     * Delete a purchase order. Requires manager role. Only draft orders can be deleted.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deletePurchaseOrder(data: PurchaseOrdersDeletePurchaseOrderData): CancelablePromise<PurchaseOrdersDeletePurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/purchase-orders/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Send Purchase Order
+     * Mark purchase order as sent to contraagent.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static sendPurchaseOrder(data: PurchaseOrdersSendPurchaseOrderData): CancelablePromise<PurchaseOrdersSendPurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/purchase-orders/{id}/send',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Confirm Purchase Order
+     * Mark purchase order as confirmed by contraagent.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static confirmPurchaseOrder(data: PurchaseOrdersConfirmPurchaseOrderData): CancelablePromise<PurchaseOrdersConfirmPurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/purchase-orders/{id}/confirm',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Cancel Purchase Order
+     * Cancel a purchase order. Requires manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static cancelPurchaseOrder(data: PurchaseOrdersCancelPurchaseOrderData): CancelablePromise<PurchaseOrdersCancelPurchaseOrderResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/purchase-orders/{id}/cancel',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+}
+
 export class PurchasesService {
     /**
      * Read Purchases
@@ -2294,6 +1802,481 @@ export class PurchasesService {
             url: '/api/v1/purchases/{id}',
             path: {
                 id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+}
+
+export class QuotationsService {
+    /**
+     * Read Quotations
+     * Retrieve quotations for the current organization.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @param data.status
+     * @param data.contraagentId
+     * @returns QuotationsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readQuotations(data: QuotationsReadQuotationsData = {}): CancelablePromise<QuotationsReadQuotationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/quotations/',
+            query: {
+                skip: data.skip,
+                limit: data.limit,
+                status: data.status,
+                contraagent_id: data.contraagentId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Quotation
+     * Create new quotation. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns QuotationPublic Successful Response
+     * @throws ApiError
+     */
+    public static createQuotation(data: QuotationsCreateQuotationData): CancelablePromise<QuotationsCreateQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/quotations/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Quotation
+     * Get quotation by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns QuotationPublic Successful Response
+     * @throws ApiError
+     */
+    public static readQuotation(data: QuotationsReadQuotationData): CancelablePromise<QuotationsReadQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/quotations/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Quotation
+     * Update a quotation. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns QuotationPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateQuotation(data: QuotationsUpdateQuotationData): CancelablePromise<QuotationsUpdateQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/quotations/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Quotation
+     * Delete a quotation. Requires manager role. Only draft quotations can be deleted.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteQuotation(data: QuotationsDeleteQuotationData): CancelablePromise<QuotationsDeleteQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/quotations/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Send Quotation
+     * Mark quotation as sent to contraagent.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static sendQuotation(data: QuotationsSendQuotationData): CancelablePromise<QuotationsSendQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/quotations/{id}/send',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Accept Quotation
+     * Mark quotation as accepted by contraagent.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static acceptQuotation(data: QuotationsAcceptQuotationData): CancelablePromise<QuotationsAcceptQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/quotations/{id}/accept',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Reject Quotation
+     * Mark quotation as rejected by contraagent.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.rejectionReason
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static rejectQuotation(data: QuotationsRejectQuotationData): CancelablePromise<QuotationsRejectQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/quotations/{id}/reject',
+            path: {
+                id: data.id
+            },
+            query: {
+                rejection_reason: data.rejectionReason
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Cancel Quotation
+     * Cancel a quotation. Requires manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static cancelQuotation(data: QuotationsCancelQuotationData): CancelablePromise<QuotationsCancelQuotationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/quotations/{id}/cancel',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Convert Quotation To Invoice
+     * Convert quotation to invoice. Requires manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static convertQuotationToInvoice(data: QuotationsConvertQuotationToInvoiceData): CancelablePromise<QuotationsConvertQuotationToInvoiceResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/quotations/{id}/convert-to-invoice',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+}
+
+export class RecipesService {
+    /**
+     * Read Recipes
+     * Retrieve recipes for the current organization.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @param data.isActive
+     * @returns RecipesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readRecipes(data: RecipesReadRecipesData = {}): CancelablePromise<RecipesReadRecipesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/recipes/',
+            query: {
+                skip: data.skip,
+                limit: data.limit,
+                is_active: data.isActive
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Recipe Endpoint
+     * Create new recipe. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns RecipePublic Successful Response
+     * @throws ApiError
+     */
+    public static createRecipeEndpoint(data: RecipesCreateRecipeEndpointData): CancelablePromise<RecipesCreateRecipeEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/recipes/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Recipe
+     * Get recipe by ID with all items.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @returns RecipePublicWithItems Successful Response
+     * @throws ApiError
+     */
+    public static readRecipe(data: RecipesReadRecipeData): CancelablePromise<RecipesReadRecipeResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/recipes/{recipe_id}',
+            path: {
+                recipe_id: data.recipeId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Recipe Endpoint
+     * Update a recipe. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @param data.requestBody
+     * @returns RecipePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateRecipeEndpoint(data: RecipesUpdateRecipeEndpointData): CancelablePromise<RecipesUpdateRecipeEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/recipes/{recipe_id}',
+            path: {
+                recipe_id: data.recipeId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Recipe Endpoint
+     * Delete a recipe. Requires manager role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteRecipeEndpoint(data: RecipesDeleteRecipeEndpointData): CancelablePromise<RecipesDeleteRecipeEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/recipes/{recipe_id}',
+            path: {
+                recipe_id: data.recipeId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Activate Recipe
+     * Activate a recipe. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @returns RecipePublic Successful Response
+     * @throws ApiError
+     */
+    public static activateRecipe(data: RecipesActivateRecipeData): CancelablePromise<RecipesActivateRecipeResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/recipes/{recipe_id}/activate',
+            path: {
+                recipe_id: data.recipeId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Deactivate Recipe
+     * Deactivate a recipe. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @returns RecipePublic Successful Response
+     * @throws ApiError
+     */
+    public static deactivateRecipe(data: RecipesDeactivateRecipeData): CancelablePromise<RecipesDeactivateRecipeResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/recipes/{recipe_id}/deactivate',
+            path: {
+                recipe_id: data.recipeId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Recipe Items
+     * Retrieve all items for a recipe.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @returns RecipeItemsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readRecipeItems(data: RecipesReadRecipeItemsData): CancelablePromise<RecipesReadRecipeItemsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/recipes/{recipe_id}/items',
+            path: {
+                recipe_id: data.recipeId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Recipe Item Endpoint
+     * Add item to a recipe. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @param data.requestBody
+     * @returns RecipeItemPublic Successful Response
+     * @throws ApiError
+     */
+    public static createRecipeItemEndpoint(data: RecipesCreateRecipeItemEndpointData): CancelablePromise<RecipesCreateRecipeItemEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/recipes/{recipe_id}/items',
+            path: {
+                recipe_id: data.recipeId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Recipe Item Endpoint
+     * Update a recipe item. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @param data.productId
+     * @param data.requestBody
+     * @returns RecipeItemPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateRecipeItemEndpoint(data: RecipesUpdateRecipeItemEndpointData): CancelablePromise<RecipesUpdateRecipeItemEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/recipes/{recipe_id}/items/{product_id}',
+            path: {
+                recipe_id: data.recipeId,
+                product_id: data.productId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Recipe Item Endpoint
+     * Delete a recipe item. Requires manager role.
+     * @param data The data for the request.
+     * @param data.recipeId
+     * @param data.productId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteRecipeItemEndpoint(data: RecipesDeleteRecipeItemEndpointData): CancelablePromise<RecipesDeleteRecipeItemEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/recipes/{recipe_id}/items/{product_id}',
+            path: {
+                recipe_id: data.recipeId,
+                product_id: data.productId
             },
             errors: {
                 422: 'Validation Error'
@@ -2656,118 +2639,6 @@ export class StoresService {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/stores/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-}
-
-export class SuppliersService {
-    /**
-     * Read Suppliers
-     * Retrieve suppliers for the current organization.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns SuppliersPublic Successful Response
-     * @throws ApiError
-     */
-    public static readSuppliers(data: SuppliersReadSuppliersData = {}): CancelablePromise<SuppliersReadSuppliersResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/suppliers/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Supplier
-     * Create new supplier. Requires at least member role.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns SupplierPublic Successful Response
-     * @throws ApiError
-     */
-    public static createSupplier(data: SuppliersCreateSupplierData): CancelablePromise<SuppliersCreateSupplierResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/suppliers/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Supplier
-     * Get supplier by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns SupplierPublic Successful Response
-     * @throws ApiError
-     */
-    public static readSupplier(data: SuppliersReadSupplierData): CancelablePromise<SuppliersReadSupplierResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/suppliers/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Supplier
-     * Update a supplier. Requires at least manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns SupplierPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateSupplier(data: SuppliersUpdateSupplierData): CancelablePromise<SuppliersUpdateSupplierResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/suppliers/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Supplier
-     * Delete a supplier. Requires manager role.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteSupplier(data: SuppliersDeleteSupplierData): CancelablePromise<SuppliersDeleteSupplierResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/suppliers/{id}',
             path: {
                 id: data.id
             },

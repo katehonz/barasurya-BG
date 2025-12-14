@@ -1,4 +1,7 @@
 services:
+  prestart:
+    volumes:
+      - ./backend:/app
 
   # Local services are available on their ports, but also available on:
   # http://api.localhost.tiangolo.com: backend

@@ -9,26 +9,67 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.models.base import BaseModel
 from app.utils import utcnow
 
+from .invoice_line import (
+    InvoiceLineCreate,
+    InvoiceLineUpdate,
+    InvoiceLinePublic,
+)
+
 if TYPE_CHECKING:
-    from app.models.customer import Customer, CustomerPublic
+    from app.models.contraagent import ContraagentPublic
+    from app.models.contraagent import Contraagent
     from app.models.account import Account
     from app.models.currency import Currency
     from app.models.organization import Organization
     from app.models.user import User
     from app.models.vat_sales_register import VatSalesRegister
-    from .invoice_line import (
-        InvoiceLine,
-        InvoiceLinePublic,
-        InvoiceLineCreate,
-        InvoiceLineUpdate,
-    )
+    from .invoice_line import InvoiceLine
 
 
 class VatDocumentType(str, enum.Enum):
+    """Bulgarian VAT document types according to NRA requirements."""
+
     INVOICE = "01"
     DEBIT_NOTE = "02"
     CREDIT_NOTE = "03"
-    # ... add all other types here
+    PROFORMA_INVOICE = "04"
+    INVOICE_FOR_ADVANCE_PAYMENT = "05"
+    INVOICE_FOR_FINAL_SETTLEMENT = "06"
+    CUSTOMS_DOCUMENT = "07"
+    BANK_DOCUMENT = "08"
+    FISCAL_RECEIPT = "09"
+    DOCUMENT_FOR_INTRACOMMUNITY_SUPPLY = "10"
+    DOCUMENT_FOR_INTRACOMMUNITY_ACQUISITION = "11"
+    DOCUMENT_FOR_EXPORT = "12"
+    DOCUMENT_FOR_IMPORT = "13"
+    DOCUMENT_FOR_SUPPLY_OF_SERVICES_ABROAD = "14"
+    DOCUMENT_FOR_ACQUISITION_OF_SERVICES_ABROAD = "15"
+    VAT_PROTOCOL = "96"
+
+
+class VatExemptionReason(str, enum.Enum):
+    """VAT exemption reasons for Bulgarian documents."""
+
+    INTRACOMMUNITY_SUPPLY = "01"
+    EXPORT = "02"
+    SERVICES_ABROAD = "03"
+    INVESTMENT = "04"
+    FINANCIAL_SERVICES = "05"
+    EDUCATION = "06"
+    HEALTHCARE = "07"
+    INSURANCE = "08"
+    GAMING = "09"
+    POSTAL_SERVICES = "10"
+    TELECOMMUNICATIONS = "11"
+    BROADCASTING = "12"
+    ELECTRONIC_SERVICES = "13"
+    REAL_ESTATE = "14"
+    SOCIAL_HOUSING = "15"
+    AGRICULTURAL = "16"
+    FISHING = "17"
+    TOURISM = "18"
+    SPORT = "19"
+    CULTURE = "20"
 
 
 class InvoiceStatus(str, enum.Enum):
@@ -102,8 +143,8 @@ class Invoice(InvoiceBase, table=True):
     organization: "Organization" = Relationship(back_populates="invoices")
     created_by: "User" = Relationship()
 
-    contact_id: uuid.UUID = Field(foreign_key="customer.id", nullable=False)
-    customer: "Customer" = Relationship()
+    contact_id: uuid.UUID = Field(foreign_key="contraagent.id", nullable=False)
+    contact: "Contraagent" = Relationship()
 
     bank_account_id: Optional[uuid.UUID] = Field(default=None, foreign_key="account.id")
     bank_account: Optional["Account"] = Relationship()
@@ -131,7 +172,7 @@ class Invoice(InvoiceBase, table=True):
 class InvoiceCreate(InvoiceBase):
     contact_id: uuid.UUID
     invoice_no: str
-    invoice_lines: List["InvoiceLineCreate"]
+    invoice_lines: List[InvoiceLineCreate]
 
 
 class InvoiceUpdate(SQLModel):
@@ -139,15 +180,15 @@ class InvoiceUpdate(SQLModel):
     due_date: Optional[date] = None
     billing_name: Optional[str] = None
     # ... other fields
-    invoice_lines: Optional[List["InvoiceLineUpdate"]] = None
+    invoice_lines: Optional[List[InvoiceLineUpdate]] = None
 
 
 class InvoicePublic(InvoiceBase):
     id: uuid.UUID
     invoice_no: str
     status: InvoiceStatus
-    customer: "CustomerPublic"
-    invoice_lines: List["InvoiceLinePublic"]
+    contact: "ContraagentPublic"
+    invoice_lines: List[InvoiceLinePublic]
 
 
 class InvoicesPublic(BaseModel):

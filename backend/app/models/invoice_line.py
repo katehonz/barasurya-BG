@@ -6,8 +6,10 @@ from sqlmodel import Field, Relationship, SQLModel
 
 from app.models.base import BaseModel
 
+from app.models.product import ProductPublic
+
 if TYPE_CHECKING:
-    from app.models.item import Item, ItemPublic
+    from app.models.product import Product
     from app.models.organization import Organization
     from app.models.user import User
     from .invoice import Invoice
@@ -44,8 +46,8 @@ class InvoiceLine(InvoiceLineBase, table=True):
     invoice_id: uuid.UUID = Field(foreign_key="invoices.id", nullable=False)
     invoice: "Invoice" = Relationship(back_populates="invoice_lines")
 
-    product_id: Optional[uuid.UUID] = Field(default=None, foreign_key="item.id")
-    product: Optional["Item"] = Relationship()
+    product_id: Optional[uuid.UUID] = Field(default=None, foreign_key="products.id")
+    product: Optional["Product"] = Relationship()
 
 
 class InvoiceLineCreate(InvoiceLineBase):
@@ -63,7 +65,7 @@ class InvoiceLinePublic(InvoiceLineBase):
     subtotal: Decimal
     tax_amount: Decimal
     total_amount: Decimal
-    product: Optional["ItemPublic"] = None
+    product: Optional[ProductPublic] = None
 
 class InvoiceLinesPublic(BaseModel):
     data: list[InvoiceLinePublic]

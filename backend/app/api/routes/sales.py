@@ -14,7 +14,6 @@ from app.api.deps import (
 )
 from app.models import (
     BaseModelUpdate,
-    Customer,
     Message,
     OrganizationRole,
     Sale,
@@ -23,6 +22,7 @@ from app.models import (
     SalesPublic,
     SaleUpdate,
     Store,
+    Contraagent,
     has_role_or_higher,
 )
 from app.services.journal import JournalService
@@ -50,7 +50,7 @@ def read_sales(
     count = session.exec(count_statement).one()
     statement = (
         select(Sale)
-        .options(selectinload(Sale.customer), selectinload(Sale.store))
+        .options(selectinload(Sale.contraagent), selectinload(Sale.store))
         .where(Sale.organization_id == current_org.id)
         .offset(skip)
         .limit(limit)
@@ -60,7 +60,7 @@ def read_sales(
         sales,
         schema=SalePublic,
         extra_fields={
-            "customer_name": lambda p: p.customer.name,
+            "contraagent_name": lambda p: p.contraagent.name,
             "store_name": lambda p: p.store.name,
         },
     )
@@ -97,11 +97,13 @@ def create_sale(
     """
     Create new sale. Requires at least member role.
     """
-    customer = session.get(Customer, sale_in.customer_id)
-    if not customer:
-        raise HTTPException(status_code=404, detail="Customer not found")
-    if customer.organization_id != current_org.id:
-        raise HTTPException(status_code=403, detail="Customer belongs to another organization")
+    contraagent = session.get(Contraagent, sale_in.contraagent_id)
+    if not contraagent:
+        raise HTTPException(status_code=404, detail="Contraagent not found")
+    if contraagent.organization_id != current_org.id:
+        raise HTTPException(status_code=403, detail="Contraagent belongs to another organization")
+    if not contraagent.is_customer:
+        raise HTTPException(status_code=403, detail="Contraagent is not a customer")
 
     store = session.get(Store, sale_in.store_id)
     if not store:
@@ -127,7 +129,7 @@ def create_sale(
         sale,
         schema=SalePublic,
         extra_fields={
-            "customer_name": lambda p: p.customer.name,
+            "contraagent_name": lambda p: p.contraagent.name,
             "store_name": lambda p: p.store.name,
         },
     )
@@ -154,12 +156,14 @@ def update_sale(
     if sale.organization_id != current_org.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
-    if sale_in.customer_id is not None:
-        customer = session.get(Customer, sale_in.customer_id)
-        if not customer:
-            raise HTTPException(status_code=404, detail="Customer not found")
-        if customer.organization_id != current_org.id:
-            raise HTTPException(status_code=403, detail="Customer belongs to another organization")
+    if sale_in.contraagent_id is not None:
+        contraagent = session.get(Contraagent, sale_in.contraagent_id)
+        if not contraagent:
+            raise HTTPException(status_code=404, detail="Contraagent not found")
+        if contraagent.organization_id != current_org.id:
+            raise HTTPException(status_code=403, detail="Contraagent belongs to another organization")
+        if not contraagent.is_customer:
+            raise HTTPException(status_code=403, detail="Contraagent is not a customer")
 
     if sale_in.store_id is not None:
         store = session.get(Store, sale_in.store_id)
@@ -178,7 +182,7 @@ def update_sale(
         sale,
         schema=SalePublic,
         extra_fields={
-            "customer_name": lambda p: p.customer.name,
+            "contraagent_name": lambda p: p.contraagent.name,
             "store_name": lambda p: p.store.name,
         },
     )

@@ -26,11 +26,11 @@ import { type SubmitHandler, useForm } from "react-hook-form"
 import {
   AssetsService,
   AccountsService,
-  SuppliersService,
+  ContraagentsService,
   type AccountPublic,
   type ApiError,
   type AssetCreate,
-  type SupplierPublic,
+  type ContraagentPublic,
 } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
 import { handleError } from "../../utils"
@@ -49,9 +49,9 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
     queryFn: () => AccountsService.readAccounts({ limit: 1000 }),
   })
 
-  const { data: suppliers } = useQuery({
-    queryKey: ["suppliers"],
-    queryFn: () => SuppliersService.readSuppliers({ limit: 1000 }),
+  const { data: contraagents } = useQuery({
+    queryKey: ["contraagents"],
+    queryFn: () => ContraagentsService.readContraagents({ limit: 1000 }),
   })
 
   const {
@@ -81,7 +81,7 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
       accounting_account_id: null,
       expense_account_id: null,
       accumulated_depreciation_account_id: null,
-      supplier_id: null,
+      contraagent_id: null,
       notes: "",
     },
   })
@@ -106,7 +106,7 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
     // Convert empty strings to null for optional UUID fields
     const cleanedData = {
       ...data,
-      supplier_id: data.supplier_id || null,
+      contraagent_id: data.contraagent_id || null,
       accounting_account_id: data.accounting_account_id || null,
       expense_account_id: data.expense_account_id || null,
       accumulated_depreciation_account_id: data.accumulated_depreciation_account_id || null,
@@ -209,12 +209,14 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
 
                   <FormControl>
                     <FormLabel>Доставчик</FormLabel>
-                    <Select {...register("supplier_id")} placeholder="Изберете доставчик">
-                      {suppliers?.data.map((supplier: SupplierPublic) => (
-                        <option key={supplier.id} value={supplier.id}>
-                          {supplier.name}
-                        </option>
-                      ))}
+                    <Select {...register("contraagent_id")} placeholder="Изберете доставчик">
+                      {contraagents?.data
+                        .filter((c: ContraagentPublic) => c.is_supplier)
+                        .map((contraagent: ContraagentPublic) => (
+                          <option key={contraagent.id} value={contraagent.id}>
+                            {contraagent.name}
+                          </option>
+                        ))}
                     </Select>
                   </FormControl>
                 </SimpleGrid>

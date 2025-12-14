@@ -8,7 +8,7 @@ from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
-    from app.models.customer import Customer
+    from app.models.contraagent import Contraagent
     from app.models.organization import Organization
     from app.models.sale import Sale
     from app.models.sale_return_item import SaleReturnItem
@@ -42,8 +42,8 @@ class SaleReturn(SaleReturnBase, table=True):
     created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
-    customer_id: uuid.UUID = Field(
-        foreign_key="customer.id", nullable=False, ondelete="CASCADE"
+    contraagent_id: uuid.UUID = Field(
+        foreign_key="contraagent.id", nullable=False, ondelete="CASCADE"
     )
     sale_id: uuid.UUID = Field(
         foreign_key="sale.id", nullable=False, ondelete="CASCADE"
@@ -51,7 +51,7 @@ class SaleReturn(SaleReturnBase, table=True):
 
     organization: "Organization" = Relationship(back_populates="sale_returns")
     created_by: "User" = Relationship()
-    customer: "Customer" = Relationship(back_populates="sale_returns")
+    contraagent: "Contraagent" = Relationship(back_populates="sale_returns")
     sale: "Sale" = Relationship(back_populates="sale_returns")
     sale_return_items: list["SaleReturnItem"] = Relationship(
         back_populates="sale_return", cascade_delete=True
@@ -62,7 +62,7 @@ class SaleReturnPublic(SaleReturnBase):
     id: uuid.UUID
     organization_id: uuid.UUID
     created_by_id: uuid.UUID
-    customer_id: uuid.UUID
+    contraagent_id: uuid.UUID
     sale_id: uuid.UUID
     date_created: datetime
     date_updated: datetime

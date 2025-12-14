@@ -18,16 +18,8 @@ import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
-import { Route as LayoutSuppliersImport } from './routes/_layout/suppliers'
 import { Route as LayoutStoresImport } from './routes/_layout/stores'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
-import { Route as LayoutSalesImport } from './routes/_layout/sales'
-import { Route as LayoutPurchasesImport } from './routes/_layout/purchases'
-import { Route as LayoutItemsImport } from './routes/_layout/items'
-import { Route as LayoutItemunitsImport } from './routes/_layout/item_units'
-import { Route as LayoutItemcategoriesImport } from './routes/_layout/item_categories'
-import { Route as LayoutCustomersImport } from './routes/_layout/customers'
-import { Route as LayoutCustomertypesImport } from './routes/_layout/customer_types'
 import { Route as LayoutCurrenciesImport } from './routes/_layout/currencies'
 import { Route as LayoutContraagentsImport } from './routes/_layout/contraagents'
 import { Route as LayoutAssetsImport } from './routes/_layout/assets'
@@ -71,11 +63,6 @@ const LayoutIndexRoute = LayoutIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutSuppliersRoute = LayoutSuppliersImport.update({
-  path: '/suppliers',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const LayoutStoresRoute = LayoutStoresImport.update({
   path: '/stores',
   getParentRoute: () => LayoutRoute,
@@ -83,41 +70,6 @@ const LayoutStoresRoute = LayoutStoresImport.update({
 
 const LayoutSettingsRoute = LayoutSettingsImport.update({
   path: '/settings',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutSalesRoute = LayoutSalesImport.update({
-  path: '/sales',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutPurchasesRoute = LayoutPurchasesImport.update({
-  path: '/purchases',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutItemsRoute = LayoutItemsImport.update({
-  path: '/items',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutItemunitsRoute = LayoutItemunitsImport.update({
-  path: '/item_units',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutItemcategoriesRoute = LayoutItemcategoriesImport.update({
-  path: '/item_categories',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutCustomersRoute = LayoutCustomersImport.update({
-  path: '/customers',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutCustomertypesRoute = LayoutCustomertypesImport.update({
-  path: '/customer_types',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -194,44 +146,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCurrenciesImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/customer_types': {
-      preLoaderRoute: typeof LayoutCustomertypesImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/customers': {
-      preLoaderRoute: typeof LayoutCustomersImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/item_categories': {
-      preLoaderRoute: typeof LayoutItemcategoriesImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/item_units': {
-      preLoaderRoute: typeof LayoutItemunitsImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/items': {
-      preLoaderRoute: typeof LayoutItemsImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/purchases': {
-      preLoaderRoute: typeof LayoutPurchasesImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/sales': {
-      preLoaderRoute: typeof LayoutSalesImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/settings': {
       preLoaderRoute: typeof LayoutSettingsImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/stores': {
       preLoaderRoute: typeof LayoutStoresImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/suppliers': {
-      preLoaderRoute: typeof LayoutSuppliersImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/': {
@@ -250,16 +170,8 @@ export const routeTree = rootRoute.addChildren([
     LayoutAssetsRoute,
     LayoutContraagentsRoute,
     LayoutCurrenciesRoute,
-    LayoutCustomertypesRoute,
-    LayoutCustomersRoute,
-    LayoutItemcategoriesRoute,
-    LayoutItemunitsRoute,
-    LayoutItemsRoute,
-    LayoutPurchasesRoute,
-    LayoutSalesRoute,
     LayoutSettingsRoute,
     LayoutStoresRoute,
-    LayoutSuppliersRoute,
     LayoutIndexRoute,
   ]),
   LoginRoute,

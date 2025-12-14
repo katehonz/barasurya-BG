@@ -1,50 +1,49 @@
 import uuid
 from datetime import datetime
-from typing import TYPE_CHECKING
+from decimal import Decimal
+from typing import TYPE_CHECKING, List
 
-from sqlmodel import Field, Relationship
+from sqlmodel import Field, Relationship, UniqueConstraint
 
 from app.models import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
-    from app.models.item_category import ItemCategory
-    from app.models.item_unit import ItemUnit
     from app.models.organization import Organization
+    from app.models.user import User
+    from app.models.product_category import ProductCategory
     from app.models.purchase_item import PurchaseItem
-    from app.models.purchase_return_item import PurchaseReturnItem
     from app.models.sale_item import SaleItem
+    from app.models.purchase_return_item import PurchaseReturnItem
     from app.models.sale_return_item import SaleReturnItem
     from app.models.stock_adjustment import StockAdjustment
-    from app.models.stock_level import StockLevel
     from app.models.stock_transfer import StockTransfer
-    from app.models.user import User
 
 
-# Shared properties
 class ItemBase(BaseModel):
-    title: str = Field(min_length=1, max_length=255)
-    description: str | None = Field(default=None, max_length=255)
-    price_purchase: float | None = None
-    price_sell: float | None = None
-    stock_minimum: int = Field(default=0, ge=0)
+    name: str = Field(min_length=1, max_length=255)
+    description: str | None = Field(default=None, max_length=1000)
+    price: Decimal = Field(default=0, max_digits=15, decimal_places=2)
+    unit: str = Field(min_length=1, max_length=50)
+    sku: str | None = Field(default=None, max_length=100)
     is_active: bool = Field(default=True)
+    
+    # Additional fields based on project context
+    barcode: str | None = Field(default=None, max_length=100)
+    internal_code: str | None = Field(default=None, max_length=100)
+    notes: str | None = Field(default=None, max_length=1000)
 
 
-# Properties to receive on item creation
 class ItemCreate(ItemBase):
-    item_category_id: uuid.UUID
-    item_unit_id: uuid.UUID
+    pass
 
 
-# Properties to receive on item update
 class ItemUpdate(ItemBase):
-    title: str | None = Field(default=None, min_length=1, max_length=255)  # type: ignore
-    item_category_id: uuid.UUID | None = Field(default=None)
-    item_unit_id: uuid.UUID | None = Field(default=None)
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    price: Decimal | None = None
+    unit: str | None = Field(default=None, min_length=1, max_length=50)
 
 
-# Database model, database table inferred from class name
 class Item(ItemBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)
@@ -55,51 +54,30 @@ class Item(ItemBase, table=True):
     created_by_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
-    item_category_id: uuid.UUID = Field(
-        foreign_key="item_category.id", nullable=False, ondelete="CASCADE"
-    )
-    item_unit_id: uuid.UUID = Field(
-        foreign_key="item_unit.id", nullable=False, ondelete="CASCADE"
+    product_category_id: uuid.UUID | None = Field(
+        default=None, foreign_key="product_category.id", ondelete="SET NULL"
     )
 
-    organization: "Organization" = Relationship(back_populates="items")
-    created_by: "User" = Relationship()
-    item_category: "ItemCategory" = Relationship(back_populates="items")
-    item_unit: "ItemUnit" = Relationship(back_populates="items")
-    purchase_items: list["PurchaseItem"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
-    sale_items: list["SaleItem"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
-    stock_adjustments: list["StockAdjustment"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
-    stock_transfers: list["StockTransfer"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
-    sale_return_items: list["SaleReturnItem"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
-    purchase_return_items: list["PurchaseReturnItem"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
-    # NOTE: stock_levels relationship removed - migrating to Product-based inventory
-    # stock_levels: list["StockLevel"] = Relationship(
-    #     back_populates="item", cascade_delete=True
-    # )
+    # Relationships (temporarily commented out for debugging Alembic issue)
+    # organization: "Organization" = Relationship(back_populates="items")
+    # created_by: "User" = Relationship()
+    # product_category: "ProductCategory" = Relationship(back_populates="items")
+    
+    # purchase_items: List["PurchaseItem"] = Relationship(back_populates="item")
+    # sale_items: List["SaleItem"] = Relationship(back_populates="item")
+    # purchase_return_items: List["PurchaseReturnItem"] = Relationship(back_populates="item")
+    # sale_return_items: List["SaleReturnItem"] = Relationship(back_populates="item")
+    # stock_adjustments: List["StockAdjustment"] = Relationship(back_populates="item")
+    # stock_transfers: List["StockTransfer"] = Relationship(back_populates="item")
+
+    __table_args__ = (UniqueConstraint("organization_id", "sku", name="ux_item_organization_sku"),)
 
 
-# Properties to return via API, id is always required
 class ItemPublic(ItemBase):
     id: uuid.UUID
-    stock: int
     organization_id: uuid.UUID
     created_by_id: uuid.UUID
-    item_category_id: uuid.UUID
-    item_category_name: str
-    item_unit_id: uuid.UUID
-    item_unit_name: str
+    product_category_id: uuid.UUID | None
     date_created: datetime
     date_updated: datetime
 

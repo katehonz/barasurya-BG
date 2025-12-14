@@ -14,15 +14,7 @@ import { useForm } from "react-hook-form"
 import {
   AccountsService,
   AssetsService,
-  CustomersService,
-  CustomerTypesService,
-  ItemCategoriesService,
-  ItemsService,
-  ItemUnitsService,
-  PurchasesService,
-  SalesService,
   StoresService,
-  SuppliersService,
   UsersService,
 } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
@@ -35,32 +27,16 @@ interface DeleteProps {
 }
 
 const typeToQueryKey: Record<string, string> = {
-  Item: "items",
   User: "users",
-  Supplier: "suppliers",
-  Category: "item-categories",
-  Unit: "item-units",
-  Type: "customer-types",
-  Customer: "customers",
   Account: "accounts",
   Store: "stores",
-  Purchase: "purchases",
-  Sale: "sales",
   Asset: "assets",
 }
 
 const typeToLabel: Record<string, string> = {
-  Item: "артикула",
   User: "потребителя",
-  Supplier: "доставчика",
-  Category: "категорията",
-  Unit: "мерната единица",
-  Type: "типа клиент",
-  Customer: "клиента",
   Account: "сметката",
   Store: "склада",
-  Purchase: "покупката",
-  Sale: "продажбата",
   Asset: "актива",
 }
 
@@ -75,38 +51,14 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
 
   const deleteEntity = async (id: string) => {
     switch (type) {
-      case "Item":
-        await ItemsService.deleteItem({ id })
-        break
       case "User":
         await UsersService.deleteUser({ userId: id })
-        break
-      case "Supplier":
-        await SuppliersService.deleteSupplier({ id })
-        break
-      case "Category":
-        await ItemCategoriesService.deleteItemCategory({ id })
-        break
-      case "Unit":
-        await ItemUnitsService.deleteItemUnit({ id })
-        break
-      case "Type":
-        await CustomerTypesService.deleteCustomerType({ id })
-        break
-      case "Customer":
-        await CustomersService.deleteCustomer({ id })
         break
       case "Account":
         await AccountsService.deleteAccount({ id })
         break
       case "Store":
         await StoresService.deleteStore({ id })
-        break
-      case "Purchase":
-        await PurchasesService.deletePurchase({ id })
-        break
-      case "Sale":
-        await SalesService.deleteSale({ id })
         break
       case "Asset":
         await AssetsService.deleteAsset({ assetId: id })

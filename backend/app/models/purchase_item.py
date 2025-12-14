@@ -35,19 +35,18 @@ class PurchaseItem(PurchaseItemBase, table=True):
     purchase_id: uuid.UUID = Field(
         foreign_key="purchase.id", nullable=False, ondelete="CASCADE"
     )
-    item_id: uuid.UUID = Field(
-        foreign_key="item.id", nullable=False, ondelete="CASCADE"
-    )
+    # item_id: uuid.UUID = Field(
+    #     foreign_key="item.id", nullable=False, ondelete="CASCADE"
+    # )
 
     purchase: "Purchase" = Relationship(back_populates="purchase_items")
-    item: "Item" = Relationship(back_populates="purchase_items")
+    # item: "Item" = Relationship(back_populates="purchase_items")
 
 
 class PurchaseItemPublic(PurchaseItemBase):
     id: uuid.UUID
     owner_id: uuid.UUID
     purchase_id: uuid.UUID
-    item_id: uuid.UUID
     date_created: datetime
     date_updated: datetime
 

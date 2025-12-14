@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
-    from app.models.item import Item
+    from app.models.product import Product
     from app.models.recipe import Recipe
 
 
@@ -28,7 +28,7 @@ class RecipeItemBase(SQLModel):
 
 class RecipeItemCreate(RecipeItemBase):
     """Схема за създаване на компонент."""
-    item_id: uuid.UUID = Field(description="ID на материала/артикула")
+    product_id: uuid.UUID = Field(description="ID на материала/продукта")
 
 
 class RecipeItemUpdate(SQLModel):
@@ -48,11 +48,11 @@ class RecipeItem(RecipeItemBase, table=True):
     recipe_id: uuid.UUID = Field(
         foreign_key="recipe.id", nullable=False, ondelete="CASCADE", index=True
     )
-    item_id: uuid.UUID = Field(foreign_key="item.id", nullable=False)
+    product_id: uuid.UUID = Field(foreign_key="products.id", nullable=False)
 
     # Relationships
     recipe: "Recipe" = Relationship(back_populates="recipe_items")
-    item: "Item" = Relationship()
+    product: "Product" = Relationship()
 
     @property
     def effective_quantity(self) -> Decimal:
@@ -70,7 +70,7 @@ class RecipeItemPublic(RecipeItemBase):
     """Публична схема за компонент."""
     id: uuid.UUID
     recipe_id: uuid.UUID
-    item_id: uuid.UUID
+    product_id: uuid.UUID
 
 
 class RecipeItemsPublic(SQLModel):

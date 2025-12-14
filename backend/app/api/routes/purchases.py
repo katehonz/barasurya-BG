@@ -22,7 +22,7 @@ from app.models import (
     PurchasesPublic,
     PurchaseUpdate,
     Store,
-    Supplier,
+    Contraagent, # Changed from Supplier
     has_role_or_higher,
 )
 from app.services.journal import JournalService
@@ -50,7 +50,7 @@ def read_purchases(
     count = session.exec(count_statement).one()
     statement = (
         select(Purchase)
-        .options(selectinload(Purchase.supplier), selectinload(Purchase.store))
+        .options(selectinload(Purchase.contraagent), selectinload(Purchase.store)) # Changed from Purchase.supplier
         .where(Purchase.organization_id == current_org.id)
         .offset(skip)
         .limit(limit)
@@ -60,7 +60,7 @@ def read_purchases(
         purchases,
         schema=PurchasePublic,
         extra_fields={
-            "supplier_name": lambda p: p.supplier.name,
+            "contraagent_name": lambda p: p.contraagent.name, # Changed from supplier_name
             "store_name": lambda p: p.store.name,
         },
     )
@@ -97,11 +97,13 @@ def create_purchase(
     """
     Create new purchase. Requires at least member role.
     """
-    supplier = session.get(Supplier, purchase_in.supplier_id)
-    if not supplier:
-        raise HTTPException(status_code=404, detail="Supplier not found")
-    if supplier.organization_id != current_org.id:
-        raise HTTPException(status_code=403, detail="Supplier belongs to another organization")
+    contraagent = session.get(Contraagent, purchase_in.contraagent_id)
+    if not contraagent:
+        raise HTTPException(status_code=404, detail="Contraagent not found")
+    if contraagent.organization_id != current_org.id:
+        raise HTTPException(status_code=403, detail="Contraagent belongs to another organization")
+    if not contraagent.is_supplier:
+        raise HTTPException(status_code=403, detail="Contraagent is not a supplier")
 
     store = session.get(Store, purchase_in.store_id)
     if not store:
@@ -127,7 +129,7 @@ def create_purchase(
         purchase,
         schema=PurchasePublic,
         extra_fields={
-            "supplier_name": lambda p: p.supplier.name,
+            "contraagent_name": lambda p: p.contraagent.name,
             "store_name": lambda p: p.store.name,
         },
     )
@@ -154,12 +156,14 @@ def update_purchase(
     if purchase.organization_id != current_org.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
-    if purchase_in.supplier_id is not None:
-        supplier = session.get(Supplier, purchase_in.supplier_id)
-        if not supplier:
-            raise HTTPException(status_code=404, detail="Supplier not found")
-        if supplier.organization_id != current_org.id:
-            raise HTTPException(status_code=403, detail="Supplier belongs to another organization")
+    if purchase_in.contraagent_id is not None:
+        contraagent = session.get(Contraagent, purchase_in.contraagent_id)
+        if not contraagent:
+            raise HTTPException(status_code=404, detail="Contraagent not found")
+        if contraagent.organization_id != current_org.id:
+            raise HTTPException(status_code=403, detail="Contraagent belongs to another organization")
+        if not contraagent.is_supplier:
+            raise HTTPException(status_code=403, detail="Contraagent is not a supplier")
 
     if purchase_in.store_id is not None:
         store = session.get(Store, purchase_in.store_id)
@@ -178,7 +182,7 @@ def update_purchase(
         purchase,
         schema=PurchasePublic,
         extra_fields={
-            "supplier_name": lambda p: p.supplier.name,
+            "contraagent_name": lambda p: p.contraagent.name,
             "store_name": lambda p: p.store.name,
         },
     )

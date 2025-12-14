@@ -27,7 +27,7 @@ from app.crud.recipe import (
 )
 from app.models import (
     BaseModelUpdate,
-    Item,
+    Product, # Changed from Item
     Message,
     OrganizationRole,
     has_role_or_higher,
@@ -125,10 +125,10 @@ def create_recipe_endpoint(
     Create new recipe. Requires at least member role.
     """
     # Validate output_item_id belongs to organization
-    output_item = session.get(Item, recipe_in.output_item_id)
-    if not output_item:
+    output_product = session.get(Product, recipe_in.output_item_id) # Changed from output_item and Item
+    if not output_product: # Changed from output_item
         raise HTTPException(status_code=404, detail="Изходният продукт не е намерен")
-    if output_item.organization_id != current_org.id:
+    if output_product.organization_id != current_org.id: # Changed from output_item
         raise HTTPException(
             status_code=403,
             detail="Изходният продукт принадлежи на друга организация",
@@ -304,7 +304,7 @@ def create_recipe_item_endpoint(
     current_org: CurrentOrganization,
     membership: CurrentMembership,
     recipe_id: uuid.UUID,
-    item_in: RecipeItemCreate,
+    item_in: RecipeItemCreate, # item_in still has item_id, will be product_id now
 ) -> Any:
     """
     Add item to a recipe. Requires at least member role.
@@ -315,14 +315,14 @@ def create_recipe_item_endpoint(
     if not recipe:
         raise HTTPException(status_code=404, detail="Рецептата не е намерена")
 
-    # Validate item belongs to organization
-    item = session.get(Item, item_in.item_id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Артикулът не е намерен")
-    if item.organization_id != current_org.id:
+    # Validate product belongs to organization
+    product = session.get(Product, item_in.product_id) # Changed from item and item_in.item_id
+    if not product:
+        raise HTTPException(status_code=404, detail="Продуктът не е намерен") # Changed from Артикулът
+    if product.organization_id != current_org.id: # Changed from item
         raise HTTPException(
             status_code=403,
-            detail="Артикулът принадлежи на друга организация",
+            detail="Продуктът принадлежи на друга организация", # Changed from Артикулът
         )
 
     recipe_item = create_recipe_item(
@@ -331,14 +331,14 @@ def create_recipe_item_endpoint(
     return recipe_item
 
 
-@router.put("/{recipe_id}/items/{item_id}", response_model=RecipeItemPublic)
+@router.put("/{recipe_id}/items/{product_id}", response_model=RecipeItemPublic) # Changed item_id to product_id
 def update_recipe_item_endpoint(
     *,
     session: SessionDep,
     current_org: CurrentOrganization,
     membership: CurrentMembership,
     recipe_id: uuid.UUID,
-    item_id: uuid.UUID,
+    product_id: uuid.UUID, # Changed from item_id
     item_in: RecipeItemUpdate,
 ) -> Any:
     """
@@ -354,7 +354,7 @@ def update_recipe_item_endpoint(
         raise HTTPException(status_code=404, detail="Рецептата не е намерена")
 
     recipe_item = get_recipe_item(
-        session=session, item_id=item_id, recipe_id=recipe_id
+        session=session, product_id=product_id, recipe_id=recipe_id # Changed item_id to product_id
     )
     if not recipe_item:
         raise HTTPException(status_code=404, detail="Компонентът не е намерен")
@@ -365,13 +365,13 @@ def update_recipe_item_endpoint(
     return recipe_item
 
 
-@router.delete("/{recipe_id}/items/{item_id}")
+@router.delete("/{recipe_id}/items/{product_id}") # Changed item_id to product_id
 def delete_recipe_item_endpoint(
     session: SessionDep,
     current_org: CurrentOrganization,
     membership: CurrentMembership,
     recipe_id: uuid.UUID,
-    item_id: uuid.UUID,
+    product_id: uuid.UUID, # Changed from item_id
 ) -> Message:
     """
     Delete a recipe item. Requires manager role.
@@ -386,7 +386,7 @@ def delete_recipe_item_endpoint(
         raise HTTPException(status_code=404, detail="Рецептата не е намерена")
 
     recipe_item = get_recipe_item(
-        session=session, item_id=item_id, recipe_id=recipe_id
+        session=session, product_id=product_id, recipe_id=recipe_id # Changed item_id to product_id
     )
     if not recipe_item:
         raise HTTPException(status_code=404, detail="Компонентът не е намерен")

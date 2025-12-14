@@ -1,11 +1,11 @@
 import uuid
 from datetime import datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlmodel import Field, Relationship
 
-from app.models import BaseModel
+from app.models.base import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
@@ -13,6 +13,14 @@ if TYPE_CHECKING:
     from app.models.contraagent_bank_account import ContraagentBankAccount
     from app.models.organization import Organization
     from app.models.user import User
+    from app.models.payable import Payable
+    from app.models.receivable import Receivable
+    from app.models.purchase import Purchase
+    from app.models.sale import Sale
+    from app.models.purchase_order import PurchaseOrder
+    from app.models.quotation import Quotation
+    from app.models.asset import Asset
+    from app.models.asset_transaction import AssetTransaction
 
 
 class ContraagentBase(BaseModel):
@@ -118,7 +126,7 @@ class ContraagentUpdate(BaseModel):
     
     tax_type: str | None = Field(default=None, max_length=50)
     tax_authority: str | None = Field(default=None, max_length=255)
-    tax_verification_date: datetime | None = None
+    tax_verification_date: datetime | None = Field(default=None)
     
     self_billing_indicator: bool | None = None
     related_party: bool | None = None
@@ -159,6 +167,30 @@ class Contraagent(ContraagentBase, table=True):
     
     # Bank Accounts
     bank_accounts: list["ContraagentBankAccount"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    payables: list["Payable"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    receivables: list["Receivable"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    purchases: list["Purchase"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    sales: list["Sale"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    purchase_orders: list["PurchaseOrder"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    quotations: list["Quotation"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    assets: list["Asset"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    asset_transactions: list["AssetTransaction"] = Relationship(
         back_populates="contraagent", cascade_delete=True
     )
 

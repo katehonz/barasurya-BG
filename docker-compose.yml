@@ -85,8 +85,6 @@ services:
       db:
         condition: service_healthy
         restart: true
-      prestart:
-        condition: service_completed_successfully
     env_file:
       - .env
     environment:
@@ -191,6 +189,7 @@ services:
       - EMAILS_FROM_EMAIL=${EMAILS_FROM_EMAIL}
       - POSTGRES_SERVER=db
       - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
