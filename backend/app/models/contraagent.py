@@ -16,7 +16,9 @@ if TYPE_CHECKING:
     from app.models.payable import Payable
     from app.models.receivable import Receivable
     from app.models.purchase import Purchase
+    from app.models.purchase_return import PurchaseReturn
     from app.models.sale import Sale
+    from app.models.sale_return import SaleReturn
     from app.models.purchase_order import PurchaseOrder
     from app.models.quotation import Quotation
     from app.models.asset import Asset
@@ -178,7 +180,13 @@ class Contraagent(ContraagentBase, table=True):
     purchases: list["Purchase"] = Relationship(
         back_populates="contraagent", cascade_delete=True
     )
+    purchase_returns: list["PurchaseReturn"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
     sales: list["Sale"] = Relationship(
+        back_populates="contraagent", cascade_delete=True
+    )
+    sale_returns: list["SaleReturn"] = Relationship(
         back_populates="contraagent", cascade_delete=True
     )
     purchase_orders: list["PurchaseOrder"] = Relationship(

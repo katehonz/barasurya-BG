@@ -336,5 +336,53 @@
       "componentUpdated": "Component updated successfully.",
       "componentDeleted": "Component deleted successfully."
     }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "invoice": "Invoice",
+    "addInvoice": "Add Invoice",
+    "editInvoice": "Edit Invoice",
+    "invoiceNo": "Invoice Number",
+    "issueDate": "Issue Date",
+    "dueDate": "Due Date",
+    "customer": "Customer",
+    "supplier": "Supplier",
+    "items": "Items",
+    "subtotal": "Subtotal",
+    "vatAmount": "VAT",
+    "total": "Total",
+    "status": "Status",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "overdue": "Overdue",
+    "downloadPdf": "Download PDF",
+    "messages": {
+      "created": "Invoice created successfully.",
+      "updated": "Invoice updated successfully.",
+      "deleted": "Invoice deleted successfully.",
+      "noInvoices": "No invoices found"
+    }
+  },
+  "vat": {
+    "title": "VAT",
+    "vatRegister": "VAT Register",
+    "salesRegister": "Sales Register",
+    "purchasesRegister": "Purchases Register",
+    "vatReturn": "VAT Return",
+    "downloadSalesRegister": "Download Sales Register",
+    "downloadPurchaseRegister": "Download Purchase Register",
+    "downloadVatDeclaration": "Download VAT Declaration",
+    "period": "Period",
+    "year": "Year",
+    "month": "Month",
+    "taxBase": "Tax Base",
+    "vatAmount": "VAT Amount",
+    "vatRate": "VAT Rate",
+    "generate": "Generate",
+    "export": "Export",
+    "messages": {
+      "generated": "VAT report generated successfully.",
+      "exported": "VAT report exported successfully."
+    }
   }
 }

@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { AccountsReadAccountsData, AccountsReadAccountsResponse, AccountsCreateAccountData, AccountsCreateAccountResponse, AccountsReadAccountData, AccountsReadAccountResponse, AccountsUpdateAccountData, AccountsUpdateAccountResponse, AccountsDeleteAccountData, AccountsDeleteAccountResponse, AssetsListAssetsData, AssetsListAssetsResponse, AssetsCreateAssetData, AssetsCreateAssetResponse, AssetsGetAssetData, AssetsGetAssetResponse, AssetsUpdateAssetData, AssetsUpdateAssetResponse, AssetsDeleteAssetData, AssetsDeleteAssetResponse, AssetsGetAssetStatisticsResponse, BankAccountsListBankAccountsData, BankAccountsListBankAccountsResponse, BankAccountsCreateBankAccountData, BankAccountsCreateBankAccountResponse, BankAccountsGetBankAccountData, BankAccountsGetBankAccountResponse, BankAccountsUpdateBankAccountData, BankAccountsUpdateBankAccountResponse, BankAccountsDeleteBankAccountData, BankAccountsDeleteBankAccountResponse, BankTransactionsListBankTransactionsData, BankTransactionsListBankTransactionsResponse, BankTransactionsCreateBankTransactionData, BankTransactionsCreateBankTransactionResponse, BankTransactionsGetBankTransactionData, BankTransactionsGetBankTransactionResponse, BankTransactionsUpdateBankTransactionData, BankTransactionsUpdateBankTransactionResponse, BankTransactionsDeleteBankTransactionData, BankTransactionsDeleteBankTransactionResponse, BankTransactionsProcessBankTransactionData, BankTransactionsProcessBankTransactionResponse, ContraagentsReadContraagentsData, ContraagentsReadContraagentsResponse, ContraagentsCreateContraagentData, ContraagentsCreateContraagentResponse, ContraagentsReadContraagentData, ContraagentsReadContraagentResponse, ContraagentsUpdateContraagentData, ContraagentsUpdateContraagentResponse, ContraagentsDeleteContraagentData, ContraagentsDeleteContraagentResponse, ContraagentsValidateVatNumberData, ContraagentsValidateVatNumberResponse, ContraagentsSetOpeningBalanceData, ContraagentsSetOpeningBalanceResponse, ContraagentsRemoveOpeningBalanceData, ContraagentsRemoveOpeningBalanceResponse, ContraagentsGetOpeningBalancesSummaryResponse, ContraagentsReadContraagentBankAccountsData, ContraagentsReadContraagentBankAccountsResponse, ContraagentsCreateContraagentBankAccountData, ContraagentsCreateContraagentBankAccountResponse, ContraagentsUpdateContraagentBankAccountData, ContraagentsUpdateContraagentBankAccountResponse, ContraagentsDeleteContraagentBankAccountData, ContraagentsDeleteContraagentBankAccountResponse, CurrenciesReadCurrenciesData, CurrenciesReadCurrenciesResponse, CurrenciesCreateCurrencyData, CurrenciesCreateCurrencyResponse, CurrenciesUpdateCurrencyData, CurrenciesUpdateCurrencyResponse, CurrenciesReadCurrencyData, CurrenciesReadCurrencyResponse, CurrenciesDeleteCurrencyData, CurrenciesDeleteCurrencyResponse, CurrenciesReadExchangeRatesData, CurrenciesReadExchangeRatesResponse, CurrenciesUpdateEcbRatesResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OrganizationsReadOrganizationsData, OrganizationsReadOrganizationsResponse, OrganizationsCreateOrganizationData, OrganizationsCreateOrganizationResponse, OrganizationsReadCurrentOrganizationResponse, OrganizationsReadOrganizationData, OrganizationsReadOrganizationResponse, OrganizationsUpdateOrganizationData, OrganizationsUpdateOrganizationResponse, OrganizationsDeleteOrganizationData, OrganizationsDeleteOrganizationResponse, OrganizationsSwitchOrganizationData, OrganizationsSwitchOrganizationResponse, OrganizationsReadOrganizationMembersData, OrganizationsReadOrganizationMembersResponse, OrganizationsAddOrganizationMemberData, OrganizationsAddOrganizationMemberResponse, OrganizationsUpdateOrganizationMemberData, OrganizationsUpdateOrganizationMemberResponse, OrganizationsRemoveOrganizationMemberData, OrganizationsRemoveOrganizationMemberResponse, PaymentsReadPaymentsData, PaymentsReadPaymentsResponse, PaymentsCreatePaymentData, PaymentsCreatePaymentResponse, PermissionsReadPermissionsData, PermissionsReadPermissionsResponse, PermissionsCreatePermissionData, PermissionsCreatePermissionResponse, PermissionsReadPermissionData, PermissionsReadPermissionResponse, PermissionsUpdatePermissionData, PermissionsUpdatePermissionResponse, PermissionsDeletePermissionData, PermissionsDeletePermissionResponse, PrivateCreateUserData, PrivateCreateUserResponse, PurchaseOrdersReadPurchaseOrdersData, PurchaseOrdersReadPurchaseOrdersResponse, PurchaseOrdersCreatePurchaseOrderData, PurchaseOrdersCreatePurchaseOrderResponse, PurchaseOrdersReadPurchaseOrderData, PurchaseOrdersReadPurchaseOrderResponse, PurchaseOrdersUpdatePurchaseOrderData, PurchaseOrdersUpdatePurchaseOrderResponse, PurchaseOrdersDeletePurchaseOrderData, PurchaseOrdersDeletePurchaseOrderResponse, PurchaseOrdersSendPurchaseOrderData, PurchaseOrdersSendPurchaseOrderResponse, PurchaseOrdersConfirmPurchaseOrderData, PurchaseOrdersConfirmPurchaseOrderResponse, PurchaseOrdersCancelPurchaseOrderData, PurchaseOrdersCancelPurchaseOrderResponse, PurchasesReadPurchasesData, PurchasesReadPurchasesResponse, PurchasesCreatePurchaseData, PurchasesCreatePurchaseResponse, PurchasesReadPurchaseData, PurchasesReadPurchaseResponse, PurchasesUpdatePurchaseData, PurchasesUpdatePurchaseResponse, PurchasesDeletePurchaseData, PurchasesDeletePurchaseResponse, QuotationsReadQuotationsData, QuotationsReadQuotationsResponse, QuotationsCreateQuotationData, QuotationsCreateQuotationResponse, QuotationsReadQuotationData, QuotationsReadQuotationResponse, QuotationsUpdateQuotationData, QuotationsUpdateQuotationResponse, QuotationsDeleteQuotationData, QuotationsDeleteQuotationResponse, QuotationsSendQuotationData, QuotationsSendQuotationResponse, QuotationsAcceptQuotationData, QuotationsAcceptQuotationResponse, QuotationsRejectQuotationData, QuotationsRejectQuotationResponse, QuotationsCancelQuotationData, QuotationsCancelQuotationResponse, QuotationsConvertQuotationToInvoiceData, QuotationsConvertQuotationToInvoiceResponse, RecipesReadRecipesData, RecipesReadRecipesResponse, RecipesCreateRecipeEndpointData, RecipesCreateRecipeEndpointResponse, RecipesReadRecipeData, RecipesReadRecipeResponse, RecipesUpdateRecipeEndpointData, RecipesUpdateRecipeEndpointResponse, RecipesDeleteRecipeEndpointData, RecipesDeleteRecipeEndpointResponse, RecipesActivateRecipeData, RecipesActivateRecipeResponse, RecipesDeactivateRecipeData, RecipesDeactivateRecipeResponse, RecipesReadRecipeItemsData, RecipesReadRecipeItemsResponse, RecipesCreateRecipeItemEndpointData, RecipesCreateRecipeItemEndpointResponse, RecipesUpdateRecipeItemEndpointData, RecipesUpdateRecipeItemEndpointResponse, RecipesDeleteRecipeItemEndpointData, RecipesDeleteRecipeItemEndpointResponse, SaftGenerateSaftData, SaftGenerateSaftResponse, SalesReadSalesData, SalesReadSalesResponse, SalesCreateSaleData, SalesCreateSaleResponse, SalesReadSaleData, SalesReadSaleResponse, SalesUpdateSaleData, SalesUpdateSaleResponse, SalesDeleteSaleData, SalesDeleteSaleResponse, StockLevelsReadStockLevelsData, StockLevelsReadStockLevelsResponse, StockLevelsCreateStockLevelData, StockLevelsCreateStockLevelResponse, StockLevelsReadStockLevelData, StockLevelsReadStockLevelResponse, StockLevelsUpdateStockLevelData, StockLevelsUpdateStockLevelResponse, StockLevelsDeleteStockLevelData, StockLevelsDeleteStockLevelResponse, StoresReadStoresData, StoresReadStoresResponse, StoresCreateStoreData, StoresCreateStoreResponse, StoresReadStoreData, StoresReadStoreResponse, StoresUpdateStoreData, StoresUpdateStoreResponse, StoresDeleteStoreData, StoresDeleteStoreResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadSpecialData, UsersReadSpecialResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { AccountsReadAccountsData, AccountsReadAccountsResponse, AccountsCreateAccountData, AccountsCreateAccountResponse, AccountsReadAccountData, AccountsReadAccountResponse, AccountsUpdateAccountData, AccountsUpdateAccountResponse, AccountsDeleteAccountData, AccountsDeleteAccountResponse, AssetsListAssetsData, AssetsListAssetsResponse, AssetsCreateAssetData, AssetsCreateAssetResponse, AssetsGetAssetData, AssetsGetAssetResponse, AssetsUpdateAssetData, AssetsUpdateAssetResponse, AssetsDeleteAssetData, AssetsDeleteAssetResponse, AssetsGetAssetStatisticsResponse, BankAccountsListBankAccountsData, BankAccountsListBankAccountsResponse, BankAccountsCreateBankAccountData, BankAccountsCreateBankAccountResponse, BankAccountsGetBankAccountData, BankAccountsGetBankAccountResponse, BankAccountsUpdateBankAccountData, BankAccountsUpdateBankAccountResponse, BankAccountsDeleteBankAccountData, BankAccountsDeleteBankAccountResponse, BankTransactionsListBankTransactionsData, BankTransactionsListBankTransactionsResponse, BankTransactionsCreateBankTransactionData, BankTransactionsCreateBankTransactionResponse, BankTransactionsGetBankTransactionData, BankTransactionsGetBankTransactionResponse, BankTransactionsUpdateBankTransactionData, BankTransactionsUpdateBankTransactionResponse, BankTransactionsDeleteBankTransactionData, BankTransactionsDeleteBankTransactionResponse, BankTransactionsProcessBankTransactionData, BankTransactionsProcessBankTransactionResponse, ContraagentsReadContraagentsData, ContraagentsReadContraagentsResponse, ContraagentsCreateContraagentData, ContraagentsCreateContraagentResponse, ContraagentsReadContraagentData, ContraagentsReadContraagentResponse, ContraagentsUpdateContraagentData, ContraagentsUpdateContraagentResponse, ContraagentsDeleteContraagentData, ContraagentsDeleteContraagentResponse, ContraagentsValidateVatNumberData, ContraagentsValidateVatNumberResponse, ContraagentsSetOpeningBalanceData, ContraagentsSetOpeningBalanceResponse, ContraagentsRemoveOpeningBalanceData, ContraagentsRemoveOpeningBalanceResponse, ContraagentsGetOpeningBalancesSummaryResponse, ContraagentsReadContraagentBankAccountsData, ContraagentsReadContraagentBankAccountsResponse, ContraagentsCreateContraagentBankAccountData, ContraagentsCreateContraagentBankAccountResponse, ContraagentsUpdateContraagentBankAccountData, ContraagentsUpdateContraagentBankAccountResponse, ContraagentsDeleteContraagentBankAccountData, ContraagentsDeleteContraagentBankAccountResponse, CurrenciesReadCurrenciesData, CurrenciesReadCurrenciesResponse, CurrenciesCreateCurrencyData, CurrenciesCreateCurrencyResponse, CurrenciesUpdateCurrencyData, CurrenciesUpdateCurrencyResponse, CurrenciesReadCurrencyData, CurrenciesReadCurrencyResponse, CurrenciesDeleteCurrencyData, CurrenciesDeleteCurrencyResponse, CurrenciesReadExchangeRatesData, CurrenciesReadExchangeRatesResponse, CurrenciesUpdateEcbRatesResponse, InvoicesReadInvoicesData, InvoicesReadInvoicesResponse, InvoicesCreateInvoiceData, InvoicesCreateInvoiceResponse, InvoicesDownloadInvoicePdfData, InvoicesDownloadInvoicePdfResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OrganizationsReadOrganizationsData, OrganizationsReadOrganizationsResponse, OrganizationsCreateOrganizationData, OrganizationsCreateOrganizationResponse, OrganizationsReadCurrentOrganizationResponse, OrganizationsReadOrganizationData, OrganizationsReadOrganizationResponse, OrganizationsUpdateOrganizationData, OrganizationsUpdateOrganizationResponse, OrganizationsDeleteOrganizationData, OrganizationsDeleteOrganizationResponse, OrganizationsSwitchOrganizationData, OrganizationsSwitchOrganizationResponse, OrganizationsReadOrganizationMembersData, OrganizationsReadOrganizationMembersResponse, OrganizationsAddOrganizationMemberData, OrganizationsAddOrganizationMemberResponse, OrganizationsUpdateOrganizationMemberData, OrganizationsUpdateOrganizationMemberResponse, OrganizationsRemoveOrganizationMemberData, OrganizationsRemoveOrganizationMemberResponse, PaymentsReadPaymentsData, PaymentsReadPaymentsResponse, PaymentsCreatePaymentData, PaymentsCreatePaymentResponse, PermissionsReadPermissionsData, PermissionsReadPermissionsResponse, PermissionsCreatePermissionData, PermissionsCreatePermissionResponse, PermissionsReadPermissionData, PermissionsReadPermissionResponse, PermissionsUpdatePermissionData, PermissionsUpdatePermissionResponse, PermissionsDeletePermissionData, PermissionsDeletePermissionResponse, PrivateCreateUserData, PrivateCreateUserResponse, PurchaseOrdersReadPurchaseOrdersData, PurchaseOrdersReadPurchaseOrdersResponse, PurchaseOrdersCreatePurchaseOrderData, PurchaseOrdersCreatePurchaseOrderResponse, PurchaseOrdersReadPurchaseOrderData, PurchaseOrdersReadPurchaseOrderResponse, PurchaseOrdersUpdatePurchaseOrderData, PurchaseOrdersUpdatePurchaseOrderResponse, PurchaseOrdersDeletePurchaseOrderData, PurchaseOrdersDeletePurchaseOrderResponse, PurchaseOrdersSendPurchaseOrderData, PurchaseOrdersSendPurchaseOrderResponse, PurchaseOrdersConfirmPurchaseOrderData, PurchaseOrdersConfirmPurchaseOrderResponse, PurchaseOrdersCancelPurchaseOrderData, PurchaseOrdersCancelPurchaseOrderResponse, PurchasesReadPurchasesData, PurchasesReadPurchasesResponse, PurchasesCreatePurchaseData, PurchasesCreatePurchaseResponse, PurchasesReadPurchaseData, PurchasesReadPurchaseResponse, PurchasesUpdatePurchaseData, PurchasesUpdatePurchaseResponse, PurchasesDeletePurchaseData, PurchasesDeletePurchaseResponse, QuotationsReadQuotationsData, QuotationsReadQuotationsResponse, QuotationsCreateQuotationData, QuotationsCreateQuotationResponse, QuotationsReadQuotationData, QuotationsReadQuotationResponse, QuotationsUpdateQuotationData, QuotationsUpdateQuotationResponse, QuotationsDeleteQuotationData, QuotationsDeleteQuotationResponse, QuotationsSendQuotationData, QuotationsSendQuotationResponse, QuotationsAcceptQuotationData, QuotationsAcceptQuotationResponse, QuotationsRejectQuotationData, QuotationsRejectQuotationResponse, QuotationsCancelQuotationData, QuotationsCancelQuotationResponse, QuotationsConvertQuotationToInvoiceData, QuotationsConvertQuotationToInvoiceResponse, RecipesReadRecipesData, RecipesReadRecipesResponse, RecipesCreateRecipeEndpointData, RecipesCreateRecipeEndpointResponse, RecipesReadRecipeData, RecipesReadRecipeResponse, RecipesUpdateRecipeEndpointData, RecipesUpdateRecipeEndpointResponse, RecipesDeleteRecipeEndpointData, RecipesDeleteRecipeEndpointResponse, RecipesActivateRecipeData, RecipesActivateRecipeResponse, RecipesDeactivateRecipeData, RecipesDeactivateRecipeResponse, RecipesReadRecipeItemsData, RecipesReadRecipeItemsResponse, RecipesCreateRecipeItemEndpointData, RecipesCreateRecipeItemEndpointResponse, RecipesUpdateRecipeItemEndpointData, RecipesUpdateRecipeItemEndpointResponse, RecipesDeleteRecipeItemEndpointData, RecipesDeleteRecipeItemEndpointResponse, SaftGenerateSaftData, SaftGenerateSaftResponse, SaftGenerateVatSalesRegisterData, SaftGenerateVatSalesRegisterResponse, SaftGenerateVatPurchaseRegisterData, SaftGenerateVatPurchaseRegisterResponse, SaftGenerateVatDeclarationData, SaftGenerateVatDeclarationResponse, SalesReadSalesData, SalesReadSalesResponse, SalesCreateSaleData, SalesCreateSaleResponse, SalesReadSaleData, SalesReadSaleResponse, SalesUpdateSaleData, SalesUpdateSaleResponse, SalesDeleteSaleData, SalesDeleteSaleResponse, StockLevelsReadStockLevelsData, StockLevelsReadStockLevelsResponse, StockLevelsCreateStockLevelData, StockLevelsCreateStockLevelResponse, StockLevelsReadStockLevelData, StockLevelsReadStockLevelResponse, StockLevelsUpdateStockLevelData, StockLevelsUpdateStockLevelResponse, StockLevelsDeleteStockLevelData, StockLevelsDeleteStockLevelResponse, StoresReadStoresData, StoresReadStoresResponse, StoresCreateStoreData, StoresCreateStoreResponse, StoresReadStoreData, StoresReadStoreResponse, StoresUpdateStoreData, StoresUpdateStoreResponse, StoresDeleteStoreData, StoresDeleteStoreResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadSpecialData, UsersReadSpecialResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse, VatDownloadSalesRegisterData, VatDownloadSalesRegisterResponse, VatDownloadPurchaseRegisterData, VatDownloadPurchaseRegisterResponse, VatDownloadVatDeclarationData, VatDownloadVatDeclarationResponse } from './types.gen';
 
 export class AccountsService {
     /**
@@ -989,6 +989,73 @@ export class ExchangeRatesService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/currencies/exchange-rates/update-ecb'
+        });
+    }
+    
+}
+
+export class InvoicesService {
+    /**
+     * Read Invoices
+     * Retrieve invoices.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns InvoicesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readInvoices(data: InvoicesReadInvoicesData = {}): CancelablePromise<InvoicesReadInvoicesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/invoices/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Invoice
+     * Create new invoice.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns InvoicePublic Successful Response
+     * @throws ApiError
+     */
+    public static createInvoice(data: InvoicesCreateInvoiceData): CancelablePromise<InvoicesCreateInvoiceResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/invoices/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Download Invoice Pdf
+     * Download invoice as PDF.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static downloadInvoicePdf(data: InvoicesDownloadInvoicePdfData): CancelablePromise<InvoicesDownloadInvoicePdfResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/invoices/{id}/pdf',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
         });
     }
     
@@ -2312,6 +2379,75 @@ export class SaftService {
         });
     }
     
+    /**
+     * Generate Vat Sales Register
+     * Generate VAT sales register (PRODAGBI.TXT).
+     * @param data The data for the request.
+     * @param data.year
+     * @param data.month
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static generateVatSalesRegister(data: SaftGenerateVatSalesRegisterData): CancelablePromise<SaftGenerateVatSalesRegisterResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/saft/vat/sales-register',
+            query: {
+                year: data.year,
+                month: data.month
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Generate Vat Purchase Register
+     * Generate VAT purchase register (POKUPKI.TXT).
+     * @param data The data for the request.
+     * @param data.year
+     * @param data.month
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static generateVatPurchaseRegister(data: SaftGenerateVatPurchaseRegisterData): CancelablePromise<SaftGenerateVatPurchaseRegisterResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/saft/vat/purchase-register',
+            query: {
+                year: data.year,
+                month: data.month
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Generate Vat Declaration
+     * Generate VAT declaration (DEKLAR.TXT).
+     * @param data The data for the request.
+     * @param data.year
+     * @param data.month
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static generateVatDeclaration(data: SaftGenerateVatDeclarationData): CancelablePromise<SaftGenerateVatDeclarationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/saft/vat/declaration',
+            query: {
+                year: data.year,
+                month: data.month
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
 }
 
 export class SalesService {
@@ -2902,6 +3038,78 @@ export class UtilsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/utils/health-check/'
+        });
+    }
+    
+}
+
+export class VatService {
+    /**
+     * Download Sales Register
+     * Download sales register as a TXT file.
+     * @param data The data for the request.
+     * @param data.year
+     * @param data.month
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static downloadSalesRegister(data: VatDownloadSalesRegisterData = {}): CancelablePromise<VatDownloadSalesRegisterResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/vat/sales-register',
+            query: {
+                year: data.year,
+                month: data.month
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Download Purchase Register
+     * Download purchase register as a TXT file.
+     * @param data The data for the request.
+     * @param data.year
+     * @param data.month
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static downloadPurchaseRegister(data: VatDownloadPurchaseRegisterData = {}): CancelablePromise<VatDownloadPurchaseRegisterResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/vat/purchase-register',
+            query: {
+                year: data.year,
+                month: data.month
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Download Vat Declaration
+     * Download VAT declaration as a TXT file.
+     * @param data The data for the request.
+     * @param data.year
+     * @param data.month
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static downloadVatDeclaration(data: VatDownloadVatDeclarationData = {}): CancelablePromise<VatDownloadVatDeclarationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/vat/vat-declaration',
+            query: {
+                year: data.year,
+                month: data.month
+            },
+            errors: {
+                422: 'Validation Error'
+            }
         });
     }
     

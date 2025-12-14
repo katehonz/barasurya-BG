@@ -9,20 +9,28 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { FiEdit, FiTrash } from "react-icons/fi"
 
-import type { AccountPublic, AssetPublic, UserPublic, StorePublic } from "../../client"
+import type { AccountPublic, AssetPublic, UserPublic, StorePublic, InvoicePublic } from "../../client"
 import EditUser from "../Admin/EditUser"
 import EditAccount from "../Accounts/EditAccount"
 import EditStore from "../Stores/EditStore"
 import EditAsset from "../Assets/EditAsset"
 import Delete from "./DeleteAlert"
 
+interface Action {
+  label: string
+  onClick: () => void
+  icon?: React.ReactElement
+  color?: string
+}
+
 interface ActionsMenuProps {
   type: string
-  value: UserPublic | AccountPublic | StorePublic | AssetPublic
+  value: UserPublic | AccountPublic | StorePublic | AssetPublic | InvoicePublic
+  actions?: Action[]
   disabled?: boolean
 }
 
-const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
+const ActionsMenu = ({ type, value, actions, disabled }: ActionsMenuProps) => {
   const editUserModal = useDisclosure()
   const deleteModal = useDisclosure()
   const componentMap = {
@@ -73,6 +81,17 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
           variant="unstyled"
         />
         <MenuList>
+          {actions &&
+            actions.map((action, index) => (
+              <MenuItem
+                key={index}
+                onClick={action.onClick}
+                icon={action.icon}
+                color={action.color}
+              >
+                {action.label}
+              </MenuItem>
+            ))}
           <MenuItem
             onClick={editUserModal.onOpen}
             icon={<FiEdit fontSize="16px" />}

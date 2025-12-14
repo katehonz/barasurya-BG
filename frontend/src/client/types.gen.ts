@@ -861,6 +861,121 @@ export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
 
+export type InvoiceCreate = {
+    issue_date: string;
+    due_date?: (string | null);
+    tax_event_date?: (string | null);
+    billing_name: string;
+    billing_address?: (string | null);
+    billing_vat_number?: (string | null);
+    billing_company_id?: (string | null);
+    subtotal?: (number | string);
+    tax_amount?: (number | string);
+    total_amount?: (number | string);
+    paid_amount?: (number | string);
+    /**
+     * Invoice currency code (ISO 4217)
+     */
+    currency_code?: string;
+    /**
+     * Currency reference
+     */
+    currency_id?: (string | null);
+    /**
+     * Exchange rate to base currency
+     */
+    exchange_rate?: (number | string | null);
+    /**
+     * Whether this is a multi-currency invoice
+     */
+    is_multicurrency?: boolean;
+    payment_method?: (string | null);
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    reference?: (string | null);
+    vat_document_type?: string;
+    vat_reason?: (string | null);
+    oss_country?: (string | null);
+    oss_vat_rate?: (number | string | null);
+    contact_id: string;
+    invoice_no: string;
+    invoice_lines: Array<InvoiceLineCreate>;
+};
+
+export type InvoiceLineCreate = {
+    description: string;
+    quantity: (number | string);
+    unit_of_measure?: string;
+    unit_price: (number | string);
+    discount_percent?: (number | string);
+    tax_rate?: (number | string);
+    product_id?: (string | null);
+};
+
+export type InvoiceLinePublic = {
+    description: string;
+    quantity: string;
+    unit_of_measure?: string;
+    unit_price: string;
+    discount_percent?: string;
+    tax_rate?: string;
+    id: string;
+    subtotal: string;
+    tax_amount: string;
+    total_amount: string;
+    product?: (ProductPublic | null);
+};
+
+export type InvoicePublic = {
+    issue_date: string;
+    due_date?: (string | null);
+    tax_event_date?: (string | null);
+    billing_name: string;
+    billing_address?: (string | null);
+    billing_vat_number?: (string | null);
+    billing_company_id?: (string | null);
+    subtotal?: string;
+    tax_amount?: string;
+    total_amount?: string;
+    paid_amount?: string;
+    /**
+     * Invoice currency code (ISO 4217)
+     */
+    currency_code?: string;
+    /**
+     * Currency reference
+     */
+    currency_id?: (string | null);
+    /**
+     * Exchange rate to base currency
+     */
+    exchange_rate?: (string | null);
+    /**
+     * Whether this is a multi-currency invoice
+     */
+    is_multicurrency?: boolean;
+    payment_method?: (string | null);
+    notes?: (string | null);
+    payment_terms?: (string | null);
+    reference?: (string | null);
+    vat_document_type?: string;
+    vat_reason?: (string | null);
+    oss_country?: (string | null);
+    oss_vat_rate?: (string | null);
+    id: string;
+    invoice_no: string;
+    status: InvoiceStatus;
+    contact: ContraagentPublic;
+    invoice_lines: Array<InvoiceLinePublic>;
+};
+
+export type InvoicesPublic = {
+    data: Array<InvoicePublic>;
+    count: number;
+};
+
+export type InvoiceStatus = 'draft' | 'issued' | 'paid' | 'partially_paid' | 'overdue' | 'cancelled';
+
 export type Message = {
     message: string;
 };
@@ -887,6 +1002,7 @@ export type OrganizationCreate = {
     phone?: (string | null);
     website?: (string | null);
     is_active?: boolean;
+    is_vat_registered?: boolean;
     tax_authority?: (string | null);
     tax_accounting_basis?: (string | null);
     currency_code?: (string | null);
@@ -943,6 +1059,7 @@ export type OrganizationPublic = {
     phone?: (string | null);
     website?: (string | null);
     is_active?: boolean;
+    is_vat_registered?: boolean;
     tax_authority?: (string | null);
     tax_accounting_basis?: (string | null);
     currency_code?: (string | null);
@@ -987,6 +1104,7 @@ export type OrganizationUpdate = {
     phone?: (string | null);
     website?: (string | null);
     is_active?: boolean;
+    is_vat_registered?: boolean;
     tax_authority?: (string | null);
     tax_accounting_basis?: (string | null);
     currency_code?: (string | null);
@@ -1070,6 +1188,82 @@ export type PrivateUserCreate = {
     password: string;
     full_name: string;
     is_verified?: boolean;
+};
+
+/**
+ * Public product schema.
+ */
+export type ProductPublic = {
+    /**
+     * Product name
+     */
+    name: string;
+    /**
+     * Stock Keeping Unit code
+     */
+    sku: string;
+    /**
+     * Product description
+     */
+    description?: (string | null);
+    /**
+     * Category: goods, materials, services, produced
+     */
+    category?: string;
+    /**
+     * Selling price
+     */
+    price?: string;
+    /**
+     * Cost price
+     */
+    cost?: string;
+    /**
+     * Default unit
+     */
+    unit?: string;
+    /**
+     * Product barcode
+     */
+    barcode?: (string | null);
+    /**
+     * VAT rate %
+     */
+    tax_rate?: string;
+    /**
+     * Is product active
+     */
+    is_active?: boolean;
+    /**
+     * Track inventory levels
+     */
+    track_inventory?: boolean;
+    /**
+     * Opening stock quantity
+     */
+    opening_quantity?: string;
+    /**
+     * Opening stock value
+     */
+    opening_cost?: string;
+    /**
+     * Inventory account (304, 302, 303)
+     */
+    account_id?: (string | null);
+    /**
+     * Expense account (702, 601, 611)
+     */
+    expense_account_id?: (string | null);
+    /**
+     * Revenue account (702)
+     */
+    revenue_account_id?: (string | null);
+    /**
+     * Combined Nomenclature code (KN8)
+     */
+    cn_code?: (string | null);
+    id: string;
+    organization_id: string;
 };
 
 export type PurchaseCreate = {
@@ -2581,6 +2775,25 @@ export type CurrenciesUpdateEcbRatesResponse = ({
     [key: string]: unknown;
 });
 
+export type InvoicesReadInvoicesData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type InvoicesReadInvoicesResponse = (InvoicesPublic);
+
+export type InvoicesCreateInvoiceData = {
+    requestBody: InvoiceCreate;
+};
+
+export type InvoicesCreateInvoiceResponse = (InvoicePublic);
+
+export type InvoicesDownloadInvoicePdfData = {
+    id: string;
+};
+
+export type InvoicesDownloadInvoicePdfResponse = (unknown);
+
 export type LoginLoginAccessTokenData = {
     formData: Body_login_login_access_token;
 };
@@ -2958,6 +3171,27 @@ export type SaftGenerateSaftData = {
 
 export type SaftGenerateSaftResponse = (unknown);
 
+export type SaftGenerateVatSalesRegisterData = {
+    month: number;
+    year: number;
+};
+
+export type SaftGenerateVatSalesRegisterResponse = (unknown);
+
+export type SaftGenerateVatPurchaseRegisterData = {
+    month: number;
+    year: number;
+};
+
+export type SaftGenerateVatPurchaseRegisterResponse = (unknown);
+
+export type SaftGenerateVatDeclarationData = {
+    month: number;
+    year: number;
+};
+
+export type SaftGenerateVatDeclarationResponse = (unknown);
+
 export type SalesReadSalesData = {
     limit?: number;
     skip?: number;
@@ -3122,3 +3356,24 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = (Message);
 
 export type UtilsHealthCheckResponse = (boolean);
+
+export type VatDownloadSalesRegisterData = {
+    month?: number;
+    year?: number;
+};
+
+export type VatDownloadSalesRegisterResponse = (unknown);
+
+export type VatDownloadPurchaseRegisterData = {
+    month?: number;
+    year?: number;
+};
+
+export type VatDownloadPurchaseRegisterResponse = (unknown);
+
+export type VatDownloadVatDeclarationData = {
+    month?: number;
+    year?: number;
+};
+
+export type VatDownloadVatDeclarationResponse = (unknown);

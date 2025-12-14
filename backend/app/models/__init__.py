@@ -201,23 +201,22 @@ from app.models.user_role import (
     UserRolesPublic,
     UserRoleUpdate,
 )
-# TODO: Fix forward reference issues in invoice models
-# from app.models.invoice import (
-#     Invoice,
-#     InvoiceCreate,
-#     InvoiceUpdate,
-#     InvoicePublic,
-#     InvoicesPublic,
-#     InvoiceStatus,
-#     VatDocumentType,
-# )
-# from app.models.invoice_line import (
-#     InvoiceLine,
-#     InvoiceLineCreate,
-#     InvoiceLineUpdate,
-#     InvoiceLinePublic,
-#     InvoiceLinesPublic,
-# )
+from app.models.invoice import (
+    Invoice,
+    InvoiceCreate,
+    InvoiceUpdate,
+    InvoicePublic,
+    InvoicesPublic,
+    InvoiceStatus,
+    VatDocumentType,
+)
+from app.models.invoice_line import (
+    InvoiceLine,
+    InvoiceLineCreate,
+    InvoiceLineUpdate,
+    InvoiceLinePublic,
+    InvoiceLinesPublic,
+)
 from app.models.bank_account import (
     BankAccount,
     BankAccountCreate,
@@ -540,19 +539,18 @@ __all__ = [
     "ReceivableUpdate",
     "ReceivablePublic",
     "ReceivablesPublic",
-    # TODO: Re-enable when invoice models are fixed
-    # "Invoice",
-    # "InvoiceCreate",
-    # "InvoiceUpdate",
-    # "InvoicePublic",
-    # "InvoicesPublic",
-    # "InvoiceStatus",
-    # "VatDocumentType",
-    # "InvoiceLine",
-    # "InvoiceLineCreate",
-    # "InvoiceLineUpdate",
-    # "InvoiceLinePublic",
-    # "InvoiceLinesPublic",
+    "Invoice",
+    "InvoiceCreate",
+    "InvoiceUpdate",
+    "InvoicePublic",
+    "InvoicesPublic",
+    "InvoiceStatus",
+    "VatDocumentType",
+    "InvoiceLine",
+    "InvoiceLineCreate",
+    "InvoiceLineUpdate",
+    "InvoiceLinePublic",
+    "InvoiceLinesPublic",
     # Bank module
     "BankAccount",
     "BankAccountCreate",
@@ -735,7 +733,7 @@ from app.models.recipe_item import (
 
 # TODO: Rebuild invoice models when they are properly fixed
 # The forward references need to be resolved for Pydantic v2
-# InvoiceCreate.model_rebuild()
-# InvoiceUpdate.model_rebuild()
-# InvoicePublic.model_rebuild()
-# InvoiceLinePublic.model_rebuild()
+InvoiceCreate.model_rebuild()
+InvoiceUpdate.model_rebuild()
+InvoicePublic.model_rebuild()
+InvoiceLinePublic.model_rebuild()

@@ -79,6 +79,7 @@ class Settings(BaseSettings):
     # TODO: update type to EmailStr when sqlmodel supports it
     EMAILS_FROM_EMAIL: str | None = None
     EMAILS_FROM_NAME: str | None = None
+    ELIXIR_APP_URL: str = "http://localhost:4000"
 
     @model_validator(mode="after")
     def _set_default_emails_from(self) -> Self:

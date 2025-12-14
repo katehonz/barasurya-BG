@@ -22,10 +22,10 @@ from app.api.routes import (
     utils,
     saft,
     payments,
+    vat,
 )
 from app.core.config import settings
-# TODO: Re-enable when invoice models are fixed
-# from app.sales.api import invoices_router
+from app.sales.api import invoices_router
 
 api_router = APIRouter()
 api_router.include_router(accounts.router)
@@ -48,8 +48,8 @@ api_router.include_router(stores.router)
 api_router.include_router(stock_levels.router)
 api_router.include_router(users.router)
 api_router.include_router(utils.router)
-# TODO: Re-enable when invoice models are fixed
-# api_router.include_router(invoices_router, prefix="/invoices", tags=["invoices"])
+api_router.include_router(invoices_router, prefix="/invoices", tags=["invoices"])
+api_router.include_router(vat.router, prefix="/vat", tags=["vat"])
 
 
 if settings.ENVIRONMENT == "local":

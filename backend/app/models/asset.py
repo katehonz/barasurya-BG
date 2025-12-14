@@ -93,7 +93,7 @@ class Asset(AssetBase, table=True):
         default=None, foreign_key="journal_entry.id", ondelete="SET NULL"
     )
 
-    organization: "Organization" = Relationship()
+    organization: "Organization" = Relationship(back_populates="assets")
     created_by: "User" = Relationship()
     contraagent: Optional["Contraagent"] = Relationship()
     accounting_account: Optional["Account"] = Relationship(

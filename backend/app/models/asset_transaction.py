@@ -57,7 +57,7 @@ class AssetTransaction(AssetTransactionBase, table=True):
         default=None, foreign_key="journal_entry.id", ondelete="SET NULL"
     )
 
-    organization: "Organization" = Relationship()
+    organization: "Organization" = Relationship(back_populates="asset_transactions")
     created_by: "User" = Relationship()
     asset: "Asset" = Relationship(back_populates="transactions")
     contraagent: Optional["Contraagent"] = Relationship()

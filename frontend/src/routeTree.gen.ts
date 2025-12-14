@@ -18,8 +18,10 @@ import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
+import { Route as LayoutVatImport } from './routes/_layout/vat'
 import { Route as LayoutStoresImport } from './routes/_layout/stores'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
+import { Route as LayoutInvoicesImport } from './routes/_layout/invoices'
 import { Route as LayoutCurrenciesImport } from './routes/_layout/currencies'
 import { Route as LayoutContraagentsImport } from './routes/_layout/contraagents'
 import { Route as LayoutAssetsImport } from './routes/_layout/assets'
@@ -63,6 +65,11 @@ const LayoutIndexRoute = LayoutIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutVatRoute = LayoutVatImport.update({
+  path: '/vat',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutStoresRoute = LayoutStoresImport.update({
   path: '/stores',
   getParentRoute: () => LayoutRoute,
@@ -70,6 +77,11 @@ const LayoutStoresRoute = LayoutStoresImport.update({
 
 const LayoutSettingsRoute = LayoutSettingsImport.update({
   path: '/settings',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutInvoicesRoute = LayoutInvoicesImport.update({
+  path: '/invoices',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -146,12 +158,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCurrenciesImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/invoices': {
+      preLoaderRoute: typeof LayoutInvoicesImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/settings': {
       preLoaderRoute: typeof LayoutSettingsImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/stores': {
       preLoaderRoute: typeof LayoutStoresImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/vat': {
+      preLoaderRoute: typeof LayoutVatImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/': {
@@ -170,8 +190,10 @@ export const routeTree = rootRoute.addChildren([
     LayoutAssetsRoute,
     LayoutContraagentsRoute,
     LayoutCurrenciesRoute,
+    LayoutInvoicesRoute,
     LayoutSettingsRoute,
     LayoutStoresRoute,
+    LayoutVatRoute,
     LayoutIndexRoute,
   ]),
   LoginRoute,

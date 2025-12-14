@@ -89,6 +89,7 @@ from app.models.purchase_order import *
 from app.models.quotation import *
 from app.models.item import *
 
+
 target_metadata = BaseModel.metadata
 
 # other values from the config, defined by the needs of env.py,

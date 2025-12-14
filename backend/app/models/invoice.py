@@ -165,8 +165,7 @@ class Invoice(InvoiceBase, table=True):
     currency: Optional["Currency"] = Relationship(
         sa_relationship_kwargs={"foreign_keys": "[Invoice.currency_id]"}
     )
-    # TODO: Re-enable when invoice table migration is added
-    # vat_sales_register_entry: Optional["VatSalesRegister"] = Relationship(back_populates="invoice")
+    vat_sales_register_entry: Optional["VatSalesRegister"] = Relationship(back_populates="invoice")
 
 
 class InvoiceCreate(InvoiceBase):

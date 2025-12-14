@@ -6,8 +6,10 @@ import {
   FiArchive,
   FiCreditCard,
   FiDollarSign,
+  FiFile,
   FiFileText,
   FiHome,
+  FiPercent,
   FiSettings,
   FiShoppingBag,
   FiUsers,
@@ -18,6 +20,8 @@ import type { UserPublic } from "../../client"
 
 const menuItems = [
   { icon: FiHome, titleKey: "navigation.dashboard", path: "/" },
+  { icon: FiFile, titleKey: "invoices.title", path: "/invoices" },
+  { icon: FiPercent, titleKey: "vat.title", path: "/vat" },
   { icon: FiCreditCard, titleKey: "menu.accounts", path: "/accounts" },
   { icon: FiArchive, titleKey: "navigation.assets", path: "/assets" },
   { icon: FiDollarSign, titleKey: "currencies.title", path: "/currencies" },

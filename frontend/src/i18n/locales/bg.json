@@ -441,5 +441,53 @@
       "componentUpdated": "Компонентът е обновен успешно.",
       "componentDeleted": "Компонентът е изтрит успешно."
     }
+  },
+  "invoices": {
+    "title": "Фактури",
+    "invoice": "Фактура",
+    "addInvoice": "Добави фактура",
+    "editInvoice": "Редактирай фактура",
+    "invoiceNo": "Номер на фактура",
+    "issueDate": "Дата на издаване",
+    "dueDate": "Краен срок",
+    "customer": "Клиент",
+    "supplier": "Доставчик",
+    "items": "Редове",
+    "subtotal": "Междинна сума",
+    "vatAmount": "ДДС",
+    "total": "Общо",
+    "status": "Статус",
+    "paid": "Платена",
+    "unpaid": "Неплатена",
+    "overdue": "Просрочена",
+    "downloadPdf": "Изтегли PDF",
+    "messages": {
+      "created": "Фактурата е създадена успешно.",
+      "updated": "Фактурата е обновена успешно.",
+      "deleted": "Фактурата е изтрита успешно.",
+      "noInvoices": "Няма намерени фактури"
+    }
+  },
+  "vat": {
+    "title": "ДДС",
+    "vatRegister": "Дневник за ДДС",
+    "salesRegister": "Дневник продажби",
+    "purchasesRegister": "Дневник покупки",
+    "vatReturn": "Справка-декларация по ДДС",
+    "downloadSalesRegister": "Изтегли дневник продажби",
+    "downloadPurchaseRegister": "Изтегли дневник покупки",
+    "downloadVatDeclaration": "Изтегли ДДС декларация",
+    "period": "Период",
+    "year": "Година",
+    "month": "Месец",
+    "taxBase": "Данъчна основа",
+    "vatAmount": "Размер на ДДС",
+    "vatRate": "Ставка ДДС",
+    "generate": "Генерирай",
+    "export": "Експорт",
+    "messages": {
+      "generated": "ДДС справката е генерирана успешно.",
+      "exported": "ДДС справката е експортирана успешно."
+    }
   }
 }
