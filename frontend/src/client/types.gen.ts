@@ -3,26 +3,26 @@
 export type AccountCreate = {
     code: string;
     name: string;
-    description?: (string | null);
-    account_type?: AccountType;
+    account_type?: string;
+    balance?: number;
+    opening_balance?: number;
     is_debit_account?: boolean;
     is_active?: boolean;
-    opening_balance?: (number | string);
-    parent_id?: (string | null);
+    description?: (string | null);
 };
 
 export type AccountPublic = {
     code: string;
     name: string;
-    description?: (string | null);
-    account_type?: AccountType;
+    account_type?: string;
+    balance?: number;
+    opening_balance?: number;
     is_debit_account?: boolean;
     is_active?: boolean;
-    opening_balance?: string;
+    description?: (string | null);
     id: string;
     organization_id: string;
     created_by_id: string;
-    parent_id: (string | null);
     date_created: string;
     date_updated: string;
 };
@@ -32,33 +32,20 @@ export type AccountsPublic = {
     count: number;
 };
 
-/**
- * Тип на сметката според българския сметкоплан.
- */
-export type AccountType = 'asset' | 'liability' | 'equity' | 'revenue' | 'expense';
-
 export type AccountUpdate = {
     code?: (string | null);
     name?: (string | null);
-    description?: (string | null);
-    account_type?: (AccountType | null);
+    account_type?: (string | null);
+    balance?: (number | null);
+    opening_balance?: (number | null);
     is_debit_account?: (boolean | null);
     is_active?: (boolean | null);
-    opening_balance?: (number | string | null);
-    parent_id?: (string | null);
+    description?: (string | null);
 };
 
-/**
- * Заявка за създаване на актив.
- */
-export type AssetCreateRequest = {
+export type AssetCreate = {
     code: string;
     name: string;
-    acquisition_date: string;
-    acquisition_cost: (number | string);
-    useful_life_months: number;
-    depreciation_method?: string;
-    salvage_value?: (number | string);
     category?: (string | null);
     inventory_number?: (string | null);
     serial_number?: (string | null);
@@ -67,49 +54,40 @@ export type AssetCreateRequest = {
     tax_category?: (string | null);
     tax_depreciation_rate?: (number | null);
     accounting_depreciation_rate?: (number | null);
+    acquisition_date: string;
+    acquisition_cost: number;
+    startup_date?: (string | null);
+    purchase_order_date?: (string | null);
+    invoice_number?: (string | null);
+    invoice_date?: (string | null);
+    salvage_value?: number;
+    useful_life_months: number;
+    depreciation_method: string;
+    status?: string;
+    residual_value?: number;
+    disposal_date?: (string | null);
+    disposal_reason?: (string | null);
+    disposal_value?: (number | null);
+    notes?: (string | null);
+    attachments?: ({
+    [key: string]: unknown;
+} | null);
+    extra_metadata?: ({
+    [key: string]: unknown;
+} | null);
+    month_value_change?: (number | null);
+    month_suspension_resumption?: (number | null);
+    month_writeoff_accounting?: (number | null);
+    month_writeoff_tax?: (number | null);
+    depreciation_months_current_year?: (number | null);
+    acquisition_cost_begin_year?: (number | null);
+    book_value_begin_year?: (number | null);
+    accumulated_depreciation_begin_year?: (number | null);
+    supplier_id?: (string | null);
     accounting_account_id?: (string | null);
     expense_account_id?: (string | null);
     accumulated_depreciation_account_id?: (string | null);
-    supplier_id?: (string | null);
-    notes?: (string | null);
-    generate_schedule?: boolean;
-};
-
-/**
- * Публична схема.
- */
-export type AssetDepreciationSchedulePublic = {
-    period_date: string;
-    depreciation_type?: DepreciationType;
-    status?: DepreciationStatus;
-    amount?: string;
-    accounting_amount?: (string | null);
-    tax_amount?: (string | null);
-    accumulated_depreciation?: string;
-    book_value?: string;
-    posted_at?: (string | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    asset_id: string;
-    journal_entry_id: (string | null);
-    date_created: string;
-    date_updated: string;
-};
-
-export type AssetDepreciationSchedulesPublic = {
-    data: Array<AssetDepreciationSchedulePublic>;
-    count: number;
-};
-
-/**
- * Заявка за извеждане от употреба.
- */
-export type AssetDisposeRequest = {
-    disposal_date: string;
-    disposal_reason: string;
-    disposal_value?: (number | string);
-    disposal_type?: string;
+    disposal_journal_entry_id?: (string | null);
 };
 
 export type AssetPublic = {
@@ -164,18 +142,6 @@ export type AssetsPublic = {
     count: number;
 };
 
-/**
- * Статистика за активи.
- */
-export type AssetStatisticsResponse = {
-    total_count: number;
-    active_count: number;
-    disposed_count: number;
-    total_acquisition_cost: string;
-    total_accumulated_depreciation: string;
-    total_book_value: string;
-};
-
 export type AssetUpdate = {
     code: string;
     name: string;
@@ -216,69 +182,6 @@ export type AssetUpdate = {
     acquisition_cost_begin_year?: (number | null);
     book_value_begin_year?: (number | null);
     accumulated_depreciation_begin_year?: (number | null);
-};
-
-/**
- * Заявка за увеличаване на стойността.
- */
-export type AssetValueIncreaseRequest = {
-    amount: (number | string);
-    transaction_date: string;
-    description?: string;
-    source_account_id?: (string | null);
-    regenerate_schedule?: boolean;
-};
-
-/**
- * Актив с изчислени стойности.
- */
-export type AssetWithBalanceResponse = {
-    code: string;
-    name: string;
-    category?: (string | null);
-    inventory_number?: (string | null);
-    serial_number?: (string | null);
-    location?: (string | null);
-    responsible_person?: (string | null);
-    tax_category?: (string | null);
-    tax_depreciation_rate?: (number | null);
-    accounting_depreciation_rate?: (number | null);
-    acquisition_date: string;
-    acquisition_cost: number;
-    startup_date?: (string | null);
-    purchase_order_date?: (string | null);
-    invoice_number?: (string | null);
-    invoice_date?: (string | null);
-    salvage_value?: number;
-    useful_life_months: number;
-    depreciation_method: string;
-    status?: string;
-    residual_value?: number;
-    disposal_date?: (string | null);
-    disposal_reason?: (string | null);
-    disposal_value?: (number | null);
-    notes?: (string | null);
-    attachments?: ({
-    [key: string]: unknown;
-} | null);
-    extra_metadata?: ({
-    [key: string]: unknown;
-} | null);
-    month_value_change?: (number | null);
-    month_suspension_resumption?: (number | null);
-    month_writeoff_accounting?: (number | null);
-    month_writeoff_tax?: (number | null);
-    depreciation_months_current_year?: (number | null);
-    acquisition_cost_begin_year?: (number | null);
-    book_value_begin_year?: (number | null);
-    accumulated_depreciation_begin_year?: (number | null);
-    id: string;
-    organization_id: string;
-    created_by_id: string;
-    date_created: string;
-    date_updated: string;
-    accumulated_depreciation: string;
-    book_value: string;
 };
 
 /**
@@ -585,6 +488,191 @@ export type Body_login_login_access_token = {
     client_secret?: (string | null);
 };
 
+export type ContraagentBankAccountCreate = {
+    iban: string;
+    bic?: (string | null);
+    bank_name?: (string | null);
+    account_number?: (string | null);
+    currency?: string;
+    is_primary?: boolean;
+    is_verified?: boolean;
+    notes?: (string | null);
+    contraagent_id: string;
+};
+
+export type ContraagentBankAccountPublic = {
+    iban: string;
+    bic?: (string | null);
+    bank_name?: (string | null);
+    account_number?: (string | null);
+    currency?: string;
+    is_primary?: boolean;
+    is_verified?: boolean;
+    notes?: (string | null);
+    id: string;
+    contraagent_id: string;
+    date_created: string;
+    date_updated: string;
+    first_seen_at?: (string | null);
+    last_seen_at?: (string | null);
+    times_seen: number;
+};
+
+export type ContraagentBankAccountsPublic = {
+    data: Array<ContraagentBankAccountPublic>;
+    count: number;
+};
+
+export type ContraagentBankAccountUpdate = {
+    iban?: (string | null);
+    bic?: (string | null);
+    bank_name?: (string | null);
+    account_number?: (string | null);
+    currency?: (string | null);
+    is_primary?: (boolean | null);
+    is_verified?: (boolean | null);
+    notes?: (string | null);
+};
+
+export type ContraagentCreate = {
+    name: string;
+    email?: (string | null);
+    phone?: (string | null);
+    website?: (string | null);
+    fax?: (string | null);
+    is_company?: boolean;
+    is_customer?: boolean;
+    is_supplier?: boolean;
+    is_active?: boolean;
+    registration_number?: (string | null);
+    vat_number?: (string | null);
+    street_name?: (string | null);
+    building_number?: (string | null);
+    building?: (string | null);
+    postal_code?: (string | null);
+    city?: (string | null);
+    region?: (string | null);
+    country?: (string | null);
+    additional_address_detail?: (string | null);
+    contact_person_title?: (string | null);
+    contact_person_first_name?: (string | null);
+    contact_person_last_name?: (string | null);
+    tax_type?: (string | null);
+    tax_authority?: (string | null);
+    tax_verification_date?: (string | null);
+    self_billing_indicator?: boolean;
+    related_party?: boolean;
+    related_party_start_date?: (string | null);
+    related_party_end_date?: (string | null);
+    iban_number?: (string | null);
+    bank_account_number?: (string | null);
+    bank_sort_code?: (string | null);
+    accounting_account_id?: (string | null);
+    opening_debit_balance?: (number | string);
+    opening_credit_balance?: (number | string);
+    closing_debit_balance?: (number | string);
+    closing_credit_balance?: (number | string);
+    name_latin?: (string | null);
+    name_cyrillic?: (string | null);
+    notes?: (string | null);
+};
+
+export type ContraagentPublic = {
+    name: string;
+    email?: (string | null);
+    phone?: (string | null);
+    website?: (string | null);
+    fax?: (string | null);
+    is_company?: boolean;
+    is_customer?: boolean;
+    is_supplier?: boolean;
+    is_active?: boolean;
+    registration_number?: (string | null);
+    vat_number?: (string | null);
+    street_name?: (string | null);
+    building_number?: (string | null);
+    building?: (string | null);
+    postal_code?: (string | null);
+    city?: (string | null);
+    region?: (string | null);
+    country?: (string | null);
+    additional_address_detail?: (string | null);
+    contact_person_title?: (string | null);
+    contact_person_first_name?: (string | null);
+    contact_person_last_name?: (string | null);
+    tax_type?: (string | null);
+    tax_authority?: (string | null);
+    tax_verification_date?: (string | null);
+    self_billing_indicator?: boolean;
+    related_party?: boolean;
+    related_party_start_date?: (string | null);
+    related_party_end_date?: (string | null);
+    iban_number?: (string | null);
+    bank_account_number?: (string | null);
+    bank_sort_code?: (string | null);
+    accounting_account_id?: (string | null);
+    opening_debit_balance?: string;
+    opening_credit_balance?: string;
+    closing_debit_balance?: string;
+    closing_credit_balance?: string;
+    name_latin?: (string | null);
+    name_cyrillic?: (string | null);
+    notes?: (string | null);
+    id: string;
+    organization_id: string;
+    created_by_id: string;
+    date_created: string;
+    date_updated: string;
+    accounting_account_name?: (string | null);
+};
+
+export type ContraagentsPublic = {
+    data: Array<ContraagentPublic>;
+    count: number;
+};
+
+export type ContraagentUpdate = {
+    name?: (string | null);
+    email?: (string | null);
+    phone?: (string | null);
+    website?: (string | null);
+    fax?: (string | null);
+    is_company?: (boolean | null);
+    is_customer?: (boolean | null);
+    is_supplier?: (boolean | null);
+    is_active?: (boolean | null);
+    registration_number?: (string | null);
+    vat_number?: (string | null);
+    street_name?: (string | null);
+    building_number?: (string | null);
+    building?: (string | null);
+    postal_code?: (string | null);
+    city?: (string | null);
+    region?: (string | null);
+    country?: (string | null);
+    additional_address_detail?: (string | null);
+    contact_person_title?: (string | null);
+    contact_person_first_name?: (string | null);
+    contact_person_last_name?: (string | null);
+    tax_type?: (string | null);
+    tax_authority?: (string | null);
+    tax_verification_date?: (string | null);
+    self_billing_indicator?: (boolean | null);
+    related_party?: (boolean | null);
+    related_party_start_date?: (string | null);
+    related_party_end_date?: (string | null);
+    iban_number?: (string | null);
+    bank_account_number?: (string | null);
+    bank_sort_code?: (string | null);
+    accounting_account_id?: (string | null);
+    price_list_id?: (string | null);
+    opening_debit_balance?: (number | string | null);
+    opening_credit_balance?: (number | string | null);
+    name_latin?: (string | null);
+    name_cyrillic?: (string | null);
+    notes?: (string | null);
+};
+
 export type CustomerCreate = {
     name: string;
     phone?: (string | null);
@@ -642,23 +730,6 @@ export type CustomerUpdate = {
     customer_type_id?: (string | null);
 };
 
-/**
- * Заявка за постване на амортизация.
- */
-export type DepreciationPostRequest = {
-    schedule_id: string;
-};
-
-/**
- * Статус на амортизация.
- */
-export type DepreciationStatus = 'planned' | 'posted' | 'cancelled';
-
-/**
- * Тип амортизация.
- */
-export type DepreciationType = 'accounting' | 'tax';
-
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -684,8 +755,7 @@ export type InvoiceCreate = {
     vat_reason?: (string | null);
     oss_country?: (string | null);
     oss_vat_rate?: (number | string | null);
-    customer_id: string;
-    contact_id?: (string | null);
+    contact_id: string;
     invoice_no: string;
     invoice_lines: Array<InvoiceLineCreate>;
 };
@@ -976,13 +1046,6 @@ export type PaymentPublic = {
 export type PaymentsPublic = {
     data: Array<PaymentPublic>;
     count: number;
-};
-
-/**
- * Заявка за постване на амортизации за период.
- */
-export type PeriodDepreciationPostRequest = {
-    period_date: string;
 };
 
 export type PermissionCreate = {
@@ -1277,18 +1340,16 @@ export type AssetsListAssetsData = {
 export type AssetsListAssetsResponse = (AssetsPublic);
 
 export type AssetsCreateAssetData = {
-    requestBody: AssetCreateRequest;
+    requestBody: AssetCreate;
 };
 
 export type AssetsCreateAssetResponse = (AssetPublic);
-
-export type AssetsGetStatisticsResponse = (AssetStatisticsResponse);
 
 export type AssetsGetAssetData = {
     assetId: string;
 };
 
-export type AssetsGetAssetResponse = (AssetWithBalanceResponse);
+export type AssetsGetAssetResponse = (AssetPublic);
 
 export type AssetsUpdateAssetData = {
     assetId: string;
@@ -1301,53 +1362,11 @@ export type AssetsDeleteAssetData = {
     assetId: string;
 };
 
-export type AssetsDeleteAssetResponse = (Message);
+export type AssetsDeleteAssetResponse = (unknown);
 
-export type AssetsGetDepreciationScheduleData = {
-    assetId: string;
-    status?: (DepreciationStatus | null);
-};
-
-export type AssetsGetDepreciationScheduleResponse = (AssetDepreciationSchedulesPublic);
-
-export type AssetsGenerateDepreciationScheduleData = {
-    assetId: string;
-    startDate?: (string | null);
-};
-
-export type AssetsGenerateDepreciationScheduleResponse = (AssetDepreciationSchedulesPublic);
-
-export type AssetsPostDepreciationData = {
-    requestBody: DepreciationPostRequest;
-};
-
-export type AssetsPostDepreciationResponse = (AssetDepreciationSchedulePublic);
-
-export type AssetsPostPeriodDepreciationData = {
-    requestBody: PeriodDepreciationPostRequest;
-};
-
-export type AssetsPostPeriodDepreciationResponse = (Message);
-
-export type AssetsGetPendingDepreciationData = {
-    periodDate: string;
-};
-
-export type AssetsGetPendingDepreciationResponse = (unknown);
-
-export type AssetsDisposeAssetData = {
-    assetId: string;
-    requestBody: AssetDisposeRequest;
-};
-
-export type AssetsDisposeAssetResponse = (AssetPublic);
-
-export type AssetsIncreaseAssetValueData = {
-    assetId: string;
-    requestBody: AssetValueIncreaseRequest;
-};
-
-export type AssetsIncreaseAssetValueResponse = (AssetPublic);
+export type AssetsGetAssetStatisticsResponse = ({
+    [key: string]: unknown;
+});
 
 export type BankAccountsListBankAccountsData = {
     isActive?: (boolean | null);
@@ -1423,6 +1442,120 @@ export type BankTransactionsProcessBankTransactionData = {
 };
 
 export type BankTransactionsProcessBankTransactionResponse = (BankTransactionPublic);
+
+export type ContraagentsReadContraagentsData = {
+    /**
+     * Filter by active status
+     */
+    isActive?: (boolean | null);
+    /**
+     * Filter by customer status
+     */
+    isCustomer?: (boolean | null);
+    /**
+     * Filter by supplier status
+     */
+    isSupplier?: (boolean | null);
+    limit?: number;
+    search?: (string | null);
+    skip?: number;
+};
+
+export type ContraagentsReadContraagentsResponse = (ContraagentsPublic);
+
+export type ContraagentsCreateContraagentData = {
+    requestBody: ContraagentCreate;
+    /**
+     * Validate VAT number using VIES
+     */
+    validateVat?: boolean;
+};
+
+export type ContraagentsCreateContraagentResponse = (ContraagentPublic);
+
+export type ContraagentsReadContraagentData = {
+    id: string;
+};
+
+export type ContraagentsReadContraagentResponse = (ContraagentPublic);
+
+export type ContraagentsUpdateContraagentData = {
+    id: string;
+    requestBody: ContraagentUpdate;
+    /**
+     * Validate VAT number using VIES
+     */
+    validateVat?: boolean;
+};
+
+export type ContraagentsUpdateContraagentResponse = (ContraagentPublic);
+
+export type ContraagentsDeleteContraagentData = {
+    id: string;
+};
+
+export type ContraagentsDeleteContraagentResponse = (Message);
+
+export type ContraagentsValidateVatNumberData = {
+    /**
+     * VAT number to validate
+     */
+    vatNumber: string;
+};
+
+export type ContraagentsValidateVatNumberResponse = (unknown);
+
+export type ContraagentsSetOpeningBalanceData = {
+    /**
+     * Opening credit balance
+     */
+    creditBalance?: (number | string);
+    /**
+     * Opening debit balance
+     */
+    debitBalance?: (number | string);
+    /**
+     * Description for journal entry
+     */
+    description?: (string | null);
+    id: string;
+};
+
+export type ContraagentsSetOpeningBalanceResponse = (unknown);
+
+export type ContraagentsRemoveOpeningBalanceData = {
+    id: string;
+};
+
+export type ContraagentsRemoveOpeningBalanceResponse = (unknown);
+
+export type ContraagentsGetOpeningBalancesSummaryResponse = (unknown);
+
+export type ContraagentsReadContraagentBankAccountsData = {
+    id: string;
+};
+
+export type ContraagentsReadContraagentBankAccountsResponse = (ContraagentBankAccountsPublic);
+
+export type ContraagentsCreateContraagentBankAccountData = {
+    id: string;
+    requestBody: ContraagentBankAccountCreate;
+};
+
+export type ContraagentsCreateContraagentBankAccountResponse = (ContraagentBankAccountPublic);
+
+export type ContraagentsUpdateContraagentBankAccountData = {
+    bankAccountId: string;
+    requestBody: ContraagentBankAccountUpdate;
+};
+
+export type ContraagentsUpdateContraagentBankAccountResponse = (ContraagentBankAccountPublic);
+
+export type ContraagentsDeleteContraagentBankAccountData = {
+    bankAccountId: string;
+};
+
+export type ContraagentsDeleteContraagentBankAccountResponse = (Message);
 
 export type CustomersReadCustomersData = {
     limit?: number;

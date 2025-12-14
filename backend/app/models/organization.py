@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from app.models.bank_profile import BankProfile
     from app.models.bank_statement import BankStatement
     from app.models.bank_transaction import BankTransaction
+    from app.models.contraagent import Contraagent
     from app.models.customer import Customer
     from app.models.customer_type import CustomerType
     from app.models.invoice import Invoice
@@ -177,6 +178,9 @@ class Organization(OrganizationBase, table=True):
         back_populates="organization", cascade_delete=True
     )
     vat_purchase_registers: list["VatPurchaseRegister"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    contraagents: list["Contraagent"] = Relationship(
         back_populates="organization", cascade_delete=True
     )
 

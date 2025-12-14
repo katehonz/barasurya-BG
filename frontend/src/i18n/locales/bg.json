@@ -98,6 +98,8 @@
   "erp": {
     "products": "Продукти",
     "product": "Продукт",
+    "contraagents": "Контрагенти",
+    "contraagent": "Контрагент",
     "customers": "Клиенти",
     "customer": "Клиент",
     "suppliers": "Доставчици",

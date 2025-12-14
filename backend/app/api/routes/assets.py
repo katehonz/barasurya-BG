@@ -1,13 +1,15 @@
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session
+from fastapi import APIRouter, HTTPException
 
-from app.api.deps import get_current_active_superuser, get_current_active_user, get_session, get_current_active_organization
+from app.api.deps import (
+    CurrentUser,
+    CurrentOrganization,
+    SessionDep,
+    get_current_active_superuser,
+)
 from app.models.asset import Asset, AssetCreate, AssetPublic, AssetsPublic, AssetUpdate
-from app.models.user import User
-from app.models.organization import Organization
 from app.services.asset import AssetService
 
 
@@ -16,9 +18,9 @@ router = APIRouter(prefix="/assets", tags=["assets"])
 
 @router.get("/", response_model=AssetsPublic)
 def list_assets(
-    session: Session = Depends(get_session),
-    current_user: User = Depends(get_current_active_user),
-    current_organization: Organization = Depends(get_current_active_organization),
+    session: SessionDep,
+    current_user: CurrentUser,
+    current_organization: CurrentOrganization,
     skip: int = 0,
     limit: int = 100,
     status: str | None = None,
@@ -36,9 +38,9 @@ def list_assets(
 @router.post("/", response_model=AssetPublic)
 def create_asset(
     asset_in: AssetCreate,
-    session: Session = Depends(get_session),
-    current_user: User = Depends(get_current_active_user),
-    current_organization: Organization = Depends(get_current_active_organization),
+    session: SessionDep,
+    current_user: CurrentUser,
+    current_organization: CurrentOrganization,
 ) -> Any:
     """
     Create new asset.
@@ -51,9 +53,9 @@ def create_asset(
 @router.get("/{asset_id}", response_model=AssetPublic)
 def get_asset(
     asset_id: UUID,
-    session: Session = Depends(get_session),
-    current_user: User = Depends(get_current_active_user),
-    current_organization: Organization = Depends(get_current_active_organization),
+    session: SessionDep,
+    current_user: CurrentUser,
+    current_organization: CurrentOrganization,
 ) -> Any:
     """
     Get asset by ID.
@@ -69,9 +71,9 @@ def get_asset(
 def update_asset(
     asset_id: UUID,
     asset_in: AssetUpdate,
-    session: Session = Depends(get_session),
-    current_user: User = Depends(get_current_active_user),
-    current_organization: Organization = Depends(get_current_active_organization),
+    session: SessionDep,
+    current_user: CurrentUser,
+    current_organization: CurrentOrganization,
 ) -> Any:
     """
     Update an asset.
@@ -86,24 +88,27 @@ def update_asset(
 @router.delete("/{asset_id}", response_model=None)
 def delete_asset(
     asset_id: UUID,
-    session: Session = Depends(get_session),
-    current_user: User = Depends(get_current_active_superuser), # Only superuser can delete
-    current_organization: Organization = Depends(get_current_active_organization),
+    session: SessionDep,
+    current_user: CurrentUser,
+    current_organization: CurrentOrganization,
 ) -> Any:
     """
-    Delete an asset.
+    Delete an asset. Only superuser can delete.
     """
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
     service = AssetService(session, current_user, current_organization)
     asset = service.delete_asset(asset_id)
     if not asset:
         raise HTTPException(status_code=404, detail="Asset not found")
     return {"message": "Asset deleted successfully"}
 
+
 @router.get("/statistics", response_model=dict)
 def get_asset_statistics(
-    session: Session = Depends(get_session),
-    current_user: User = Depends(get_current_active_user),
-    current_organization: Organization = Depends(get_current_active_organization),
+    session: SessionDep,
+    current_user: CurrentUser,
+    current_organization: CurrentOrganization,
 ) -> Any:
     """
     Get asset statistics.

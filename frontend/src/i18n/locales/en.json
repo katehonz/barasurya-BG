@@ -98,6 +98,8 @@
   "erp": {
     "products": "Products",
     "product": "Product",
+    "contraagents": "Contraagents",
+    "contraagent": "Contraagent",
     "customers": "Customers",
     "customer": "Customer",
     "suppliers": "Suppliers",

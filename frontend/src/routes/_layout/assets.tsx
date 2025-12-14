@@ -88,38 +88,46 @@ function getCategoryLabel(category: string | null | undefined): string {
 function AssetsStatistics() {
   const { data: stats, isPending } = useQuery({
     queryKey: ["assets-statistics"],
-    queryFn: () => AssetsService.getStatistics(),
+    queryFn: () => AssetsService.getAssetStatistics(),
   })
 
   if (isPending) {
     return <SkeletonText noOfLines={2} />
   }
 
+  const statsData = stats as {
+    total_count?: number;
+    active_count?: number;
+    disposed_count?: number;
+    total_acquisition_cost?: string;
+    total_book_value?: string;
+  } | undefined
+
   return (
     <Box mb={6} p={4} bg="gray.50" borderRadius="md" _dark={{ bg: "gray.700" }}>
       <StatGroup>
         <Stat>
           <StatLabel>Общо активи</StatLabel>
-          <StatNumber>{stats?.total_count || 0}</StatNumber>
+          <StatNumber>{statsData?.total_count || 0}</StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Активни</StatLabel>
-          <StatNumber color="green.500">{stats?.active_count || 0}</StatNumber>
+          <StatNumber color="green.500">{statsData?.active_count || 0}</StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Изведени</StatLabel>
-          <StatNumber color="red.500">{stats?.disposed_count || 0}</StatNumber>
+          <StatNumber color="red.500">{statsData?.disposed_count || 0}</StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Обща стойност</StatLabel>
           <StatNumber fontSize="lg">
-            {formatCurrency(parseFloat(stats?.total_acquisition_cost || "0"))}
+            {formatCurrency(parseFloat(statsData?.total_acquisition_cost || "0"))}
           </StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Балансова стойност</StatLabel>
           <StatNumber fontSize="lg">
-            {formatCurrency(parseFloat(stats?.total_book_value || "0"))}
+            {formatCurrency(parseFloat(statsData?.total_book_value || "0"))}
           </StatNumber>
         </Stat>
       </StatGroup>

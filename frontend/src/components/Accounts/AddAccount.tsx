@@ -16,12 +16,11 @@ import {
   SimpleGrid,
   Textarea,
 } from "@chakra-ui/react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
 import {
   type AccountCreate,
-  type AccountPublic,
   type ApiError,
   AccountsService,
 } from "../../client"
@@ -36,12 +35,6 @@ interface AddAccountProps {
 const AddAccount = ({ isOpen, onClose }: AddAccountProps) => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
-
-  // Fetch accounts for parent selection
-  const { data: accounts } = useQuery({
-    queryKey: ["accounts-all"],
-    queryFn: () => AccountsService.readAccounts({ limit: 1000 }),
-  })
 
   const {
     register,
@@ -59,7 +52,6 @@ const AddAccount = ({ isOpen, onClose }: AddAccountProps) => {
       is_debit_account: true,
       is_active: true,
       opening_balance: 0,
-      parent_id: null,
     },
   })
 
@@ -81,11 +73,7 @@ const AddAccount = ({ isOpen, onClose }: AddAccountProps) => {
   })
 
   const onSubmit: SubmitHandler<AccountCreate> = (data) => {
-    const cleanedData = {
-      ...data,
-      parent_id: data.parent_id || null,
-    }
-    mutation.mutate(cleanedData)
+    mutation.mutate(data)
   }
 
   return (
@@ -140,17 +128,6 @@ const AddAccount = ({ isOpen, onClose }: AddAccountProps) => {
                 <option value="equity">Собствен капитал</option>
                 <option value="revenue">Приход</option>
                 <option value="expense">Разход</option>
-              </Select>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Родителска сметка</FormLabel>
-              <Select {...register("parent_id")} placeholder="Без родител">
-                {accounts?.data.map((account: AccountPublic) => (
-                  <option key={account.id} value={account.id}>
-                    {account.code} - {account.name}
-                  </option>
-                ))}
               </Select>
             </FormControl>
 

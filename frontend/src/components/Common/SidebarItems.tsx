@@ -17,6 +17,7 @@ import {
   FiTruck,
   FiUser,
   FiUsers,
+  FiUsers as FiContraagents,
 } from "react-icons/fi"
 
 import type { UserPublic } from "../../client"
@@ -26,6 +27,7 @@ const menuItems = [
   { icon: FiCreditCard, titleKey: "menu.accounts", path: "/accounts" },
   { icon: FiArchive, titleKey: "navigation.assets", path: "/assets" },
   { icon: FiShoppingBag, titleKey: "menu.stores", path: "/stores" },
+  { icon: FiContraagents, titleKey: "erp.contraagents", path: "/contraagents" },
   { icon: FiUser, titleKey: "erp.suppliers", path: "/suppliers" },
   { icon: FiSmile, titleKey: "erp.customers", path: "/customers" },
   { icon: FiBriefcase, titleKey: "navigation.items", path: "/items" },

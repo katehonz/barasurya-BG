@@ -336,6 +336,20 @@ from app.models.vat_purchase_register import (
     VatPurchaseRegistersPublic,
     DeductibleCreditType,
 )
+from app.models.contraagent import (
+    Contraagent,
+    ContraagentCreate,
+    ContraagentUpdate,
+    ContraagentPublic,
+    ContraagentsPublic,
+)
+from app.models.contraagent_bank_account import (
+    ContraagentBankAccount,
+    ContraagentBankAccountCreate,
+    ContraagentBankAccountUpdate,
+    ContraagentBankAccountPublic,
+    ContraagentBankAccountsPublic,
+)
 
 
 __all__ = [
@@ -569,6 +583,17 @@ __all__ = [
     "VatPurchaseRegisterPublic",
     "VatPurchaseRegistersPublic",
     "DeductibleCreditType",
+    # Contraagent module
+    "Contraagent",
+    "ContraagentCreate",
+    "ContraagentUpdate",
+    "ContraagentPublic",
+    "ContraagentsPublic",
+    "ContraagentBankAccount",
+    "ContraagentBankAccountCreate",
+    "ContraagentBankAccountUpdate",
+    "ContraagentBankAccountPublic",
+    "ContraagentBankAccountsPublic",
 ]
 
 # --- below same with above but auto-completion is not supported--- #

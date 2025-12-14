@@ -16,7 +16,7 @@ import {
   SimpleGrid,
   Textarea,
 } from "@chakra-ui/react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { useEffect } from "react"
 
@@ -39,12 +39,6 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
 
-  // Fetch accounts for parent selection
-  const { data: accounts } = useQuery({
-    queryKey: ["accounts-all"],
-    queryFn: () => AccountsService.readAccounts({ limit: 1000 }),
-  })
-
   const {
     register,
     handleSubmit,
@@ -60,8 +54,7 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
       account_type: account.account_type,
       is_debit_account: account.is_debit_account,
       is_active: account.is_active,
-      opening_balance: account.opening_balance ? parseFloat(account.opening_balance) : 0,
-      parent_id: account.parent_id,
+      opening_balance: account.opening_balance || 0,
     },
   })
 
@@ -74,8 +67,7 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
         account_type: account.account_type,
         is_debit_account: account.is_debit_account,
         is_active: account.is_active,
-        opening_balance: account.opening_balance ? parseFloat(account.opening_balance) : 0,
-        parent_id: account.parent_id,
+        opening_balance: account.opening_balance || 0,
       })
     }
   }, [account, isOpen, reset])
@@ -154,19 +146,6 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
                 <option value="equity">Собствен капитал</option>
                 <option value="revenue">Приход</option>
                 <option value="expense">Разход</option>
-              </Select>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Родителска сметка</FormLabel>
-              <Select {...register("parent_id")} placeholder="Без родител">
-                {accounts?.data
-                  .filter((a: AccountPublic) => a.id !== account.id)
-                  .map((acc: AccountPublic) => (
-                    <option key={acc.id} value={acc.id}>
-                      {acc.code} - {acc.name}
-                    </option>
-                  ))}
               </Select>
             </FormControl>
 

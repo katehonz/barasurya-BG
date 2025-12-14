@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { AccountsReadAccountsData, AccountsReadAccountsResponse, AccountsCreateAccountData, AccountsCreateAccountResponse, AccountsReadAccountData, AccountsReadAccountResponse, AccountsUpdateAccountData, AccountsUpdateAccountResponse, AccountsDeleteAccountData, AccountsDeleteAccountResponse, AssetsListAssetsData, AssetsListAssetsResponse, AssetsCreateAssetData, AssetsCreateAssetResponse, AssetsGetStatisticsResponse, AssetsGetAssetData, AssetsGetAssetResponse, AssetsUpdateAssetData, AssetsUpdateAssetResponse, AssetsDeleteAssetData, AssetsDeleteAssetResponse, AssetsGetDepreciationScheduleData, AssetsGetDepreciationScheduleResponse, AssetsGenerateDepreciationScheduleData, AssetsGenerateDepreciationScheduleResponse, AssetsPostDepreciationData, AssetsPostDepreciationResponse, AssetsPostPeriodDepreciationData, AssetsPostPeriodDepreciationResponse, AssetsGetPendingDepreciationData, AssetsGetPendingDepreciationResponse, AssetsDisposeAssetData, AssetsDisposeAssetResponse, AssetsIncreaseAssetValueData, AssetsIncreaseAssetValueResponse, BankAccountsListBankAccountsData, BankAccountsListBankAccountsResponse, BankAccountsCreateBankAccountData, BankAccountsCreateBankAccountResponse, BankAccountsGetBankAccountData, BankAccountsGetBankAccountResponse, BankAccountsUpdateBankAccountData, BankAccountsUpdateBankAccountResponse, BankAccountsDeleteBankAccountData, BankAccountsDeleteBankAccountResponse, BankTransactionsListBankTransactionsData, BankTransactionsListBankTransactionsResponse, BankTransactionsCreateBankTransactionData, BankTransactionsCreateBankTransactionResponse, BankTransactionsGetBankTransactionData, BankTransactionsGetBankTransactionResponse, BankTransactionsUpdateBankTransactionData, BankTransactionsUpdateBankTransactionResponse, BankTransactionsDeleteBankTransactionData, BankTransactionsDeleteBankTransactionResponse, BankTransactionsProcessBankTransactionData, BankTransactionsProcessBankTransactionResponse, CustomersReadCustomersData, CustomersReadCustomersResponse, CustomersCreateCustomerData, CustomersCreateCustomerResponse, CustomersReadCustomerData, CustomersReadCustomerResponse, CustomersUpdateCustomerData, CustomersUpdateCustomerResponse, CustomersDeleteCustomerData, CustomersDeleteCustomerResponse, CustomerTypesReadCustomerTypesData, CustomerTypesReadCustomerTypesResponse, CustomerTypesCreateCustomerTypeData, CustomerTypesCreateCustomerTypeResponse, CustomerTypesReadCustomerTypeData, CustomerTypesReadCustomerTypeResponse, CustomerTypesUpdateCustomerTypeData, CustomerTypesUpdateCustomerTypeResponse, CustomerTypesDeleteCustomerTypeData, CustomerTypesDeleteCustomerTypeResponse, InvoicesReadInvoicesData, InvoicesReadInvoicesResponse, InvoicesCreateInvoiceData, InvoicesCreateInvoiceResponse, ItemCategoriesReadItemCategoriesData, ItemCategoriesReadItemCategoriesResponse, ItemCategoriesCreateItemCategoryData, ItemCategoriesCreateItemCategoryResponse, ItemCategoriesReadItemCategoryData, ItemCategoriesReadItemCategoryResponse, ItemCategoriesUpdateItemCategoryData, ItemCategoriesUpdateItemCategoryResponse, ItemCategoriesDeleteItemCategoryData, ItemCategoriesDeleteItemCategoryResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, ItemsReadLowStockItemsData, ItemsReadLowStockItemsResponse, ItemsActivateItemData, ItemsActivateItemResponse, ItemsDeactivateItemData, ItemsDeactivateItemResponse, ItemUnitsReadItemUnitsData, ItemUnitsReadItemUnitsResponse, ItemUnitsCreateItemUnitData, ItemUnitsCreateItemUnitResponse, ItemUnitsReadItemUnitData, ItemUnitsReadItemUnitResponse, ItemUnitsUpdateItemUnitData, ItemUnitsUpdateItemUnitResponse, ItemUnitsDeleteItemUnitData, ItemUnitsDeleteItemUnitResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OrganizationsReadOrganizationsData, OrganizationsReadOrganizationsResponse, OrganizationsCreateOrganizationData, OrganizationsCreateOrganizationResponse, OrganizationsReadCurrentOrganizationResponse, OrganizationsReadOrganizationData, OrganizationsReadOrganizationResponse, OrganizationsUpdateOrganizationData, OrganizationsUpdateOrganizationResponse, OrganizationsDeleteOrganizationData, OrganizationsDeleteOrganizationResponse, OrganizationsSwitchOrganizationData, OrganizationsSwitchOrganizationResponse, OrganizationsReadOrganizationMembersData, OrganizationsReadOrganizationMembersResponse, OrganizationsAddOrganizationMemberData, OrganizationsAddOrganizationMemberResponse, OrganizationsUpdateOrganizationMemberData, OrganizationsUpdateOrganizationMemberResponse, OrganizationsRemoveOrganizationMemberData, OrganizationsRemoveOrganizationMemberResponse, PaymentsReadPaymentsData, PaymentsReadPaymentsResponse, PaymentsCreatePaymentData, PaymentsCreatePaymentResponse, PermissionsReadPermissionsData, PermissionsReadPermissionsResponse, PermissionsCreatePermissionData, PermissionsCreatePermissionResponse, PermissionsReadPermissionData, PermissionsReadPermissionResponse, PermissionsUpdatePermissionData, PermissionsUpdatePermissionResponse, PermissionsDeletePermissionData, PermissionsDeletePermissionResponse, PrivateCreateUserData, PrivateCreateUserResponse, PurchasesReadPurchasesData, PurchasesReadPurchasesResponse, PurchasesCreatePurchaseData, PurchasesCreatePurchaseResponse, PurchasesReadPurchaseData, PurchasesReadPurchaseResponse, PurchasesUpdatePurchaseData, PurchasesUpdatePurchaseResponse, PurchasesDeletePurchaseData, PurchasesDeletePurchaseResponse, SaftGenerateSaftData, SaftGenerateSaftResponse, SalesReadSalesData, SalesReadSalesResponse, SalesCreateSaleData, SalesCreateSaleResponse, SalesReadSaleData, SalesReadSaleResponse, SalesUpdateSaleData, SalesUpdateSaleResponse, SalesDeleteSaleData, SalesDeleteSaleResponse, StockLevelsReadStockLevelsData, StockLevelsReadStockLevelsResponse, StockLevelsCreateStockLevelData, StockLevelsCreateStockLevelResponse, StockLevelsReadStockLevelData, StockLevelsReadStockLevelResponse, StockLevelsUpdateStockLevelData, StockLevelsUpdateStockLevelResponse, StockLevelsDeleteStockLevelData, StockLevelsDeleteStockLevelResponse, StoresReadStoresData, StoresReadStoresResponse, StoresCreateStoreData, StoresCreateStoreResponse, StoresReadStoreData, StoresReadStoreResponse, StoresUpdateStoreData, StoresUpdateStoreResponse, StoresDeleteStoreData, StoresDeleteStoreResponse, SuppliersReadSuppliersData, SuppliersReadSuppliersResponse, SuppliersCreateSupplierData, SuppliersCreateSupplierResponse, SuppliersReadSupplierData, SuppliersReadSupplierResponse, SuppliersUpdateSupplierData, SuppliersUpdateSupplierResponse, SuppliersDeleteSupplierData, SuppliersDeleteSupplierResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadSpecialData, UsersReadSpecialResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { AccountsReadAccountsData, AccountsReadAccountsResponse, AccountsCreateAccountData, AccountsCreateAccountResponse, AccountsReadAccountData, AccountsReadAccountResponse, AccountsUpdateAccountData, AccountsUpdateAccountResponse, AccountsDeleteAccountData, AccountsDeleteAccountResponse, AssetsListAssetsData, AssetsListAssetsResponse, AssetsCreateAssetData, AssetsCreateAssetResponse, AssetsGetAssetData, AssetsGetAssetResponse, AssetsUpdateAssetData, AssetsUpdateAssetResponse, AssetsDeleteAssetData, AssetsDeleteAssetResponse, AssetsGetAssetStatisticsResponse, BankAccountsListBankAccountsData, BankAccountsListBankAccountsResponse, BankAccountsCreateBankAccountData, BankAccountsCreateBankAccountResponse, BankAccountsGetBankAccountData, BankAccountsGetBankAccountResponse, BankAccountsUpdateBankAccountData, BankAccountsUpdateBankAccountResponse, BankAccountsDeleteBankAccountData, BankAccountsDeleteBankAccountResponse, BankTransactionsListBankTransactionsData, BankTransactionsListBankTransactionsResponse, BankTransactionsCreateBankTransactionData, BankTransactionsCreateBankTransactionResponse, BankTransactionsGetBankTransactionData, BankTransactionsGetBankTransactionResponse, BankTransactionsUpdateBankTransactionData, BankTransactionsUpdateBankTransactionResponse, BankTransactionsDeleteBankTransactionData, BankTransactionsDeleteBankTransactionResponse, BankTransactionsProcessBankTransactionData, BankTransactionsProcessBankTransactionResponse, ContraagentsReadContraagentsData, ContraagentsReadContraagentsResponse, ContraagentsCreateContraagentData, ContraagentsCreateContraagentResponse, ContraagentsReadContraagentData, ContraagentsReadContraagentResponse, ContraagentsUpdateContraagentData, ContraagentsUpdateContraagentResponse, ContraagentsDeleteContraagentData, ContraagentsDeleteContraagentResponse, ContraagentsValidateVatNumberData, ContraagentsValidateVatNumberResponse, ContraagentsSetOpeningBalanceData, ContraagentsSetOpeningBalanceResponse, ContraagentsRemoveOpeningBalanceData, ContraagentsRemoveOpeningBalanceResponse, ContraagentsGetOpeningBalancesSummaryResponse, ContraagentsReadContraagentBankAccountsData, ContraagentsReadContraagentBankAccountsResponse, ContraagentsCreateContraagentBankAccountData, ContraagentsCreateContraagentBankAccountResponse, ContraagentsUpdateContraagentBankAccountData, ContraagentsUpdateContraagentBankAccountResponse, ContraagentsDeleteContraagentBankAccountData, ContraagentsDeleteContraagentBankAccountResponse, CustomersReadCustomersData, CustomersReadCustomersResponse, CustomersCreateCustomerData, CustomersCreateCustomerResponse, CustomersReadCustomerData, CustomersReadCustomerResponse, CustomersUpdateCustomerData, CustomersUpdateCustomerResponse, CustomersDeleteCustomerData, CustomersDeleteCustomerResponse, CustomerTypesReadCustomerTypesData, CustomerTypesReadCustomerTypesResponse, CustomerTypesCreateCustomerTypeData, CustomerTypesCreateCustomerTypeResponse, CustomerTypesReadCustomerTypeData, CustomerTypesReadCustomerTypeResponse, CustomerTypesUpdateCustomerTypeData, CustomerTypesUpdateCustomerTypeResponse, CustomerTypesDeleteCustomerTypeData, CustomerTypesDeleteCustomerTypeResponse, InvoicesReadInvoicesData, InvoicesReadInvoicesResponse, InvoicesCreateInvoiceData, InvoicesCreateInvoiceResponse, ItemCategoriesReadItemCategoriesData, ItemCategoriesReadItemCategoriesResponse, ItemCategoriesCreateItemCategoryData, ItemCategoriesCreateItemCategoryResponse, ItemCategoriesReadItemCategoryData, ItemCategoriesReadItemCategoryResponse, ItemCategoriesUpdateItemCategoryData, ItemCategoriesUpdateItemCategoryResponse, ItemCategoriesDeleteItemCategoryData, ItemCategoriesDeleteItemCategoryResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, ItemsReadLowStockItemsData, ItemsReadLowStockItemsResponse, ItemsActivateItemData, ItemsActivateItemResponse, ItemsDeactivateItemData, ItemsDeactivateItemResponse, ItemUnitsReadItemUnitsData, ItemUnitsReadItemUnitsResponse, ItemUnitsCreateItemUnitData, ItemUnitsCreateItemUnitResponse, ItemUnitsReadItemUnitData, ItemUnitsReadItemUnitResponse, ItemUnitsUpdateItemUnitData, ItemUnitsUpdateItemUnitResponse, ItemUnitsDeleteItemUnitData, ItemUnitsDeleteItemUnitResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OrganizationsReadOrganizationsData, OrganizationsReadOrganizationsResponse, OrganizationsCreateOrganizationData, OrganizationsCreateOrganizationResponse, OrganizationsReadCurrentOrganizationResponse, OrganizationsReadOrganizationData, OrganizationsReadOrganizationResponse, OrganizationsUpdateOrganizationData, OrganizationsUpdateOrganizationResponse, OrganizationsDeleteOrganizationData, OrganizationsDeleteOrganizationResponse, OrganizationsSwitchOrganizationData, OrganizationsSwitchOrganizationResponse, OrganizationsReadOrganizationMembersData, OrganizationsReadOrganizationMembersResponse, OrganizationsAddOrganizationMemberData, OrganizationsAddOrganizationMemberResponse, OrganizationsUpdateOrganizationMemberData, OrganizationsUpdateOrganizationMemberResponse, OrganizationsRemoveOrganizationMemberData, OrganizationsRemoveOrganizationMemberResponse, PaymentsReadPaymentsData, PaymentsReadPaymentsResponse, PaymentsCreatePaymentData, PaymentsCreatePaymentResponse, PermissionsReadPermissionsData, PermissionsReadPermissionsResponse, PermissionsCreatePermissionData, PermissionsCreatePermissionResponse, PermissionsReadPermissionData, PermissionsReadPermissionResponse, PermissionsUpdatePermissionData, PermissionsUpdatePermissionResponse, PermissionsDeletePermissionData, PermissionsDeletePermissionResponse, PrivateCreateUserData, PrivateCreateUserResponse, PurchasesReadPurchasesData, PurchasesReadPurchasesResponse, PurchasesCreatePurchaseData, PurchasesCreatePurchaseResponse, PurchasesReadPurchaseData, PurchasesReadPurchaseResponse, PurchasesUpdatePurchaseData, PurchasesUpdatePurchaseResponse, PurchasesDeletePurchaseData, PurchasesDeletePurchaseResponse, SaftGenerateSaftData, SaftGenerateSaftResponse, SalesReadSalesData, SalesReadSalesResponse, SalesCreateSaleData, SalesCreateSaleResponse, SalesReadSaleData, SalesReadSaleResponse, SalesUpdateSaleData, SalesUpdateSaleResponse, SalesDeleteSaleData, SalesDeleteSaleResponse, StockLevelsReadStockLevelsData, StockLevelsReadStockLevelsResponse, StockLevelsCreateStockLevelData, StockLevelsCreateStockLevelResponse, StockLevelsReadStockLevelData, StockLevelsReadStockLevelResponse, StockLevelsUpdateStockLevelData, StockLevelsUpdateStockLevelResponse, StockLevelsDeleteStockLevelData, StockLevelsDeleteStockLevelResponse, StoresReadStoresData, StoresReadStoresResponse, StoresCreateStoreData, StoresCreateStoreResponse, StoresReadStoreData, StoresReadStoreResponse, StoresUpdateStoreData, StoresUpdateStoreResponse, StoresDeleteStoreData, StoresDeleteStoreResponse, SuppliersReadSuppliersData, SuppliersReadSuppliersResponse, SuppliersCreateSupplierData, SuppliersCreateSupplierResponse, SuppliersReadSupplierData, SuppliersReadSupplierResponse, SuppliersUpdateSupplierData, SuppliersUpdateSupplierResponse, SuppliersDeleteSupplierData, SuppliersDeleteSupplierResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadSpecialData, UsersReadSpecialResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class AccountsService {
     /**
@@ -120,13 +120,13 @@ export class AccountsService {
 export class AssetsService {
     /**
      * List Assets
-     * Списък с активи за текущата организация.
+     * List assets.
      * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
      * @param data.status
      * @param data.category
      * @param data.search
-     * @param data.skip
-     * @param data.limit
      * @returns AssetsPublic Successful Response
      * @throws ApiError
      */
@@ -135,11 +135,11 @@ export class AssetsService {
             method: 'GET',
             url: '/api/v1/assets/',
             query: {
+                skip: data.skip,
+                limit: data.limit,
                 status: data.status,
                 category: data.category,
-                search: data.search,
-                skip: data.skip,
-                limit: data.limit
+                search: data.search
             },
             errors: {
                 422: 'Validation Error'
@@ -149,7 +149,7 @@ export class AssetsService {
     
     /**
      * Create Asset
-     * Създаване на нов актив.
+     * Create new asset.
      * @param data The data for the request.
      * @param data.requestBody
      * @returns AssetPublic Successful Response
@@ -168,24 +168,11 @@ export class AssetsService {
     }
     
     /**
-     * Get Statistics
-     * Статистика за активите.
-     * @returns AssetStatisticsResponse Successful Response
-     * @throws ApiError
-     */
-    public static getStatistics(): CancelablePromise<AssetsGetStatisticsResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/assets/statistics'
-        });
-    }
-    
-    /**
      * Get Asset
-     * Детайли за актив с изчислени стойности.
+     * Get asset by ID.
      * @param data The data for the request.
      * @param data.assetId
-     * @returns AssetWithBalanceResponse Successful Response
+     * @returns AssetPublic Successful Response
      * @throws ApiError
      */
     public static getAsset(data: AssetsGetAssetData): CancelablePromise<AssetsGetAssetResponse> {
@@ -203,7 +190,7 @@ export class AssetsService {
     
     /**
      * Update Asset
-     * Актуализиране на актив.
+     * Update an asset.
      * @param data The data for the request.
      * @param data.assetId
      * @param data.requestBody
@@ -227,10 +214,10 @@ export class AssetsService {
     
     /**
      * Delete Asset
-     * Изтриване на актив (само без постнати амортизации).
+     * Delete an asset. Only superuser can delete.
      * @param data The data for the request.
      * @param data.assetId
-     * @returns Message Successful Response
+     * @returns unknown Successful Response
      * @throws ApiError
      */
     public static deleteAsset(data: AssetsDeleteAssetData): CancelablePromise<AssetsDeleteAssetResponse> {
@@ -247,161 +234,15 @@ export class AssetsService {
     }
     
     /**
-     * Get Depreciation Schedule
-     * График за амортизация на актив.
-     * @param data The data for the request.
-     * @param data.assetId
-     * @param data.status
-     * @returns AssetDepreciationSchedulesPublic Successful Response
-     * @throws ApiError
-     */
-    public static getDepreciationSchedule(data: AssetsGetDepreciationScheduleData): CancelablePromise<AssetsGetDepreciationScheduleResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/assets/{asset_id}/depreciation-schedule',
-            path: {
-                asset_id: data.assetId
-            },
-            query: {
-                status: data.status
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Generate Depreciation Schedule
-     * Генериране на график за амортизация.
-     * @param data The data for the request.
-     * @param data.assetId
-     * @param data.startDate
-     * @returns AssetDepreciationSchedulesPublic Successful Response
-     * @throws ApiError
-     */
-    public static generateDepreciationSchedule(data: AssetsGenerateDepreciationScheduleData): CancelablePromise<AssetsGenerateDepreciationScheduleResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/assets/{asset_id}/generate-schedule',
-            path: {
-                asset_id: data.assetId
-            },
-            query: {
-                start_date: data.startDate
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Post Depreciation
-     * Постване на амортизация.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns AssetDepreciationSchedulePublic Successful Response
-     * @throws ApiError
-     */
-    public static postDepreciation(data: AssetsPostDepreciationData): CancelablePromise<AssetsPostDepreciationResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/assets/depreciation/post',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Post Period Depreciation
-     * Постване на всички амортизации за период.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static postPeriodDepreciation(data: AssetsPostPeriodDepreciationData): CancelablePromise<AssetsPostPeriodDepreciationResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/assets/depreciation/post-period',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Get Pending Depreciation
-     * Списък с планирани амортизации за период.
-     * @param data The data for the request.
-     * @param data.periodDate
+     * Get Asset Statistics
+     * Get asset statistics.
      * @returns unknown Successful Response
      * @throws ApiError
      */
-    public static getPendingDepreciation(data: AssetsGetPendingDepreciationData): CancelablePromise<AssetsGetPendingDepreciationResponse> {
+    public static getAssetStatistics(): CancelablePromise<AssetsGetAssetStatisticsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/assets/depreciation/pending',
-            query: {
-                period_date: data.periodDate
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Dispose Asset
-     * Извеждане на актив от употреба.
-     * @param data The data for the request.
-     * @param data.assetId
-     * @param data.requestBody
-     * @returns AssetPublic Successful Response
-     * @throws ApiError
-     */
-    public static disposeAsset(data: AssetsDisposeAssetData): CancelablePromise<AssetsDisposeAssetResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/assets/{asset_id}/dispose',
-            path: {
-                asset_id: data.assetId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Increase Asset Value
-     * Увеличаване на стойността на актив (подобрение).
-     * @param data The data for the request.
-     * @param data.assetId
-     * @param data.requestBody
-     * @returns AssetPublic Successful Response
-     * @throws ApiError
-     */
-    public static increaseAssetValue(data: AssetsIncreaseAssetValueData): CancelablePromise<AssetsIncreaseAssetValueResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/assets/{asset_id}/increase-value',
-            path: {
-                asset_id: data.assetId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
+            url: '/api/v1/assets/statistics'
         });
     }
     
@@ -655,6 +496,308 @@ export class BankTransactionsService {
             },
             query: {
                 journal_entry_id: data.journalEntryId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+}
+
+export class ContraagentsService {
+    /**
+     * Read Contraagents
+     * Retrieve contraagents for the current organization.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @param data.search
+     * @param data.isCustomer Filter by customer status
+     * @param data.isSupplier Filter by supplier status
+     * @param data.isActive Filter by active status
+     * @returns ContraagentsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readContraagents(data: ContraagentsReadContraagentsData = {}): CancelablePromise<ContraagentsReadContraagentsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/contraagents/',
+            query: {
+                skip: data.skip,
+                limit: data.limit,
+                search: data.search,
+                is_customer: data.isCustomer,
+                is_supplier: data.isSupplier,
+                is_active: data.isActive
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Contraagent
+     * Create new contraagent. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @param data.validateVat Validate VAT number using VIES
+     * @returns ContraagentPublic Successful Response
+     * @throws ApiError
+     */
+    public static createContraagent(data: ContraagentsCreateContraagentData): CancelablePromise<ContraagentsCreateContraagentResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/contraagents/',
+            query: {
+                validate_vat: data.validateVat
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Contraagent
+     * Get contraagent by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns ContraagentPublic Successful Response
+     * @throws ApiError
+     */
+    public static readContraagent(data: ContraagentsReadContraagentData): CancelablePromise<ContraagentsReadContraagentResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/contraagents/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Contraagent
+     * Update a contraagent. Requires at least manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @param data.validateVat Validate VAT number using VIES
+     * @returns ContraagentPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateContraagent(data: ContraagentsUpdateContraagentData): CancelablePromise<ContraagentsUpdateContraagentResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/contraagents/{id}',
+            path: {
+                id: data.id
+            },
+            query: {
+                validate_vat: data.validateVat
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Contraagent
+     * Soft delete a contraagent. Requires manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteContraagent(data: ContraagentsDeleteContraagentData): CancelablePromise<ContraagentsDeleteContraagentResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/contraagents/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Validate Vat Number
+     * Validate VAT number using EU VIES system.
+     * @param data The data for the request.
+     * @param data.vatNumber VAT number to validate
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static validateVatNumber(data: ContraagentsValidateVatNumberData): CancelablePromise<ContraagentsValidateVatNumberResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/contraagents/validate-vat',
+            query: {
+                vat_number: data.vatNumber
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Set Opening Balance
+     * Set opening balance for contraagent. Requires manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.debitBalance Opening debit balance
+     * @param data.creditBalance Opening credit balance
+     * @param data.description Description for journal entry
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static setOpeningBalance(data: ContraagentsSetOpeningBalanceData): CancelablePromise<ContraagentsSetOpeningBalanceResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/contraagents/{id}/opening-balance',
+            path: {
+                id: data.id
+            },
+            query: {
+                debit_balance: data.debitBalance,
+                credit_balance: data.creditBalance,
+                description: data.description
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Remove Opening Balance
+     * Remove opening balance for contraagent. Requires manager role.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static removeOpeningBalance(data: ContraagentsRemoveOpeningBalanceData): CancelablePromise<ContraagentsRemoveOpeningBalanceResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/contraagents/{id}/opening-balance',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Opening Balances Summary
+     * Get summary of all contraagent opening balances.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static getOpeningBalancesSummary(): CancelablePromise<ContraagentsGetOpeningBalancesSummaryResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/contraagents/opening-balances/summary'
+        });
+    }
+    
+    /**
+     * Read Contraagent Bank Accounts
+     * Get bank accounts for a contraagent.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns ContraagentBankAccountsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readContraagentBankAccounts(data: ContraagentsReadContraagentBankAccountsData): CancelablePromise<ContraagentsReadContraagentBankAccountsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/contraagents/{id}/bank-accounts',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Contraagent Bank Account
+     * Add bank account to contraagent. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns ContraagentBankAccountPublic Successful Response
+     * @throws ApiError
+     */
+    public static createContraagentBankAccount(data: ContraagentsCreateContraagentBankAccountData): CancelablePromise<ContraagentsCreateContraagentBankAccountResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/contraagents/{id}/bank-accounts',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Contraagent Bank Account
+     * Update contraagent bank account. Requires at least member role.
+     * @param data The data for the request.
+     * @param data.bankAccountId
+     * @param data.requestBody
+     * @returns ContraagentBankAccountPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateContraagentBankAccount(data: ContraagentsUpdateContraagentBankAccountData): CancelablePromise<ContraagentsUpdateContraagentBankAccountResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/contraagents/bank-accounts/{bank_account_id}',
+            path: {
+                bank_account_id: data.bankAccountId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Contraagent Bank Account
+     * Delete contraagent bank account. Requires manager role.
+     * @param data The data for the request.
+     * @param data.bankAccountId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteContraagentBankAccount(data: ContraagentsDeleteContraagentBankAccountData): CancelablePromise<ContraagentsDeleteContraagentBankAccountResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/contraagents/bank-accounts/{bank_account_id}',
+            path: {
+                bank_account_id: data.bankAccountId
             },
             errors: {
                 422: 'Validation Error'

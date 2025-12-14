@@ -29,7 +29,7 @@ import {
   SuppliersService,
   type AccountPublic,
   type ApiError,
-  type AssetCreateRequest,
+  type AssetCreate,
   type SupplierPublic,
 } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
@@ -59,7 +59,7 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<AssetCreateRequest>({
+  } = useForm<AssetCreate>({
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
@@ -83,12 +83,11 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
       accumulated_depreciation_account_id: null,
       supplier_id: null,
       notes: "",
-      generate_schedule: true,
     },
   })
 
   const mutation = useMutation({
-    mutationFn: (data: AssetCreateRequest) =>
+    mutationFn: (data: AssetCreate) =>
       AssetsService.createAsset({ requestBody: data }),
     onSuccess: () => {
       showToast("Успех!", "Активът е създаден успешно.", "success")
@@ -103,7 +102,7 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
     },
   })
 
-  const onSubmit: SubmitHandler<AssetCreateRequest> = (data) => {
+  const onSubmit: SubmitHandler<AssetCreate> = (data) => {
     // Convert empty strings to null for optional UUID fields
     const cleanedData = {
       ...data,
@@ -366,13 +365,6 @@ const AddAsset = ({ isOpen, onClose }: AddAssetProps) => {
                     </Select>
                   </FormControl>
 
-                  <FormControl>
-                    <FormLabel>Генерирай амортизационен план</FormLabel>
-                    <Select {...register("generate_schedule")}>
-                      <option value="true">Да</option>
-                      <option value="false">Не</option>
-                    </Select>
-                  </FormControl>
                 </SimpleGrid>
               </TabPanel>
 
