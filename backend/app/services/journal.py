@@ -1,4 +1,5 @@
 
+from typing import Any
 from sqlmodel import Session
 from app.models.journal_entry import JournalEntry, JournalEntryCreate
 from app.models.entry_line import EntryLine, EntryLineCreate

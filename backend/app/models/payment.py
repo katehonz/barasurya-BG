@@ -31,6 +31,12 @@ class PaymentCreate(PaymentBase):
     pass
 
 
+class PaymentUpdate(PaymentBase):
+    date_payment: datetime | None = None  # type: ignore
+    amount: float | None = Field(default=None, ge=0)  # type: ignore
+    method: str | None = None  # type: ignore
+
+
 class Payment(PaymentBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     date_created: datetime = Field(default_factory=utcnow)

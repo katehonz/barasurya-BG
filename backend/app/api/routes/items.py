@@ -23,6 +23,8 @@ from app.models import (
     ItemUpdate,
     Message,
     OrganizationRole,
+    StockLevel,
+    Store,
     has_role_or_higher,
 )
 
@@ -54,17 +56,22 @@ def read_items(
         .limit(limit)
     )
     items = session.exec(statement).all()
-    items = [
-        ItemPublic(
+    items_public = []
+    for item in items:
+        stock_statement = select(func.sum(StockLevel.quantity)).where(
+            StockLevel.item_id == item.id
+        )
+        stock = session.exec(stock_statement).one_or_none() or 0
+        item_public = ItemPublic(
             **{
                 **item.model_dump(),
                 "item_category_name": item.item_category.name,
                 "item_unit_name": item.item_unit.name,
+                "stock": stock,
             }
         )
-        for item in items
-    ]
-    return ItemsPublic(data=items, count=count)
+        items_public.append(item_public)
+    return ItemsPublic(data=items_public, count=count)
 
 
 @router.get("/{id}", response_model=ItemPublic)
@@ -82,7 +89,20 @@ def read_item(
         raise HTTPException(status_code=404, detail="Item not found")
     if item.organization_id != current_org.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    return item
+
+    stock_statement = select(func.sum(StockLevel.quantity)).where(
+        StockLevel.item_id == item.id
+    )
+    stock = session.exec(stock_statement).one_or_none() or 0
+    item_public = ItemPublic(
+        **{
+            **item.model_dump(),
+            "item_category_name": item.item_category.name,
+            "item_unit_name": item.item_unit.name,
+            "stock": stock,
+        }
+    )
+    return item_public
 
 
 @router.post("/", response_model=ItemPublic)
@@ -119,6 +139,22 @@ def create_item(
     session.add(item)
     session.commit()
     session.refresh(item)
+
+    # Create a stock level for each store
+    stores = session.exec(
+        select(Store).where(Store.organization_id == current_org.id)
+    ).all()
+    for store in stores:
+        stock_level = StockLevel(
+            item_id=item.id,
+            store_id=store.id,
+            quantity=0,
+            organization_id=current_org.id,
+            created_by_id=current_user.id,
+        )
+        session.add(stock_level)
+    session.commit()
+
     return item
 
 
@@ -190,35 +226,6 @@ def delete_item(
     return Message(message="Item deleted successfully")
 
 
-@router.put("/{id}/stock", response_model=ItemPublic)
-def update_stock_item(
-    *,
-    session: SessionDep,
-    current_org: CurrentOrganization,
-    membership: CurrentMembership,
-    id: uuid.UUID,
-    quantity: int,
-) -> Any:
-    """
-    Update an item stock. Requires at least manager role.
-    """
-    if not has_role_or_higher(membership.role, OrganizationRole.MANAGER):
-        raise HTTPException(status_code=403, detail="Requires manager role")
-
-    item = session.get(Item, id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-    if item.organization_id != current_org.id:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-
-    item.stock += quantity
-    item.sqlmodel_update(BaseModelUpdate().model_dump())
-    session.add(item)
-    session.commit()
-    session.refresh(item)
-    return item
-
-
 @router.get("/low_stock/", response_model=ItemsPublic)
 def read_low_stock_items(
     session: SessionDep,
@@ -230,23 +237,36 @@ def read_low_stock_items(
     """
     Retrieve low stock items for the current organization.
     """
+    subquery = (
+        select(
+            StockLevel.item_id,
+            func.sum(StockLevel.quantity).label("total_stock"),
+        )
+        .where(StockLevel.organization_id == current_org.id)
+        .group_by(StockLevel.item_id)
+        .subquery()
+    )
+
     count_statement = (
         select(func.count())
         .select_from(Item)
+        .join(subquery, subquery.c.item_id == Item.id)
         .where(
             and_(
                 Item.organization_id == current_org.id,
-                Item.stock <= Item.stock_minimum,
+                subquery.c.total_stock <= Item.stock_minimum,
             )
         )
     )
     count = session.exec(count_statement).one()
+
     statement = (
         select(Item)
+        .join(subquery, subquery.c.item_id == Item.id)
         .where(
             and_(
                 Item.organization_id == current_org.id,
-                Item.stock <= Item.stock_minimum,
+                subquery.c.total_stock <= Item.stock_minimum,
             )
         )
         .offset(skip)

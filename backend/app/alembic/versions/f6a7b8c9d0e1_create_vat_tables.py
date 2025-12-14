@@ -74,7 +74,7 @@ def upgrade() -> None:
         sa.Column('notes', sa.Text(), nullable=True),
         sa.Column('date_created', sa.DateTime(), nullable=False),
         sa.Column('date_updated', sa.DateTime(), nullable=False),
-        sa.ForeignKeyConstraint(['invoice_id'], ['invoices.id'], ondelete='SET NULL'),
+        # Note: Invoice table FK temporarily removed - invoice table not yet migrated
         sa.ForeignKeyConstraint(['organization_id'], ['organization.id'], ondelete='CASCADE'),
         sa.PrimaryKeyConstraint('id')
     )

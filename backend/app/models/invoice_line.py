@@ -44,7 +44,7 @@ class InvoiceLine(InvoiceLineBase, table=True):
     invoice_id: uuid.UUID = Field(foreign_key="invoices.id", nullable=False)
     invoice: "Invoice" = Relationship(back_populates="invoice_lines")
 
-    product_id: Optional[uuid.UUID] = Field(default=None, foreign_key="items.id")
+    product_id: Optional[uuid.UUID] = Field(default=None, foreign_key="item.id")
     product: Optional["Item"] = Relationship()
 
 

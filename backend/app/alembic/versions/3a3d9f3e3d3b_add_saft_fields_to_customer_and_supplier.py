@@ -112,7 +112,7 @@ def downgrade():
     op.drop_column('supplier', 'contact_person_first_name')
     op.drop_column('supplier', 'contact_person_title')
     op.drop_column('supplier', 'building')
-    op.drop_column('supplier',. 'additional_address_detail')
+    op.drop_column('supplier', 'additional_address_detail')
     op.drop_column('supplier', 'region')
     op.drop_column('supplier', 'postal_code')
     op.drop_column('supplier', 'building_number')

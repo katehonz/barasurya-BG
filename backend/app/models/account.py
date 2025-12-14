@@ -41,7 +41,10 @@ class Account(AccountBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
 
-    organization: "Organization" = Relationship(back_populates="accounts")
+    organization: "Organization" = Relationship(
+        back_populates="accounts",
+        sa_relationship_kwargs={"foreign_keys": "[Account.organization_id]"}
+    )
     created_by: "User" = Relationship()
     account_transactions: list["AccountTransaction"] = Relationship(
         back_populates="account"

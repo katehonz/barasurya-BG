@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from app.models.sale_item import SaleItem
     from app.models.sale_return_item import SaleReturnItem
     from app.models.stock_adjustment import StockAdjustment
+    from app.models.stock_level import StockLevel
     from app.models.stock_transfer import StockTransfer
     from app.models.user import User
 
@@ -26,10 +27,8 @@ class ItemBase(BaseModel):
     description: str | None = Field(default=None, max_length=255)
     price_purchase: float | None = None
     price_sell: float | None = None
-    stock: int = Field(default=0, ge=0)  # ge=0 prevent stock to be negative
     stock_minimum: int = Field(default=0, ge=0)
     is_active: bool = Field(default=True)
-    location: str | None = Field(default=None, max_length=50)
 
 
 # Properties to receive on item creation
@@ -85,11 +84,15 @@ class Item(ItemBase, table=True):
     purchase_return_items: list["PurchaseReturnItem"] = Relationship(
         back_populates="item", cascade_delete=True
     )
+    stock_levels: list["StockLevel"] = Relationship(
+        back_populates="item", cascade_delete=True
+    )
 
 
 # Properties to return via API, id is always required
 class ItemPublic(ItemBase):
     id: uuid.UUID
+    stock: int
     organization_id: uuid.UUID
     created_by_id: uuid.UUID
     item_category_id: uuid.UUID

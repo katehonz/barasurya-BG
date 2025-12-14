@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from app.models.organization import Organization
     from app.models.purchase import Purchase
     from app.models.sale import Sale
+    from app.models.stock_level import StockLevel
     from app.models.stock_transfer import StockTransfer
     from app.models.user import User
 
@@ -56,6 +57,9 @@ class Store(StoreBase, table=True):
         back_populates="dst_store",
         cascade_delete=True,
         sa_relationship_kwargs={"foreign_keys": "[StockTransfer.dst_store_id]"},
+    )
+    stock_levels: list["StockLevel"] = Relationship(
+        back_populates="store", cascade_delete=True
     )
 
 

@@ -82,21 +82,24 @@ class VatSalesRegister(VatSalesRegisterBase, table=True):
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     organization_id: uuid.UUID = Field(foreign_key="organization.id", index=True)
-    invoice_id: uuid.UUID | None = Field(default=None, foreign_key="invoice.id", index=True)
+    # TODO: Re-enable when invoice table migration is added
+    # invoice_id: uuid.UUID | None = Field(default=None, foreign_key="invoice.id", index=True)
 
     date_created: datetime = Field(default_factory=utcnow)
     date_updated: datetime = Field(default_factory=utcnow)
 
     # Relationships
     organization: "Organization" = Relationship(back_populates="vat_sales_registers")
-    invoice: "Invoice" = Relationship(back_populates="vat_sales_register_entry")
+    # TODO: Re-enable when invoice table migration is added
+    # invoice: "Invoice" = Relationship(back_populates="vat_sales_register_entry")
 
 
 class VatSalesRegisterPublic(VatSalesRegisterBase):
     """Публична схема за дневник продажби."""
     id: uuid.UUID
     organization_id: uuid.UUID
-    invoice_id: uuid.UUID | None = None
+    # TODO: Re-enable when invoice table migration is added
+    # invoice_id: uuid.UUID | None = None
     date_created: datetime
     date_updated: datetime
 

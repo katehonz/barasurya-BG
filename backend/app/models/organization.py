@@ -115,7 +115,9 @@ class Organization(OrganizationBase, table=True):
         back_populates="organization", cascade_delete=True
     )
     accounts: list["Account"] = Relationship(
-        back_populates="organization", cascade_delete=True
+        back_populates="organization",
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "[Account.organization_id]"}
     )
     account_transactions: list["AccountTransaction"] = Relationship(
         back_populates="organization", cascade_delete=True

@@ -13,7 +13,7 @@ from app.models.customer import Customer
 from app.models.entry_line import EntryLine
 from app.models.journal_entry import JournalEntry
 from app.models.organization import Organization
-from app.models.product import Product
+from app.models.item import Item
 from app.models.supplier import Supplier
 
 

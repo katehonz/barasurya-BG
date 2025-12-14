@@ -16,6 +16,7 @@ from app.api.routes import (
     purchases,
     sales,
     stores,
+    stock_levels,
     suppliers,
     users,
     utils,
@@ -42,6 +43,7 @@ api_router.include_router(purchases.router)
 api_router.include_router(sales.router)
 api_router.include_router(saft.router)
 api_router.include_router(stores.router)
+api_router.include_router(stock_levels.router)
 api_router.include_router(suppliers.router)
 api_router.include_router(users.router)
 api_router.include_router(utils.router)

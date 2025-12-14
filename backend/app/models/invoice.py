@@ -90,7 +90,8 @@ class Invoice(InvoiceBase, table=True):
     child_invoices: List["Invoice"] = Relationship(back_populates="parent_invoice")
 
     invoice_lines: List["InvoiceLine"] = Relationship(back_populates="invoice", sa_relationship_kwargs={"cascade": "all, delete-orphan"})
-    vat_sales_register_entry: Optional["VatSalesRegister"] = Relationship(back_populates="invoice")
+    # TODO: Re-enable when invoice table migration is added
+    # vat_sales_register_entry: Optional["VatSalesRegister"] = Relationship(back_populates="invoice")
 
 
 class InvoiceCreate(InvoiceBase):

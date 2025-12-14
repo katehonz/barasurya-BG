@@ -8,7 +8,7 @@ defmodule CyberCore.Inventory.Product do
   alias Decimal
 
   @categories ~w(goods materials services produced)
-  @fields ~w(tenant_id name sku description category quantity price cost unit barcode tax_rate is_active track_inventory account_id expense_account_id revenue_account_id cn_code_id opening_quantity opening_cost)a
+  @fields ~w(tenant_id name sku description category price cost unit barcode tax_rate is_active track_inventory account_id expense_account_id revenue_account_id cn_code_id opening_quantity opening_cost)a
 
   schema "products" do
     belongs_to :tenant, Tenant
@@ -24,7 +24,7 @@ defmodule CyberCore.Inventory.Product do
     field :sku, :string
     field :description, :string
     field :category, :string
-    field :quantity, :integer, default: 0
+
     field :price, :decimal, default: Decimal.new(0)
     field :cost, :decimal, default: Decimal.new(0)
     field :unit, :string, default: "бр."
@@ -48,7 +48,7 @@ defmodule CyberCore.Inventory.Product do
     |> validate_inclusion(:category, @categories,
       message: "трябва да бъде една от: стоки, материали, услуги, произведена продукция"
     )
-    |> validate_number(:quantity, greater_than_or_equal_to: 0)
+
     |> validate_decimal(:price)
     |> validate_decimal(:cost)
     |> validate_decimal(:tax_rate)

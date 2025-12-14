@@ -1,13 +1,10 @@
-
 import uuid
 from datetime import date, datetime
 from typing import TYPE_CHECKING, List, Optional
 
-from sqlalchemy import Column
-from sqlalchemy.types import JSON
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, Relationship, SQLModel, JSON
 
-from app.models import BaseModel
+from app.models.base import BaseModel
 from app.utils import utcnow
 
 if TYPE_CHECKING:
@@ -46,8 +43,8 @@ class AssetBase(BaseModel):
     disposal_reason: str | None = Field(default=None)
     disposal_value: float | None = Field(default=None)
     notes: str | None = Field(default=None)
-    attachments: dict | None = Field(default=None)
-    metadata: dict | None = Field(default=None)
+    attachments: dict | None = Field(default=None, sa_type=JSON)
+    extra_metadata: dict | None = Field(default=None, sa_type=JSON)
     month_value_change: int | None = Field(default=None)
     month_suspension_resumption: int | None = Field(default=None)
     month_writeoff_accounting: int | None = Field(default=None)

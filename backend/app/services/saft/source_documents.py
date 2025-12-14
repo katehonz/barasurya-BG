@@ -12,7 +12,8 @@ from app.models.organization import Organization
 from app.models.payment import Payment
 from app.models.purchase import Purchase
 from app.models.sale import Sale
-from app.models.stock_movement import StockMovement
+# TODO: StockMovement model doesn't exist yet
+# from app.models.stock_movement import StockMovement
 from app.services.saft.nomenclature import AssetMovementType, StockMovementType
 
 
@@ -356,16 +357,18 @@ class SAFTSourceDocuments:
             return payments
 
     def _get_stock_movements(self, start_date: date, end_date: date) -> List[Any]:
-        with Session(self.organization.engine) as session:
-            statement = (
-                select(StockMovement)
-                .where(StockMovement.organization_id == self.organization.id)
-                .where(StockMovement.date >= start_date)
-                .where(StockMovement.date <= end_date)
-                .order_by(StockMovement.date, StockMovement.id)
-            )
-            movements = session.exec(statement).all()
-            return movements
+        # TODO: StockMovement model doesn't exist yet - return empty list
+        return []
+        # with Session(self.organization.engine) as session:
+        #     statement = (
+        #         select(StockMovement)
+        #         .where(StockMovement.organization_id == self.organization.id)
+        #         .where(StockMovement.date >= start_date)
+        #         .where(StockMovement.date <= end_date)
+        #         .order_by(StockMovement.date, StockMovement.id)
+        #     )
+        #     movements = session.exec(statement).all()
+        #     return movements
 
     def _get_asset_transactions(self) -> List[Any]:
         with Session(self.organization.engine) as session:
