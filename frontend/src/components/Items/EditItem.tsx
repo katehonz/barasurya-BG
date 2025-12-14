@@ -1,0 +1,200 @@
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+} from "@chakra-ui/react"
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query"
+import { type SubmitHandler, useForm } from "react-hook-form"
+
+import {
+  type ApiError,
+  type ItemPublic,
+  type ItemUpdate,
+  ItemsService,
+  ItemCategoriesService,
+  ItemUnitsService
+} from "../../client"
+import useCustomToast from "../../hooks/useCustomToast"
+import { handleError } from "../../utils"
+import { useEffect } from "react"
+
+interface EditItemProps {
+  item: ItemPublic
+  isOpen: boolean
+  onClose: () => void
+}
+
+const EditItem = ({ item, isOpen, onClose }: EditItemProps) => {
+  const { data: item_categories } = useQuery({
+    queryKey: ["item_categories"],
+    queryFn: () =>
+      ItemCategoriesService.readItemCategories({ skip: 0, limit: 999 }),
+  })
+
+  const { data: item_units } = useQuery({
+    queryKey: ["item_units"],
+    queryFn: () =>
+      ItemUnitsService.readItemUnits({ skip: 0, limit: 999 }),
+  })
+
+  const queryClient = useQueryClient()
+  const showToast = useCustomToast()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, errors, isDirty },
+  } = useForm<ItemUpdate>({
+    mode: "onBlur",
+    criteriaMode: "all",
+    defaultValues: item,
+  })
+
+  useEffect(() => {
+    if (isOpen) {
+      reset(item)
+    }
+  }, [item, isOpen, reset])
+
+  const mutation = useMutation({
+    mutationFn: (data: ItemUpdate) =>
+      ItemsService.updateItem({ id: item.id, requestBody: data }),
+    onSuccess: () => {
+      showToast("Success!", "Item updated successfully.", "success")
+      onClose()
+    },
+    onError: (err: ApiError) => {
+      handleError(err, showToast)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] })
+    },
+  })
+
+  const onSubmit: SubmitHandler<ItemUpdate> = async (data) => {
+    mutation.mutate(data)
+  }
+
+  const onCancel = () => {
+    reset()
+    onClose()
+  }
+
+  return (
+    <>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{ base: "sm", md: "md" }}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Edit Item</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl isInvalid={!!errors.title}>
+              <FormLabel htmlFor="title">Title</FormLabel>
+              <Input
+                id="title"
+                {...register("title", {
+                  required: "Title is required",
+                })}
+                type="text"
+              />
+              {errors.title && (
+                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isRequired isInvalid={!!errors.item_category_id} mt={4}>
+              <FormLabel htmlFor="item_category_id">Category</FormLabel>
+              <Select
+                id="item_category_id"
+                {...register("item_category_id", {
+                  required: "Category of item is required."
+                })}
+                placeholder="Select the category of item">
+                {item_categories?.data?.map((plan) => (
+                  <option key={plan.id} value={plan.id}>
+                    {plan.name}
+                  </option>
+                ))}
+              </Select>
+              {errors.item_category_id && (
+                <FormErrorMessage>{errors.item_category_id.message}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isRequired isInvalid={!!errors.item_unit_id} mt={4}>
+              <FormLabel htmlFor="item_unit_id">Unit</FormLabel>
+              <Select
+                id="item_unit_id"
+                {...register("item_unit_id", {
+                  required: "Unit of item is required."
+                })}
+                placeholder="Select the unit of item">
+                {item_units?.data?.map((plan) => (
+                  <option key={plan.id} value={plan.id}>
+                    {plan.name}
+                  </option>
+                ))}
+              </Select>
+              {errors.item_unit_id && (
+                <FormErrorMessage>{errors.item_unit_id.message}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor="price_purchase">Buy Price</FormLabel>
+              <Input
+                id="price_purchase"
+                {...register("price_purchase")}
+                placeholder="101.000"
+                type="number"
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor="stock">Stock</FormLabel>
+              <Input
+                id="stock"
+                {...register("stock")}
+                placeholder="99"
+                type="number"
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor="description">Description</FormLabel>
+              <Input
+                id="description"
+                {...register("description")}
+                placeholder="Description"
+                type="text"
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter gap={3}>
+            <Button
+              variant="primary"
+              type="submit"
+              isLoading={isSubmitting}
+              isDisabled={!isDirty}
+            >
+              Save
+            </Button>
+            <Button onClick={onCancel}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+
+export default EditItem
