@@ -41,6 +41,10 @@ if TYPE_CHECKING:
     from app.models.vat_return import VatReturn
     from app.models.vat_sales_register import VatSalesRegister
     from app.models.vat_purchase_register import VatPurchaseRegister
+    # Inventory module (from CyberERP)
+    from app.models.product import Product
+    from app.models.measurement_unit import MeasurementUnit
+    from app.models.warehouse import Warehouse
 
 
 class OrganizationBase(BaseModel):
@@ -212,6 +216,16 @@ class Organization(OrganizationBase, table=True):
     )
     base_currency: Optional["Currency"] = Relationship(
         sa_relationship_kwargs={"foreign_keys": "[Organization.base_currency_id]"}
+    )
+    # Inventory module (from CyberERP)
+    products: list["Product"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    measurement_units: list["MeasurementUnit"] = Relationship(
+        back_populates="organization", cascade_delete=True
+    )
+    warehouses: list["Warehouse"] = Relationship(
+        back_populates="organization", cascade_delete=True
     )
 
 

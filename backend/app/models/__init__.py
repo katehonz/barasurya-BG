@@ -364,6 +364,54 @@ from app.models.exchange_rate import (
     ExchangeRatePublic,
     ExchangeRatesPublic,
 )
+# Inventory module (from CyberERP)
+from app.models.product import (
+    Product,
+    ProductCreate,
+    ProductUpdate,
+    ProductPublic,
+    ProductsPublic,
+    PRODUCT_CATEGORIES,
+)
+from app.models.measurement_unit import (
+    MeasurementUnit,
+    MeasurementUnitCreate,
+    MeasurementUnitUpdate,
+    MeasurementUnitPublic,
+    MeasurementUnitsPublic,
+    STANDARD_UNITS,
+)
+from app.models.product_unit import (
+    ProductUnit,
+    ProductUnitCreate,
+    ProductUnitUpdate,
+    ProductUnitPublic,
+    ProductUnitsPublic,
+)
+from app.models.warehouse import (
+    Warehouse,
+    WarehouseCreate,
+    WarehouseUpdate,
+    WarehousePublic,
+    WarehousesPublic,
+    COSTING_METHODS,
+)
+from app.models.lot import (
+    Lot,
+    LotCreate,
+    LotUpdate,
+    LotPublic,
+    LotsPublic,
+)
+from app.models.stock_movement import (
+    StockMovement,
+    StockMovementCreate,
+    StockMovementUpdate,
+    StockMovementPublic,
+    StockMovementsPublic,
+    MOVEMENT_TYPES,
+    MOVEMENT_STATUSES,
+)
 
 
 __all__ = [
@@ -619,6 +667,42 @@ __all__ = [
     "ExchangeRateUpdate",
     "ExchangeRatePublic",
     "ExchangeRatesPublic",
+    # Inventory module (from CyberERP)
+    "Product",
+    "ProductCreate",
+    "ProductUpdate",
+    "ProductPublic",
+    "ProductsPublic",
+    "PRODUCT_CATEGORIES",
+    "MeasurementUnit",
+    "MeasurementUnitCreate",
+    "MeasurementUnitUpdate",
+    "MeasurementUnitPublic",
+    "MeasurementUnitsPublic",
+    "STANDARD_UNITS",
+    "ProductUnit",
+    "ProductUnitCreate",
+    "ProductUnitUpdate",
+    "ProductUnitPublic",
+    "ProductUnitsPublic",
+    "Warehouse",
+    "WarehouseCreate",
+    "WarehouseUpdate",
+    "WarehousePublic",
+    "WarehousesPublic",
+    "COSTING_METHODS",
+    "Lot",
+    "LotCreate",
+    "LotUpdate",
+    "LotPublic",
+    "LotsPublic",
+    "StockMovement",
+    "StockMovementCreate",
+    "StockMovementUpdate",
+    "StockMovementPublic",
+    "StockMovementsPublic",
+    "MOVEMENT_TYPES",
+    "MOVEMENT_STATUSES",
 ]
 
 # --- below same with above but auto-completion is not supported--- #

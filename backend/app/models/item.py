@@ -84,9 +84,10 @@ class Item(ItemBase, table=True):
     purchase_return_items: list["PurchaseReturnItem"] = Relationship(
         back_populates="item", cascade_delete=True
     )
-    stock_levels: list["StockLevel"] = Relationship(
-        back_populates="item", cascade_delete=True
-    )
+    # NOTE: stock_levels relationship removed - migrating to Product-based inventory
+    # stock_levels: list["StockLevel"] = Relationship(
+    #     back_populates="item", cascade_delete=True
+    # )
 
 
 # Properties to return via API, id is always required

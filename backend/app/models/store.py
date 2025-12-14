@@ -58,9 +58,10 @@ class Store(StoreBase, table=True):
         cascade_delete=True,
         sa_relationship_kwargs={"foreign_keys": "[StockTransfer.dst_store_id]"},
     )
-    stock_levels: list["StockLevel"] = Relationship(
-        back_populates="store", cascade_delete=True
-    )
+    # NOTE: stock_levels relationship removed - migrating to Warehouse-based inventory
+    # stock_levels: list["StockLevel"] = Relationship(
+    #     back_populates="store", cascade_delete=True
+    # )
 
 
 class StorePublic(StoreBase):
