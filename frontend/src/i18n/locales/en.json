@@ -210,6 +210,22 @@
     "noOrganization": "No organization",
     "createFirst": "Create your first organization to get started"
   },
+  "stores": {
+    "title": "Stores",
+    "store": "Store",
+    "addStore": "Add Store",
+    "editStore": "Edit Store",
+    "name": "Name",
+    "address": "Address",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "messages": {
+      "created": "Store created successfully.",
+      "updated": "Store updated successfully.",
+      "deleted": "Store deleted successfully.",
+      "noStores": "No stores found"
+    }
+  },
   "currencies": {
     "title": "Currencies",
     "currency": "Currency",
@@ -234,5 +250,91 @@
     "loadError": "Failed to load currencies",
     "confirmDelete": "Are you sure you want to delete this currency?",
     "cannotDeleteBase": "Cannot delete base currency"
+  },
+  "items": {
+    "title": "Items",
+    "item": "Item",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "name": "Name",
+    "description": "Description",
+    "category": "Category",
+    "unit": "Unit",
+    "purchasePrice": "Purchase Price",
+    "sellPrice": "Sell Price",
+    "stock": "Stock",
+    "minimumStock": "Minimum Stock",
+    "dateCreated": "Date Created",
+    "dateUpdated": "Date Updated",
+    "messages": {
+      "created": "Item created successfully.",
+      "updated": "Item updated successfully.",
+      "deleted": "Item deleted successfully.",
+      "noItems": "No items found"
+    }
+  },
+  "itemCategories": {
+    "title": "Item Categories",
+    "category": "Category",
+    "addCategory": "Add Category",
+    "editCategory": "Edit Category",
+    "name": "Name",
+    "description": "Description",
+    "messages": {
+      "created": "Category created successfully.",
+      "updated": "Category updated successfully.",
+      "deleted": "Category deleted successfully.",
+      "noCategories": "No categories found"
+    }
+  },
+  "itemUnits": {
+    "title": "Item Units",
+    "unit": "Unit",
+    "addUnit": "Add Unit",
+    "editUnit": "Edit Unit",
+    "name": "Name",
+    "abbreviation": "Abbreviation",
+    "messages": {
+      "created": "Unit created successfully.",
+      "updated": "Unit updated successfully.",
+      "deleted": "Unit deleted successfully.",
+      "noUnits": "No units found"
+    }
+  },
+  "recipes": {
+    "title": "Recipes",
+    "recipe": "Recipe",
+    "addRecipe": "Add Recipe",
+    "editRecipe": "Edit Recipe",
+    "code": "Code",
+    "name": "Name",
+    "namePlaceholder": "Recipe for product X",
+    "description": "Description",
+    "descriptionPlaceholder": "Recipe description...",
+    "outputItem": "Output Product",
+    "selectOutputItem": "Select output product",
+    "outputQuantity": "Output Quantity",
+    "unit": "Unit",
+    "version": "Version",
+    "status": "Status",
+    "productionCost": "Production Cost",
+    "isActive": "Active Recipe",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes...",
+    "components": "Components",
+    "addComponent": "Add Component",
+    "lineNo": "Line #",
+    "quantity": "Quantity",
+    "wastagePercent": "Wastage (%)",
+    "cost": "Cost",
+    "messages": {
+      "created": "Recipe created successfully.",
+      "updated": "Recipe updated successfully.",
+      "deleted": "Recipe deleted successfully.",
+      "noRecipes": "No recipes found",
+      "componentAdded": "Component added successfully.",
+      "componentUpdated": "Component updated successfully.",
+      "componentDeleted": "Component deleted successfully."
+    }
   }
 }

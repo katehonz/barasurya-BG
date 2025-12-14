@@ -17,6 +17,7 @@ from app.api.routes import (
     permissions,
     private,
     purchases,
+    recipes,
     sales,
     stores,
     stock_levels,
@@ -46,6 +47,7 @@ api_router.include_router(login.router)
 api_router.include_router(payments.router)
 api_router.include_router(permissions.router)
 api_router.include_router(purchases.router)
+api_router.include_router(recipes.router)
 api_router.include_router(sales.router)
 api_router.include_router(saft.router)
 api_router.include_router(stores.router)

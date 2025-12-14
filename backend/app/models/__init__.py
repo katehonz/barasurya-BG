@@ -667,42 +667,17 @@ __all__ = [
     "ExchangeRateUpdate",
     "ExchangeRatePublic",
     "ExchangeRatesPublic",
-    # Inventory module (from CyberERP)
-    "Product",
-    "ProductCreate",
-    "ProductUpdate",
-    "ProductPublic",
-    "ProductsPublic",
-    "PRODUCT_CATEGORIES",
-    "MeasurementUnit",
-    "MeasurementUnitCreate",
-    "MeasurementUnitUpdate",
-    "MeasurementUnitPublic",
-    "MeasurementUnitsPublic",
-    "STANDARD_UNITS",
-    "ProductUnit",
-    "ProductUnitCreate",
-    "ProductUnitUpdate",
-    "ProductUnitPublic",
-    "ProductUnitsPublic",
-    "Warehouse",
-    "WarehouseCreate",
-    "WarehouseUpdate",
-    "WarehousePublic",
-    "WarehousesPublic",
-    "COSTING_METHODS",
-    "Lot",
-    "LotCreate",
-    "LotUpdate",
-    "LotPublic",
-    "LotsPublic",
-    "StockMovement",
-    "StockMovementCreate",
-    "StockMovementUpdate",
-    "StockMovementPublic",
-    "StockMovementsPublic",
-    "MOVEMENT_TYPES",
-    "MOVEMENT_STATUSES",
+    # Manufacturing module
+    "Recipe",
+    "RecipeCreate",
+    "RecipeUpdate",
+    "RecipePublic",
+    "RecipesPublic",
+    "RecipeItem",
+    "RecipeItemCreate",
+    "RecipeItemUpdate",
+    "RecipeItemPublic",
+    "RecipeItemsPublic",
 ]
 
 # --- below same with above but auto-completion is not supported--- #
@@ -731,6 +706,21 @@ __all__ = [
 #                 __all__.append(attr)
 
 # TODO: consider to add "is_deleted" column (soft-delete)
+from app.models.recipe import (
+    Recipe,
+    RecipeCreate,
+    RecipeUpdate,
+    RecipePublic,
+    RecipePublicWithItems,
+    RecipesPublic,
+)
+from app.models.recipe_item import (
+    RecipeItem,
+    RecipeItemCreate,
+    RecipeItemUpdate,
+    RecipeItemPublic,
+    RecipeItemsPublic,
+)
 
 # Rebuild models with forward references
 InvoiceCreate.model_rebuild()
@@ -743,3 +733,5 @@ CurrencyPublic.model_rebuild()
 ExchangeRateCreate.model_rebuild()
 ExchangeRateUpdate.model_rebuild()
 ExchangeRatePublic.model_rebuild()
+Recipe.model_rebuild()
+RecipeItem.model_rebuild()
