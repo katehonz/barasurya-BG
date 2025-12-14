@@ -74,9 +74,9 @@ function Contraagents() {
         skip: currentPage * itemsPerPage,
         limit: itemsPerPage,
         search: searchTerm || undefined,
-        is_customer: filterCustomer === "all" ? undefined : filterCustomer === "true",
-        is_supplier: filterSupplier === "all" ? undefined : filterSupplier === "true",
-        is_active: filterActive === "all" ? undefined : filterActive === "true",
+        isCustomer: filterCustomer === "all" ? undefined : filterCustomer === "true",
+        isSupplier: filterSupplier === "all" ? undefined : filterSupplier === "true",
+        isActive: filterActive === "all" ? undefined : filterActive === "true",
       }),
   })
 
@@ -301,6 +301,7 @@ function Contraagents() {
                       <HStack spacing={2}>
                         <Tooltip label="Edit">
                           <IconButton
+                            aria-label="Edit"
                             icon={<FiEdit />}
                             size="sm"
                             variant="ghost"
@@ -310,12 +311,13 @@ function Contraagents() {
                         </Tooltip>
                         <Tooltip label="Delete">
                           <IconButton
+                            aria-label="Delete"
                             icon={<FiTrash2 />}
                             size="sm"
                             variant="ghost"
                             colorScheme="red"
                             onClick={() => handleDelete(contraagent.id)}
-                            isLoading={deleteMutation.isLoading}
+                            isLoading={deleteMutation.isPending}
                           />
                         </Tooltip>
                       </HStack>

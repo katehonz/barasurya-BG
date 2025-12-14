@@ -209,5 +209,30 @@
     },
     "noOrganization": "No organization",
     "createFirst": "Create your first organization to get started"
+  },
+  "currencies": {
+    "title": "Currencies",
+    "currency": "Currency",
+    "addCurrency": "Add Currency",
+    "editCurrency": "Edit Currency",
+    "code": "Code",
+    "name": "Name",
+    "nameBg": "Name (BG)",
+    "symbol": "Symbol",
+    "decimalPlaces": "Decimal Places",
+    "active": "Active",
+    "inactive": "Inactive",
+    "baseCurrency": "Base Currency",
+    "base": "Base",
+    "status": "Status",
+    "updateRates": "Update ECB Rates",
+    "ratesUpdated": "Exchange rates updated successfully",
+    "showing": "Showing {{count}} currencies",
+    "created": "Currency created successfully",
+    "updated": "Currency updated successfully",
+    "deleted": "Currency deleted successfully",
+    "loadError": "Failed to load currencies",
+    "confirmDelete": "Are you sure you want to delete this currency?",
+    "cannotDeleteBase": "Cannot delete base currency"
   }
 }

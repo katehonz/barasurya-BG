@@ -11,7 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Switch,
   Textarea,
   HStack,
@@ -23,7 +22,7 @@ import {
   useDisclosure,
   Collapse,
 } from "@chakra-ui/react"
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm, Controller } from "react-hook-form"
 import { useState } from "react"
 
@@ -98,8 +97,6 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
   })
 
   const watchedVatNumber = watch("vat_number")
-  const watchedIsCustomer = watch("is_customer")
-  const watchedIsSupplier = watch("is_supplier")
 
   // VAT validation mutation
   const vatValidationMutation = useMutation({
@@ -120,7 +117,7 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
           setValue("registration_number", data.eik)
         }
       } else {
-        showToast("VAT Invalid", data.error || "VAT number validation failed", "warning")
+        showToast("VAT Invalid", data.error || "VAT number validation failed", "error")
       }
     },
     onError: () => {
@@ -138,11 +135,13 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
   }
 
   const mutation = useMutation({
-    mutationFn: (data: ContraagentCreate) =>
-      ContraagentsService.createContraagent({ 
-        requestBody: data,
-        validateVat: data.validateVat 
-      }),
+    mutationFn: (data: ContraagentFormData) => {
+      const { validateVat, ...requestBody } = data
+      return ContraagentsService.createContraagent({
+        requestBody: requestBody as ContraagentCreate,
+        validateVat: validateVat ?? true
+      })
+    },
     onSuccess: () => {
       showToast("Success!", "Contraagent created successfully.", "success")
       reset()
@@ -233,8 +232,8 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
                   <Controller
                     name="is_company"
                     control={control}
-                    render={({ field }) => (
-                      <Switch {...field} isChecked={field.value} />
+                    render={({ field: { value, onChange, ...rest } }) => (
+                      <Switch {...rest} isChecked={value} onChange={onChange} />
                     )}
                   />
                 </FormControl>
@@ -244,8 +243,8 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
                   <Controller
                     name="is_customer"
                     control={control}
-                    render={({ field }) => (
-                      <Switch {...field} isChecked={field.value} />
+                    render={({ field: { value, onChange, ...rest } }) => (
+                      <Switch {...rest} isChecked={value} onChange={onChange} />
                     )}
                   />
                 </FormControl>
@@ -255,8 +254,8 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
                   <Controller
                     name="is_supplier"
                     control={control}
-                    render={({ field }) => (
-                      <Switch {...field} isChecked={field.value} />
+                    render={({ field: { value, onChange, ...rest } }) => (
+                      <Switch {...rest} isChecked={value} onChange={onChange} />
                     )}
                   />
                 </FormControl>
@@ -266,8 +265,8 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
                   <Controller
                     name="is_active"
                     control={control}
-                    render={({ field }) => (
-                      <Switch {...field} isChecked={field.value} />
+                    render={({ field: { value, onChange, ...rest } }) => (
+                      <Switch {...rest} isChecked={value} onChange={onChange} />
                     )}
                   />
                 </FormControl>
@@ -331,8 +330,8 @@ const AddContraagent = ({ isOpen, onClose }: AddContraagentProps) => {
                 <Controller
                   name="validateVat"
                   control={control}
-                  render={({ field }) => (
-                    <Switch {...field} isChecked={field.value}>
+                  render={({ field: { value, onChange, ...rest } }) => (
+                    <Switch {...rest} isChecked={value} onChange={onChange}>
                       Validate VAT number on save
                     </Switch>
                   )}

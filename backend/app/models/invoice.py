@@ -12,10 +12,16 @@ from app.utils import utcnow
 if TYPE_CHECKING:
     from app.models.customer import Customer, CustomerPublic
     from app.models.account import Account
+    from app.models.currency import Currency
     from app.models.organization import Organization
     from app.models.user import User
     from app.models.vat_sales_register import VatSalesRegister
-    from .invoice_line import InvoiceLine, InvoiceLinePublic, InvoiceLineCreate, InvoiceLineUpdate
+    from .invoice_line import (
+        InvoiceLine,
+        InvoiceLinePublic,
+        InvoiceLineCreate,
+        InvoiceLineUpdate,
+    )
 
 
 class VatDocumentType(str, enum.Enum):
@@ -23,6 +29,7 @@ class VatDocumentType(str, enum.Enum):
     DEBIT_NOTE = "02"
     CREDIT_NOTE = "03"
     # ... add all other types here
+
 
 class InvoiceStatus(str, enum.Enum):
     DRAFT = "draft"
@@ -43,11 +50,25 @@ class InvoiceBase(BaseModel):
     billing_vat_number: Optional[str] = Field(default=None, max_length=50)
     billing_company_id: Optional[str] = Field(default=None, max_length=50)
 
-    subtotal: Decimal = Field(default=0, max_digits=10, decimal_places=2)
-    tax_amount: Decimal = Field(default=0, max_digits=10, decimal_places=2)
-    total_amount: Decimal = Field(default=0, max_digits=10, decimal_places=2)
-    paid_amount: Decimal = Field(default=0, max_digits=10, decimal_places=2)
-    currency: str = Field(default="BGN", max_length=3)
+    subtotal: Decimal = Field(default=0, max_digits=15, decimal_places=2)
+    tax_amount: Decimal = Field(default=0, max_digits=15, decimal_places=2)
+    total_amount: Decimal = Field(default=0, max_digits=15, decimal_places=2)
+    paid_amount: Decimal = Field(default=0, max_digits=15, decimal_places=2)
+    currency_code: str = Field(
+        default="BGN", max_length=3, description="Invoice currency code (ISO 4217)"
+    )
+    currency_id: uuid.UUID | None = Field(
+        default=None, foreign_key="currencies.id", description="Currency reference"
+    )
+    exchange_rate: Decimal | None = Field(
+        default=None,
+        max_digits=15,
+        decimal_places=6,
+        description="Exchange rate to base currency",
+    )
+    is_multicurrency: bool = Field(
+        default=False, description="Whether this is a multi-currency invoice"
+    )
 
     payment_method: Optional[str] = Field(default=None, max_length=50)
     notes: Optional[str] = None
@@ -57,7 +78,9 @@ class InvoiceBase(BaseModel):
     vat_document_type: str = Field(default=VatDocumentType.INVOICE, max_length=2)
     vat_reason: Optional[str] = None
     oss_country: Optional[str] = Field(default=None, max_length=2)
-    oss_vat_rate: Optional[Decimal] = Field(default=None, max_digits=5, decimal_places=2)
+    oss_vat_rate: Optional[Decimal] = Field(
+        default=None, max_digits=5, decimal_places=2
+    )
 
 
 class Invoice(InvoiceBase, table=True):
@@ -85,11 +108,22 @@ class Invoice(InvoiceBase, table=True):
     bank_account_id: Optional[uuid.UUID] = Field(default=None, foreign_key="account.id")
     bank_account: Optional["Account"] = Relationship()
 
-    parent_invoice_id: Optional[uuid.UUID] = Field(default=None, foreign_key="invoices.id")
-    parent_invoice: Optional["Invoice"] = Relationship(back_populates="child_invoices", sa_relationship_kwargs=dict(remote_side="Invoice.id"))
+    parent_invoice_id: Optional[uuid.UUID] = Field(
+        default=None, foreign_key="invoices.id"
+    )
+    parent_invoice: Optional["Invoice"] = Relationship(
+        back_populates="child_invoices",
+        sa_relationship_kwargs=dict(remote_side="Invoice.id"),
+    )
     child_invoices: List["Invoice"] = Relationship(back_populates="parent_invoice")
 
-    invoice_lines: List["InvoiceLine"] = Relationship(back_populates="invoice", sa_relationship_kwargs={"cascade": "all, delete-orphan"})
+    invoice_lines: List["InvoiceLine"] = Relationship(
+        back_populates="invoice",
+        sa_relationship_kwargs={"cascade": "all, delete-orphan"},
+    )
+    currency: Optional["Currency"] = Relationship(
+        sa_relationship_kwargs={"foreign_keys": "[Invoice.currency_id]"}
+    )
     # TODO: Re-enable when invoice table migration is added
     # vat_sales_register_entry: Optional["VatSalesRegister"] = Relationship(back_populates="invoice")
 

@@ -350,6 +350,20 @@ from app.models.contraagent_bank_account import (
     ContraagentBankAccountPublic,
     ContraagentBankAccountsPublic,
 )
+from app.models.currency import (
+    Currency,
+    CurrencyCreate,
+    CurrencyUpdate,
+    CurrencyPublic,
+    CurrenciesPublic,
+)
+from app.models.exchange_rate import (
+    ExchangeRate,
+    ExchangeRateCreate,
+    ExchangeRateUpdate,
+    ExchangeRatePublic,
+    ExchangeRatesPublic,
+)
 
 
 __all__ = [
@@ -594,6 +608,17 @@ __all__ = [
     "ContraagentBankAccountUpdate",
     "ContraagentBankAccountPublic",
     "ContraagentBankAccountsPublic",
+    # Currency module
+    "Currency",
+    "CurrencyCreate",
+    "CurrencyUpdate",
+    "CurrencyPublic",
+    "CurrenciesPublic",
+    "ExchangeRate",
+    "ExchangeRateCreate",
+    "ExchangeRateUpdate",
+    "ExchangeRatePublic",
+    "ExchangeRatesPublic",
 ]
 
 # --- below same with above but auto-completion is not supported--- #
@@ -628,3 +653,9 @@ InvoiceCreate.model_rebuild()
 InvoiceUpdate.model_rebuild()
 InvoicePublic.model_rebuild()
 InvoiceLinePublic.model_rebuild()
+CurrencyCreate.model_rebuild()
+CurrencyUpdate.model_rebuild()
+CurrencyPublic.model_rebuild()
+ExchangeRateCreate.model_rebuild()
+ExchangeRateUpdate.model_rebuild()
+ExchangeRatePublic.model_rebuild()

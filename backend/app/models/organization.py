@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from sqlmodel import Field, Relationship
 
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from app.models.bank_statement import BankStatement
     from app.models.bank_transaction import BankTransaction
     from app.models.contraagent import Contraagent
+    from app.models.currency import Currency
     from app.models.customer import Customer
     from app.models.customer_type import CustomerType
     from app.models.invoice import Invoice
@@ -47,14 +48,37 @@ class OrganizationBase(BaseModel):
     slug: str = Field(min_length=1, max_length=100, unique=True, index=True)
     is_active: bool = True
     region_code: str | None = Field(default=None)
-    default_currency: str | None = Field(default=None)
+    default_currency_code: str | None = Field(
+        default="BGN", max_length=3, description="Default currency code (ISO 4217)"
+    )
+    base_currency_id: uuid.UUID | None = Field(
+        default=None, foreign_key="currencies.id", description="Base currency reference"
+    )
     tax_basis: str | None = Field(default=None)
-    accounts_receivable_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
-    sales_revenue_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
-    vat_payable_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
-    inventory_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
-    accounts_payable_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
-    vat_deductible_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
+    in_eurozone: bool = Field(
+        default=False, description="Whether organization is in Eurozone"
+    )
+    eurozone_entry_date: datetime | None = Field(
+        default=None, description="Date when organization entered Eurozone"
+    )
+    accounts_receivable_account_id: uuid.UUID | None = Field(
+        default=None, foreign_key="account.id"
+    )
+    sales_revenue_account_id: uuid.UUID | None = Field(
+        default=None, foreign_key="account.id"
+    )
+    vat_payable_account_id: uuid.UUID | None = Field(
+        default=None, foreign_key="account.id"
+    )
+    inventory_account_id: uuid.UUID | None = Field(
+        default=None, foreign_key="account.id"
+    )
+    accounts_payable_account_id: uuid.UUID | None = Field(
+        default=None, foreign_key="account.id"
+    )
+    vat_deductible_account_id: uuid.UUID | None = Field(
+        default=None, foreign_key="account.id"
+    )
     cash_account_id: uuid.UUID | None = Field(default=None, foreign_key="account.id")
 
 
@@ -67,8 +91,11 @@ class OrganizationUpdate(BaseModel):
     slug: str | None = Field(default=None, min_length=1, max_length=100)
     is_active: bool | None = None
     region_code: str | None = Field(default=None)
-    default_currency: str | None = Field(default=None)
+    default_currency_code: str | None = Field(default=None, max_length=3)
+    base_currency_id: uuid.UUID | None = Field(default=None)
     tax_basis: str | None = Field(default=None)
+    in_eurozone: bool | None = None
+    eurozone_entry_date: datetime | None = Field(default=None)
     accounts_receivable_account_id: uuid.UUID | None = Field(default=None)
     sales_revenue_account_id: uuid.UUID | None = Field(default=None)
     vat_payable_account_id: uuid.UUID | None = Field(default=None)
@@ -118,7 +145,7 @@ class Organization(OrganizationBase, table=True):
     accounts: list["Account"] = Relationship(
         back_populates="organization",
         cascade_delete=True,
-        sa_relationship_kwargs={"foreign_keys": "[Account.organization_id]"}
+        sa_relationship_kwargs={"foreign_keys": "[Account.organization_id]"},
     )
     account_transactions: list["AccountTransaction"] = Relationship(
         back_populates="organization", cascade_delete=True
@@ -182,6 +209,9 @@ class Organization(OrganizationBase, table=True):
     )
     contraagents: list["Contraagent"] = Relationship(
         back_populates="organization", cascade_delete=True
+    )
+    base_currency: Optional["Currency"] = Relationship(
+        sa_relationship_kwargs={"foreign_keys": "[Organization.base_currency_id]"}
     )
 
 

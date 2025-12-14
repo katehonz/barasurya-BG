@@ -28,6 +28,8 @@ import { Route as LayoutItemunitsImport } from './routes/_layout/item_units'
 import { Route as LayoutItemcategoriesImport } from './routes/_layout/item_categories'
 import { Route as LayoutCustomersImport } from './routes/_layout/customers'
 import { Route as LayoutCustomertypesImport } from './routes/_layout/customer_types'
+import { Route as LayoutCurrenciesImport } from './routes/_layout/currencies'
+import { Route as LayoutContraagentsImport } from './routes/_layout/contraagents'
 import { Route as LayoutAssetsImport } from './routes/_layout/assets'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAccountsImport } from './routes/_layout/accounts'
@@ -119,6 +121,16 @@ const LayoutCustomertypesRoute = LayoutCustomertypesImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutCurrenciesRoute = LayoutCurrenciesImport.update({
+  path: '/currencies',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutContraagentsRoute = LayoutContraagentsImport.update({
+  path: '/contraagents',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutAssetsRoute = LayoutAssetsImport.update({
   path: '/assets',
   getParentRoute: () => LayoutRoute,
@@ -172,6 +184,14 @@ declare module '@tanstack/react-router' {
     }
     '/_layout/assets': {
       preLoaderRoute: typeof LayoutAssetsImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/contraagents': {
+      preLoaderRoute: typeof LayoutContraagentsImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/currencies': {
+      preLoaderRoute: typeof LayoutCurrenciesImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/customer_types': {
@@ -228,6 +248,8 @@ export const routeTree = rootRoute.addChildren([
     LayoutAccountsRoute,
     LayoutAdminRoute,
     LayoutAssetsRoute,
+    LayoutContraagentsRoute,
+    LayoutCurrenciesRoute,
     LayoutCustomertypesRoute,
     LayoutCustomersRoute,
     LayoutItemcategoriesRoute,

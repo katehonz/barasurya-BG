@@ -6,6 +6,7 @@ from app.api.routes import (
     bank_accounts,
     bank_transactions,
     contraagents,
+    currencies,
     customer_types,
     customers,
     item_categories,
@@ -34,6 +35,7 @@ api_router.include_router(assets.router)
 api_router.include_router(bank_accounts.router)
 api_router.include_router(bank_transactions.router)
 api_router.include_router(contraagents.router)
+api_router.include_router(currencies.router)
 api_router.include_router(customer_types.router)
 api_router.include_router(customers.router)
 api_router.include_router(organizations.router)
@@ -56,3 +58,4 @@ api_router.include_router(invoices_router, prefix="/invoices", tags=["invoices"]
 
 if settings.ENVIRONMENT == "local":
     api_router.include_router(private.router)
+

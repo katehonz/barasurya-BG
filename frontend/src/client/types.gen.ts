@@ -673,6 +673,141 @@ export type ContraagentUpdate = {
     notes?: (string | null);
 };
 
+export type CurrenciesPublic = {
+    data: Array<CurrencyPublic>;
+    count: number;
+};
+
+export type CurrencyCreate = {
+    /**
+     * ISO 4217 currency code (BGN, EUR, USD)
+     */
+    code: string;
+    /**
+     * English currency name
+     */
+    name: string;
+    /**
+     * Bulgarian currency name
+     */
+    name_bg?: (string | null);
+    /**
+     * Currency symbol (лв., €, $)
+     */
+    symbol?: (string | null);
+    /**
+     * Number of decimal places for amounts
+     */
+    decimal_places?: number;
+    /**
+     * Whether this currency is active
+     */
+    is_active?: boolean;
+    /**
+     * Whether this is the base currency
+     */
+    is_base_currency?: boolean;
+    /**
+     * Bulgarian National Bank code
+     */
+    bnb_code?: (string | null);
+    /**
+     * European Central Bank code
+     */
+    ecb_code?: (string | null);
+    /**
+     * Additional currency description
+     */
+    description?: (string | null);
+};
+
+export type CurrencyPublic = {
+    /**
+     * ISO 4217 currency code (BGN, EUR, USD)
+     */
+    code: string;
+    /**
+     * English currency name
+     */
+    name: string;
+    /**
+     * Bulgarian currency name
+     */
+    name_bg?: (string | null);
+    /**
+     * Currency symbol (лв., €, $)
+     */
+    symbol?: (string | null);
+    /**
+     * Number of decimal places for amounts
+     */
+    decimal_places?: number;
+    /**
+     * Whether this currency is active
+     */
+    is_active?: boolean;
+    /**
+     * Whether this is the base currency
+     */
+    is_base_currency?: boolean;
+    /**
+     * Bulgarian National Bank code
+     */
+    bnb_code?: (string | null);
+    /**
+     * European Central Bank code
+     */
+    ecb_code?: (string | null);
+    /**
+     * Additional currency description
+     */
+    description?: (string | null);
+    id: string;
+};
+
+export type CurrencyUpdate = {
+    /**
+     * ISO 4217 currency code (BGN, EUR, USD)
+     */
+    code: string;
+    /**
+     * English currency name
+     */
+    name: string;
+    /**
+     * Bulgarian currency name
+     */
+    name_bg?: (string | null);
+    /**
+     * Currency symbol (лв., €, $)
+     */
+    symbol?: (string | null);
+    /**
+     * Number of decimal places for amounts
+     */
+    decimal_places?: number;
+    /**
+     * Whether this currency is active
+     */
+    is_active?: boolean;
+    /**
+     * Whether this is the base currency
+     */
+    is_base_currency?: boolean;
+    /**
+     * Bulgarian National Bank code
+     */
+    bnb_code?: (string | null);
+    /**
+     * European Central Bank code
+     */
+    ecb_code?: (string | null);
+    /**
+     * Additional currency description
+     */
+    description?: (string | null);
+};
+
 export type CustomerCreate = {
     name: string;
     phone?: (string | null);
@@ -730,6 +865,55 @@ export type CustomerUpdate = {
     customer_type_id?: (string | null);
 };
 
+export type ExchangeRatePublic = {
+    /**
+     * Source currency ID
+     */
+    from_currency_id: string;
+    /**
+     * Target currency ID
+     */
+    to_currency_id: string;
+    /**
+     * Exchange rate (from_currency -> to_currency)
+     */
+    rate: string;
+    /**
+     * Reverse exchange rate
+     */
+    reverse_rate?: (string | null);
+    /**
+     * Date when this rate is valid
+     */
+    valid_date: string;
+    /**
+     * Source of the rate: manual, bnb, ecb, api
+     */
+    rate_source?: string;
+    /**
+     * BNB rate identifier
+     */
+    bnb_rate_id?: (string | null);
+    /**
+     * ECB rate identifier
+     */
+    ecb_rate_id?: (string | null);
+    /**
+     * Whether this rate is active
+     */
+    is_active?: boolean;
+    /**
+     * Additional notes about the rate
+     */
+    notes?: (string | null);
+    id: string;
+};
+
+export type ExchangeRatesPublic = {
+    data: Array<ExchangeRatePublic>;
+    count: number;
+};
+
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -746,7 +930,22 @@ export type InvoiceCreate = {
     tax_amount?: (number | string);
     total_amount?: (number | string);
     paid_amount?: (number | string);
-    currency?: string;
+    /**
+     * Invoice currency code (ISO 4217)
+     */
+    currency_code?: string;
+    /**
+     * Currency reference
+     */
+    currency_id?: (string | null);
+    /**
+     * Exchange rate to base currency
+     */
+    exchange_rate?: (number | string | null);
+    /**
+     * Whether this is a multi-currency invoice
+     */
+    is_multicurrency?: boolean;
     payment_method?: (string | null);
     notes?: (string | null);
     payment_terms?: (string | null);
@@ -796,7 +995,22 @@ export type InvoicePublic = {
     tax_amount?: string;
     total_amount?: string;
     paid_amount?: string;
-    currency?: string;
+    /**
+     * Invoice currency code (ISO 4217)
+     */
+    currency_code?: string;
+    /**
+     * Currency reference
+     */
+    currency_id?: (string | null);
+    /**
+     * Exchange rate to base currency
+     */
+    exchange_rate?: (string | null);
+    /**
+     * Whether this is a multi-currency invoice
+     */
+    is_multicurrency?: boolean;
     payment_method?: (string | null);
     notes?: (string | null);
     payment_terms?: (string | null);
@@ -929,8 +1143,23 @@ export type OrganizationCreate = {
     slug: string;
     is_active?: boolean;
     region_code?: (string | null);
-    default_currency?: (string | null);
+    /**
+     * Default currency code (ISO 4217)
+     */
+    default_currency_code?: (string | null);
+    /**
+     * Base currency reference
+     */
+    base_currency_id?: (string | null);
     tax_basis?: (string | null);
+    /**
+     * Whether organization is in Eurozone
+     */
+    in_eurozone?: boolean;
+    /**
+     * Date when organization entered Eurozone
+     */
+    eurozone_entry_date?: (string | null);
     accounts_receivable_account_id?: (string | null);
     sales_revenue_account_id?: (string | null);
     vat_payable_account_id?: (string | null);
@@ -970,8 +1199,23 @@ export type OrganizationPublic = {
     slug: string;
     is_active?: boolean;
     region_code?: (string | null);
-    default_currency?: (string | null);
+    /**
+     * Default currency code (ISO 4217)
+     */
+    default_currency_code?: (string | null);
+    /**
+     * Base currency reference
+     */
+    base_currency_id?: (string | null);
     tax_basis?: (string | null);
+    /**
+     * Whether organization is in Eurozone
+     */
+    in_eurozone?: boolean;
+    /**
+     * Date when organization entered Eurozone
+     */
+    eurozone_entry_date?: (string | null);
     accounts_receivable_account_id?: (string | null);
     sales_revenue_account_id?: (string | null);
     vat_payable_account_id?: (string | null);
@@ -999,8 +1243,11 @@ export type OrganizationUpdate = {
     slug?: (string | null);
     is_active?: (boolean | null);
     region_code?: (string | null);
-    default_currency?: (string | null);
+    default_currency_code?: (string | null);
+    base_currency_id?: (string | null);
     tax_basis?: (string | null);
+    in_eurozone?: (boolean | null);
+    eurozone_entry_date?: (string | null);
     accounts_receivable_account_id?: (string | null);
     sales_revenue_account_id?: (string | null);
     vat_payable_account_id?: (string | null);
@@ -1556,6 +1803,49 @@ export type ContraagentsDeleteContraagentBankAccountData = {
 };
 
 export type ContraagentsDeleteContraagentBankAccountResponse = (Message);
+
+export type CurrenciesReadCurrenciesData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type CurrenciesReadCurrenciesResponse = (CurrenciesPublic);
+
+export type CurrenciesCreateCurrencyData = {
+    requestBody: CurrencyCreate;
+};
+
+export type CurrenciesCreateCurrencyResponse = (CurrencyPublic);
+
+export type CurrenciesUpdateCurrencyData = {
+    id: string;
+    requestBody: CurrencyUpdate;
+};
+
+export type CurrenciesUpdateCurrencyResponse = (CurrencyPublic);
+
+export type CurrenciesReadCurrencyData = {
+    id: string;
+};
+
+export type CurrenciesReadCurrencyResponse = (CurrencyPublic);
+
+export type CurrenciesDeleteCurrencyData = {
+    id: string;
+};
+
+export type CurrenciesDeleteCurrencyResponse = (CurrencyPublic);
+
+export type CurrenciesReadExchangeRatesData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type CurrenciesReadExchangeRatesResponse = (ExchangeRatesPublic);
+
+export type CurrenciesUpdateEcbRatesResponse = ({
+    [key: string]: unknown;
+});
 
 export type CustomersReadCustomersData = {
     limit?: number;
