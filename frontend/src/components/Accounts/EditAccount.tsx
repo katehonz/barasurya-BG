@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -11,8 +12,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
+  SimpleGrid,
+  Textarea,
 } from "@chakra-ui/react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { useEffect } from "react"
 
@@ -34,6 +38,13 @@ interface EditAccountProps {
 const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
+
+  // Fetch accounts for parent selection
+  const { data: accounts } = useQuery({
+    queryKey: ["accounts-all"],
+    queryFn: () => AccountsService.readAccounts({ limit: 1000 }),
+  })
+
   const {
     register,
     handleSubmit,
@@ -42,12 +53,30 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
   } = useForm<AccountUpdate>({
     mode: "onBlur",
     criteriaMode: "all",
-    defaultValues: account,
+    defaultValues: {
+      code: account.code,
+      name: account.name,
+      description: account.description || "",
+      account_type: account.account_type,
+      is_debit_account: account.is_debit_account,
+      is_active: account.is_active,
+      opening_balance: account.opening_balance ? parseFloat(account.opening_balance) : 0,
+      parent_id: account.parent_id,
+    },
   })
 
   useEffect(() => {
     if (isOpen) {
-      reset(account)
+      reset({
+        code: account.code,
+        name: account.name,
+        description: account.description || "",
+        account_type: account.account_type,
+        is_debit_account: account.is_debit_account,
+        is_active: account.is_active,
+        opening_balance: account.opening_balance ? parseFloat(account.opening_balance) : 0,
+        parent_id: account.parent_id,
+      })
     }
   }, [account, isOpen, reset])
 
@@ -55,7 +84,7 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
     mutationFn: (data: AccountUpdate) =>
       AccountsService.updateAccount({ id: account.id, requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "Account updated successfully.", "success")
+      showToast("Успех!", "Сметката е обновена успешно.", "success")
       onClose()
     },
     onError: (err: ApiError) => {
@@ -63,6 +92,7 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["accounts"] })
+      queryClient.invalidateQueries({ queryKey: ["accounts-all"] })
     },
   })
 
@@ -76,64 +106,112 @@ const EditAccount = ({ account, isOpen, onClose }: EditAccountProps) => {
   }
 
   return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        size={{ base: "sm", md: "md" }}
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Edit Account</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Name</FormLabel>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="xl"
+      isCentered
+      scrollBehavior="inside"
+    >
+      <ModalOverlay />
+      <ModalContent as="form" onSubmit={handleSubmit(onSubmit)} maxW="600px">
+        <ModalHeader>Редактиране на сметка</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+            <FormControl isInvalid={!!errors.code}>
+              <FormLabel>Код на сметката</FormLabel>
               <Input
-                id="name"
-                {...register("name", {
-                  required: "Name is required",
+                {...register("code", {
+                  pattern: {
+                    value: /^\d{3,4}$/,
+                    message: "Кодът трябва да е 3-4 цифри",
+                  },
                 })}
-                type="text"
+                placeholder="401"
+              />
+              {errors.code && (
+                <FormErrorMessage>{errors.code.message}</FormErrorMessage>
+              )}
+            </FormControl>
+
+            <FormControl isInvalid={!!errors.name}>
+              <FormLabel>Наименование</FormLabel>
+              <Input
+                {...register("name")}
+                placeholder="Доставчици"
               />
               {errors.name && (
                 <FormErrorMessage>{errors.name.message}</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="balance">Balance</FormLabel>
+
+            <FormControl>
+              <FormLabel>Тип сметка</FormLabel>
+              <Select {...register("account_type")}>
+                <option value="asset">Актив</option>
+                <option value="liability">Пасив</option>
+                <option value="equity">Собствен капитал</option>
+                <option value="revenue">Приход</option>
+                <option value="expense">Разход</option>
+              </Select>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Родителска сметка</FormLabel>
+              <Select {...register("parent_id")} placeholder="Без родител">
+                {accounts?.data
+                  .filter((a: AccountPublic) => a.id !== account.id)
+                  .map((acc: AccountPublic) => (
+                    <option key={acc.id} value={acc.id}>
+                      {acc.code} - {acc.name}
+                    </option>
+                  ))}
+              </Select>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Начално салдо (лв.)</FormLabel>
               <Input
-                id="balance"
-                {...register("balance")}
-                placeholder="Balance"
                 type="number"
+                step="0.01"
+                {...register("opening_balance", { valueAsNumber: true })}
+                placeholder="0.00"
               />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="description">Description</FormLabel>
-              <Input
-                id="description"
-                {...register("description")}
-                placeholder="Description"
-                type="text"
-              />
+
+            <FormControl display="flex" flexDirection="column" gap={2} pt={6}>
+              <Checkbox {...register("is_debit_account")}>
+                Дебитна сметка
+              </Checkbox>
+              <Checkbox {...register("is_active")}>
+                Активна
+              </Checkbox>
             </FormControl>
-          </ModalBody>
-          <ModalFooter gap={3}>
-            <Button
-              variant="primary"
-              type="submit"
-              isLoading={isSubmitting}
-              isDisabled={!isDirty}
-            >
-              Save
-            </Button>
-            <Button onClick={onCancel}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+          </SimpleGrid>
+
+          <FormControl mt={4}>
+            <FormLabel>Описание</FormLabel>
+            <Textarea
+              {...register("description")}
+              placeholder="Описание на сметката..."
+              rows={2}
+            />
+          </FormControl>
+        </ModalBody>
+        <ModalFooter gap={3}>
+          <Button
+            variant="primary"
+            type="submit"
+            isLoading={isSubmitting}
+            isDisabled={!isDirty}
+          >
+            Запази
+          </Button>
+          <Button onClick={onCancel}>Отказ</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   )
 }
 

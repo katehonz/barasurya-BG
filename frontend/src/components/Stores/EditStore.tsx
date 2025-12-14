@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
 } from "@chakra-ui/react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
@@ -42,12 +43,22 @@ const EditStore = ({ store, isOpen, onClose }: EditStoreProps) => {
   } = useForm<StoreUpdate>({
     mode: "onBlur",
     criteriaMode: "all",
-    defaultValues: store,
+    defaultValues: {
+      name: store.name,
+      address: store.address || "",
+      latitude: store.latitude,
+      longitude: store.longitude,
+    },
   })
 
   useEffect(() => {
     if (isOpen) {
-      reset(store)
+      reset({
+        name: store.name,
+        address: store.address || "",
+        latitude: store.latitude,
+        longitude: store.longitude,
+      })
     }
   }, [store, isOpen, reset])
 
@@ -55,7 +66,7 @@ const EditStore = ({ store, isOpen, onClose }: EditStoreProps) => {
     mutationFn: (data: StoreUpdate) =>
       StoresService.updateStore({ id: store.id, requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "Store updated successfully.", "success")
+      showToast("Успех!", "Складът е обновен успешно.", "success")
       onClose()
     },
     onError: (err: ApiError) => {
@@ -76,73 +87,73 @@ const EditStore = ({ store, isOpen, onClose }: EditStoreProps) => {
   }
 
   return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        size={{ base: "sm", md: "md" }}
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Edit Store</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Name</FormLabel>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="md"
+      isCentered
+    >
+      <ModalOverlay />
+      <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+        <ModalHeader>Редактиране на склад</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <FormControl isInvalid={!!errors.name}>
+            <FormLabel>Наименование</FormLabel>
+            <Input
+              {...register("name", {
+                required: "Наименованието е задължително",
+              })}
+              placeholder="Централен склад"
+            />
+            {errors.name && (
+              <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+            )}
+          </FormControl>
+
+          <FormControl mt={4}>
+            <FormLabel>Адрес</FormLabel>
+            <Input
+              {...register("address")}
+              placeholder="ул. Примерна 1, София"
+            />
+          </FormControl>
+
+          <SimpleGrid columns={2} spacing={4} mt={4}>
+            <FormControl>
+              <FormLabel>Ширина (lat)</FormLabel>
               <Input
-                id="name"
-                {...register("name", {
-                  required: "Name is required",
-                })}
-                type="text"
-              />
-              {errors.name && (
-                <FormErrorMessage>{errors.name.message}</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="latitude">Latitude</FormLabel>
-              <Input
-                id="latitude"
-                {...register("latitude")}
-                placeholder="Latitude"
                 type="number"
+                step="any"
+                {...register("latitude", { valueAsNumber: true })}
+                placeholder="42.6977"
               />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="longitude">Longitude</FormLabel>
+
+            <FormControl>
+              <FormLabel>Дължина (lng)</FormLabel>
               <Input
-                id="longitude"
-                {...register("longitude")}
-                placeholder="Longitude"
                 type="number"
+                step="any"
+                {...register("longitude", { valueAsNumber: true })}
+                placeholder="23.3219"
               />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="address">Address</FormLabel>
-              <Input
-                id="address"
-                {...register("address")}
-                placeholder="Address"
-                type="text"
-              />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter gap={3}>
-            <Button
-              variant="primary"
-              type="submit"
-              isLoading={isSubmitting}
-              isDisabled={!isDirty}
-            >
-              Save
-            </Button>
-            <Button onClick={onCancel}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+          </SimpleGrid>
+        </ModalBody>
+        <ModalFooter gap={3}>
+          <Button
+            variant="primary"
+            type="submit"
+            isLoading={isSubmitting}
+            isDisabled={!isDirty}
+          >
+            Запази
+          </Button>
+          <Button onClick={onCancel}>Отказ</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   )
 }
 

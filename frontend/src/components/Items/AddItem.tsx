@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -12,12 +13,21 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  SimpleGrid,
+  Textarea,
 } from "@chakra-ui/react"
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { ItemCategoriesService, ItemUnitsService } from "../../client"
 
-import { type ApiError, type ItemCreate, ItemsService } from "../../client"
+import {
+  type ApiError,
+  type ItemCategoryPublic,
+  type ItemCreate,
+  type ItemUnitPublic,
+  ItemCategoriesService,
+  ItemsService,
+  ItemUnitsService,
+} from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
 import { handleError } from "../../utils"
 
@@ -27,20 +37,19 @@ interface AddItemProps {
 }
 
 const AddItem = ({ isOpen, onClose }: AddItemProps) => {
+  const queryClient = useQueryClient()
+  const showToast = useCustomToast()
+
   const { data: item_categories } = useQuery({
     queryKey: ["item_categories"],
-    queryFn: () =>
-      ItemCategoriesService.readItemCategories({ skip: 0, limit: 999 }),
+    queryFn: () => ItemCategoriesService.readItemCategories({ skip: 0, limit: 999 }),
   })
 
   const { data: item_units } = useQuery({
     queryKey: ["item_units"],
-    queryFn: () =>
-      ItemUnitsService.readItemUnits({ skip: 0, limit: 999 }),
+    queryFn: () => ItemUnitsService.readItemUnits({ skip: 0, limit: 999 }),
   })
 
-  const queryClient = useQueryClient()
-  const showToast = useCustomToast()
   const {
     register,
     handleSubmit,
@@ -52,6 +61,12 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
     defaultValues: {
       title: "",
       description: "",
+      price_purchase: null,
+      price_sell: null,
+      stock_minimum: 0,
+      is_active: true,
+      item_category_id: "",
+      item_unit_id: "",
     },
   })
 
@@ -59,7 +74,7 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
     mutationFn: (data: ItemCreate) =>
       ItemsService.createItem({ requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "Item created successfully.", "success")
+      showToast("Успех!", "Артикулът е създаден успешно.", "success")
       reset()
       onClose()
     },
@@ -76,43 +91,43 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
   }
 
   return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        size={{ base: "sm", md: "md" }}
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Add Item</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="xl"
+      isCentered
+      scrollBehavior="inside"
+    >
+      <ModalOverlay />
+      <ModalContent as="form" onSubmit={handleSubmit(onSubmit)} maxW="600px">
+        <ModalHeader>Добавяне на артикул</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
             <FormControl isRequired isInvalid={!!errors.title}>
-              <FormLabel htmlFor="title">Title</FormLabel>
+              <FormLabel>Наименование</FormLabel>
               <Input
-                id="title"
                 {...register("title", {
-                  required: "Title is required.",
+                  required: "Наименованието е задължително",
                 })}
-                placeholder="Title"
-                type="text"
+                placeholder="Продукт ABC"
               />
               {errors.title && (
                 <FormErrorMessage>{errors.title.message}</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isRequired isInvalid={!!errors.item_category_id} mt={4}>
-              <FormLabel htmlFor="item_category_id">Category</FormLabel>
+
+            <FormControl isRequired isInvalid={!!errors.item_category_id}>
+              <FormLabel>Категория</FormLabel>
               <Select
-                id="item_category_id"
                 {...register("item_category_id", {
-                  required: "Category of item is required."
+                  required: "Категорията е задължителна",
                 })}
-                placeholder="Select the category of item">
-                {item_categories?.data?.map((plan) => (
-                  <option key={plan.id} value={plan.id}>
-                    {plan.name}
+                placeholder="Изберете категория"
+              >
+                {item_categories?.data?.map((cat: ItemCategoryPublic) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
                   </option>
                 ))}
               </Select>
@@ -120,17 +135,18 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
                 <FormErrorMessage>{errors.item_category_id.message}</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isRequired isInvalid={!!errors.item_unit_id} mt={4}>
-              <FormLabel htmlFor="item_unit_id">Unit</FormLabel>
+
+            <FormControl isRequired isInvalid={!!errors.item_unit_id}>
+              <FormLabel>Мерна единица</FormLabel>
               <Select
-                id="item_unit_id"
                 {...register("item_unit_id", {
-                  required: "Unit of item is required."
+                  required: "Мерната единица е задължителна",
                 })}
-                placeholder="Select the unit of item">
-                {item_units?.data?.map((plan) => (
-                  <option key={plan.id} value={plan.id}>
-                    {plan.name}
+                placeholder="Изберете единица"
+              >
+                {item_units?.data?.map((unit: ItemUnitPublic) => (
+                  <option key={unit.id} value={unit.id}>
+                    {unit.name}
                   </option>
                 ))}
               </Select>
@@ -138,44 +154,61 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
                 <FormErrorMessage>{errors.item_unit_id.message}</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="price_purchase">Buy Price</FormLabel>
-              <Input
-                id="price_purchase"
-                {...register("price_purchase")}
-                placeholder="101.000"
-                type="number"
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="stock">Stock</FormLabel>
-              <Input
-                id="stock"
-                {...register("stock")}
-                placeholder="99"
-                type="number"
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="description">Description</FormLabel>
-              <Input
-                id="description"
-                {...register("description")}
-                placeholder="Description"
-                type="text"
-              />
-            </FormControl>
-          </ModalBody>
 
-          <ModalFooter gap={3}>
-            <Button variant="primary" type="submit" isLoading={isSubmitting}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            <FormControl>
+              <FormLabel>Покупна цена (лв.)</FormLabel>
+              <Input
+                type="number"
+                step="0.01"
+                {...register("price_purchase", { valueAsNumber: true })}
+                placeholder="0.00"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Продажна цена (лв.)</FormLabel>
+              <Input
+                type="number"
+                step="0.01"
+                {...register("price_sell", { valueAsNumber: true })}
+                placeholder="0.00"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Минимална наличност</FormLabel>
+              <Input
+                type="number"
+                {...register("stock_minimum", { valueAsNumber: true })}
+                placeholder="0"
+              />
+            </FormControl>
+          </SimpleGrid>
+
+          <FormControl mt={4}>
+            <FormLabel>Описание</FormLabel>
+            <Textarea
+              {...register("description")}
+              placeholder="Описание на артикула..."
+              rows={2}
+            />
+          </FormControl>
+
+          <FormControl mt={4}>
+            <Checkbox {...register("is_active")} defaultChecked>
+              Активен
+            </Checkbox>
+          </FormControl>
+        </ModalBody>
+
+        <ModalFooter gap={3}>
+          <Button variant="primary" type="submit" isLoading={isSubmitting}>
+            Запази
+          </Button>
+          <Button onClick={onClose}>Отказ</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   )
 }
 

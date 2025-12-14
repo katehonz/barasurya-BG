@@ -165,12 +165,133 @@
     "myAccount": "Моят акаунт"
   },
   "menu": {
-    "accounts": "Сметки",
-    "stores": "Магазини",
+    "accounts": "Сметкоплан",
+    "stores": "Складове",
     "customerTypes": "Типове клиенти",
     "itemCategories": "Категории артикули",
     "itemUnits": "Мерни единици",
     "userSettings": "Потребителски настройки"
+  },
+  "stores": {
+    "title": "Складове",
+    "store": "Склад",
+    "addStore": "Добавяне на склад",
+    "editStore": "Редактиране на склад",
+    "name": "Наименование",
+    "address": "Адрес",
+    "latitude": "Ширина (lat)",
+    "longitude": "Дължина (lng)",
+    "messages": {
+      "created": "Складът е създаден успешно.",
+      "updated": "Складът е обновен успешно.",
+      "deleted": "Складът е изтрит успешно.",
+      "noStores": "Няма намерени складове"
+    }
+  },
+  "accounts": {
+    "title": "Сметкоплан",
+    "account": "Сметка",
+    "addAccount": "Добавяне на сметка",
+    "editAccount": "Редактиране на сметка",
+    "code": "Код на сметката",
+    "name": "Наименование",
+    "description": "Описание",
+    "accountType": "Тип сметка",
+    "isDebitAccount": "Дебитна сметка",
+    "isActive": "Активна",
+    "openingBalance": "Начално салдо",
+    "parentAccount": "Родителска сметка",
+    "types": {
+      "asset": "Актив",
+      "liability": "Пасив",
+      "equity": "Собствен капитал",
+      "revenue": "Приход",
+      "expense": "Разход"
+    },
+    "messages": {
+      "created": "Сметката е създадена успешно.",
+      "updated": "Сметката е обновена успешно.",
+      "deleted": "Сметката е изтрита успешно.",
+      "noAccounts": "Няма намерени сметки"
+    }
+  },
+  "assets": {
+    "title": "Дълготрайни материални активи",
+    "asset": "Актив",
+    "addAsset": "Добавяне на ДМА",
+    "editAsset": "Редактиране на ДМА",
+    "code": "Код",
+    "name": "Наименование",
+    "category": "Категория",
+    "inventoryNumber": "Инвентарен номер",
+    "serialNumber": "Сериен номер",
+    "location": "Местоположение",
+    "responsiblePerson": "МОЛ",
+    "supplier": "Доставчик",
+    "acquisitionDate": "Дата на придобиване",
+    "acquisitionCost": "Първоначална стойност",
+    "usefulLifeMonths": "Полезен живот (месеци)",
+    "depreciationMethod": "Метод на амортизация",
+    "salvageValue": "Остатъчна стойност",
+    "residualValue": "Текуща балансова стойност",
+    "taxCategory": "Данъчна категория",
+    "taxDepreciationRate": "Данъчна норма (%)",
+    "accountingDepreciationRate": "Счетоводна норма (%)",
+    "status": "Статус",
+    "notes": "Бележки",
+    "accountingAccount": "Сметка на актива",
+    "expenseAccount": "Сметка за амортизационни разходи",
+    "accumulatedDepreciationAccount": "Сметка за натрупана амортизация",
+    "generateSchedule": "Генерирай амортизационен план",
+    "categories": {
+      "computers": "Компютри и периферия",
+      "furniture": "Мебели",
+      "vehicles": "Транспортни средства",
+      "machinery": "Машини и оборудване",
+      "buildings": "Сгради",
+      "land": "Земя",
+      "software": "Софтуер",
+      "other": "Други"
+    },
+    "depreciationMethods": {
+      "straightLine": "Линеен",
+      "decliningBalance": "Намаляващо салдо",
+      "sumOfYears": "Сума на числата",
+      "unitsOfProduction": "Производствен"
+    },
+    "taxCategories": {
+      "I": "I - Масивни сгради (4%)",
+      "II": "II - Машини и оборудване (30%)",
+      "III": "III - Транспортни средства (10%)",
+      "IV": "IV - Компютри и софтуер (50%)",
+      "V": "V - Други (15%)",
+      "VI": "VI - Дълготрайни нематериални активи (33.33%)",
+      "VII": "VII - Дълготрайни биологични активи (15%)"
+    },
+    "statuses": {
+      "active": "Активен",
+      "disposed": "Изведен от употреба",
+      "suspended": "Спрян"
+    },
+    "statistics": {
+      "totalAssets": "Общо активи",
+      "activeAssets": "Активни",
+      "disposedAssets": "Изведени",
+      "totalValue": "Обща стойност",
+      "bookValue": "Балансова стойност"
+    },
+    "tabs": {
+      "basicInfo": "Основни данни",
+      "depreciation": "Амортизация",
+      "accounting": "Счетоводство",
+      "additional": "Допълнителни"
+    },
+    "messages": {
+      "created": "Активът е създаден успешно.",
+      "updated": "Активът е обновен успешно.",
+      "deleted": "Активът е изтрит успешно.",
+      "noAssets": "Няма намерени дълготрайни активи"
+    }
   },
   "messages": {
     "saveSuccess": "Успешно запазено!",

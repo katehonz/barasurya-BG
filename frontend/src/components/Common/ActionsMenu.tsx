@@ -9,7 +9,7 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { FiEdit, FiTrash } from "react-icons/fi"
 
-import type { AccountPublic, CustomerPublic, CustomerTypePublic, ItemCategoryPublic, ItemPublic, ItemUnitPublic, SupplierPublic, UserPublic, PurchasePublic, StorePublic, SalePublic } from "../../client"
+import type { AccountPublic, AssetPublic, CustomerPublic, CustomerTypePublic, ItemCategoryPublic, ItemPublic, ItemUnitPublic, SupplierPublic, UserPublic, PurchasePublic, StorePublic, SalePublic } from "../../client"
 import EditUser from "../Admin/EditUser"
 import EditSupplier from "../Suppliers/EditSupplier"
 import EditItemCategory from "../ItemCategories/EditItemCategory"
@@ -21,11 +21,12 @@ import EditAccount from "../Accounts/EditAccount"
 import EditStore from "../Stores/EditStore"
 import EditPurchase from "../Purchases/EditPurchase"
 import EditSale from "../Sales/EditSale"
+import EditAsset from "../Assets/EditAsset"
 import Delete from "./DeleteAlert"
 
 interface ActionsMenuProps {
   type: string
-  value: ItemCategoryPublic | ItemPublic | UserPublic | SupplierPublic | ItemUnitPublic | CustomerTypePublic | CustomerPublic | AccountPublic | PurchasePublic | SalePublic
+  value: ItemCategoryPublic | ItemPublic | UserPublic | SupplierPublic | ItemUnitPublic | CustomerTypePublic | CustomerPublic | AccountPublic | PurchasePublic | SalePublic | AssetPublic
   disabled?: boolean
 }
 
@@ -106,6 +107,13 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
     Sale: (
       <EditSale
         sale={value as SalePublic}
+        isOpen={editUserModal.isOpen}
+        onClose={editUserModal.onClose}
+      />
+    ),
+    Asset: (
+      <EditAsset
+        asset={value as AssetPublic}
         isOpen={editUserModal.isOpen}
         onClose={editUserModal.onClose}
       />

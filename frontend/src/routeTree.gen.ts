@@ -28,6 +28,7 @@ import { Route as LayoutItemunitsImport } from './routes/_layout/item_units'
 import { Route as LayoutItemcategoriesImport } from './routes/_layout/item_categories'
 import { Route as LayoutCustomersImport } from './routes/_layout/customers'
 import { Route as LayoutCustomertypesImport } from './routes/_layout/customer_types'
+import { Route as LayoutAssetsImport } from './routes/_layout/assets'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAccountsImport } from './routes/_layout/accounts'
 
@@ -118,6 +119,11 @@ const LayoutCustomertypesRoute = LayoutCustomertypesImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutAssetsRoute = LayoutAssetsImport.update({
+  path: '/assets',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutAdminRoute = LayoutAdminImport.update({
   path: '/admin',
   getParentRoute: () => LayoutRoute,
@@ -162,6 +168,10 @@ declare module '@tanstack/react-router' {
     }
     '/_layout/admin': {
       preLoaderRoute: typeof LayoutAdminImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/assets': {
+      preLoaderRoute: typeof LayoutAssetsImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/customer_types': {
@@ -217,6 +227,7 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAccountsRoute,
     LayoutAdminRoute,
+    LayoutAssetsRoute,
     LayoutCustomertypesRoute,
     LayoutCustomersRoute,
     LayoutItemcategoriesRoute,

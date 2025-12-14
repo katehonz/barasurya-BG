@@ -9,6 +9,7 @@ import {
   Th,
   Thead,
   Tr,
+  Text,
 } from "@chakra-ui/react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
@@ -18,8 +19,8 @@ import { z } from "zod"
 import { StoresService } from "../../client"
 import ActionsMenu from "../../components/Common/ActionsMenu"
 import Navbar from "../../components/Common/Navbar"
-import AddStore from "../../components/Stores/AddStore.tsx"
-import { PaginationFooter } from "../../components/Common/PaginationFooter.tsx"
+import AddStore from "../../components/Stores/AddStore"
+import { PaginationFooter } from "../../components/Common/PaginationFooter"
 
 const storesSearchSchema = z.object({
   page: z.number().catch(1),
@@ -30,7 +31,7 @@ export const Route = createFileRoute("/_layout/stores")({
   validateSearch: (search) => storesSearchSchema.parse(search),
 })
 
-const PER_PAGE = 5
+const PER_PAGE = 10
 
 function getStoresQueryOptions({ page }: { page: number }) {
   return {
@@ -45,7 +46,7 @@ function StoresTable() {
   const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
   const setPage = (page: number) =>
-    navigate({ search: (prev: {[key: string]: string}) => ({ ...prev, page }) })
+    navigate({ search: (prev: { [key: string]: string }) => ({ ...prev, page }) })
 
   const {
     data: stores,
@@ -71,18 +72,15 @@ function StoresTable() {
         <Table size={{ base: "sm", md: "md" }}>
           <Thead>
             <Tr>
-              <Th>ID</Th>
-              <Th>Name</Th>
-              <Th>Address</Th>
-              <Th>Latitude</Th>
-              <Th>Longitude</Th>
-              <Th>Actions</Th>
+              <Th>Наименование</Th>
+              <Th>Адрес</Th>
+              <Th>Действия</Th>
             </Tr>
           </Thead>
           {isPending ? (
             <Tbody>
               <Tr>
-                {new Array(4).fill(null).map((_, index) => (
+                {new Array(3).fill(null).map((_, index) => (
                   <Td key={index}>
                     <SkeletonText noOfLines={1} paddingBlock="16px" />
                   </Td>
@@ -91,38 +89,31 @@ function StoresTable() {
             </Tbody>
           ) : (
             <Tbody>
-              {stores?.data.map((store) => (
-                <Tr key={store.id} opacity={isPlaceholderData ? 0.5 : 1}>
-                  <Td>{store.id}</Td>
-                  <Td isTruncated maxWidth="150px">
-                    {store.name}
-                  </Td>
-                  <Td
-                    color={!store.address ? "ui.dim" : "inherit"}
-                    isTruncated
-                    maxWidth="150px"
-                  >
-                    {store.address || "N/A"}
-                  </Td>
-                  <Td
-                    color={!store.latitude ? "ui.dim" : "inherit"}
-                    isTruncated
-                    maxWidth="150px"
-                  >
-                    {store.latitude || "N/A"}
-                  </Td>
-                  <Td
-                    color={!store.longitude ? "ui.dim" : "inherit"}
-                    isTruncated
-                    maxWidth="150px"
-                  >
-                    {store.longitude || "N/A"}
-                  </Td>
-                  <Td>
-                    <ActionsMenu type={"Store"} value={store} />
+              {stores?.data.length === 0 ? (
+                <Tr>
+                  <Td colSpan={3}>
+                    <Text textAlign="center" py={4} color="gray.500">
+                      Няма намерени складове
+                    </Text>
                   </Td>
                 </Tr>
-              ))}
+              ) : (
+                stores?.data.map((store) => (
+                  <Tr key={store.id} opacity={isPlaceholderData ? 0.5 : 1}>
+                    <Td>
+                      <Text fontWeight="medium">{store.name}</Text>
+                    </Td>
+                    <Td>
+                      <Text color={!store.address ? "gray.400" : "inherit"}>
+                        {store.address || "-"}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <ActionsMenu type={"Store"} value={store} />
+                    </Td>
+                  </Tr>
+                ))
+              )}
             </Tbody>
           )}
         </Table>
@@ -141,7 +132,7 @@ function Stores() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Stores Management
+        Складове
       </Heading>
 
       <Navbar type={"Store"} addModalAs={AddStore} />

@@ -1,4 +1,5 @@
 import {
+  Badge,
   Container,
   Heading,
   SkeletonText,
@@ -9,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  Text,
 } from "@chakra-ui/react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
@@ -18,8 +20,8 @@ import { z } from "zod"
 import { AccountsService } from "../../client"
 import ActionsMenu from "../../components/Common/ActionsMenu"
 import Navbar from "../../components/Common/Navbar"
-import AddAccount from "../../components/Accounts/AddAccount.tsx"
-import { PaginationFooter } from "../../components/Common/PaginationFooter.tsx"
+import AddAccount from "../../components/Accounts/AddAccount"
+import { PaginationFooter } from "../../components/Common/PaginationFooter"
 
 const accountsSearchSchema = z.object({
   page: z.number().catch(1),
@@ -30,7 +32,7 @@ export const Route = createFileRoute("/_layout/accounts")({
   validateSearch: (search) => accountsSearchSchema.parse(search),
 })
 
-const PER_PAGE = 5
+const PER_PAGE = 15
 
 function getAccountsQueryOptions({ page }: { page: number }) {
   return {
@@ -40,12 +42,37 @@ function getAccountsQueryOptions({ page }: { page: number }) {
   }
 }
 
+function formatCurrency(value: string | number | undefined | null): string {
+  if (value === undefined || value === null) return "0.00 лв."
+  const numValue = typeof value === "string" ? parseFloat(value) : value
+  return new Intl.NumberFormat("bg-BG", {
+    style: "currency",
+    currency: "BGN",
+  }).format(numValue)
+}
+
+function getAccountTypeBadge(type: string | undefined) {
+  const types: Record<string, { label: string; color: string }> = {
+    asset: { label: "Актив", color: "blue" },
+    liability: { label: "Пасив", color: "orange" },
+    equity: { label: "Капитал", color: "purple" },
+    revenue: { label: "Приход", color: "green" },
+    expense: { label: "Разход", color: "red" },
+  }
+  const info = type ? types[type] : null
+  return info ? (
+    <Badge colorScheme={info.color}>{info.label}</Badge>
+  ) : (
+    <Badge>{type}</Badge>
+  )
+}
+
 function AccountsTable() {
   const queryClient = useQueryClient()
   const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
   const setPage = (page: number) =>
-    navigate({ search: (prev: {[key: string]: string}) => ({ ...prev, page }) })
+    navigate({ search: (prev: { [key: string]: string }) => ({ ...prev, page }) })
 
   const {
     data: accounts,
@@ -71,17 +98,19 @@ function AccountsTable() {
         <Table size={{ base: "sm", md: "md" }}>
           <Thead>
             <Tr>
-              <Th>ID</Th>
-              <Th>Name</Th>
-              <Th>Balance</Th>
-              <Th>Description</Th>
-              <Th>Actions</Th>
+              <Th>Код</Th>
+              <Th>Наименование</Th>
+              <Th>Тип</Th>
+              <Th isNumeric>Нач. салдо</Th>
+              <Th>Дебитна</Th>
+              <Th>Статус</Th>
+              <Th>Действия</Th>
             </Tr>
           </Thead>
           {isPending ? (
             <Tbody>
               <Tr>
-                {new Array(4).fill(null).map((_, index) => (
+                {new Array(7).fill(null).map((_, index) => (
                   <Td key={index}>
                     <SkeletonText noOfLines={1} paddingBlock="16px" />
                   </Td>
@@ -90,31 +119,49 @@ function AccountsTable() {
             </Tbody>
           ) : (
             <Tbody>
-              {accounts?.data.map((account) => (
-                <Tr key={account.id} opacity={isPlaceholderData ? 0.5 : 1}>
-                  <Td>{account.id}</Td>
-                  <Td isTruncated maxWidth="150px">
-                    {account.name}
-                  </Td>
-                  <Td
-                    color={!account.balance ? "ui.dim" : "inherit"}
-                    isTruncated
-                    maxWidth="150px"
-                  >
-                    {account.balance || "N/A"}
-                  </Td>
-                  <Td
-                    color={!account.description ? "ui.dim" : "inherit"}
-                    isTruncated
-                    maxWidth="150px"
-                  >
-                    {account.description || "N/A"}
-                  </Td>
-                  <Td>
-                    <ActionsMenu type={"Account"} value={account} />
+              {accounts?.data.length === 0 ? (
+                <Tr>
+                  <Td colSpan={7}>
+                    <Text textAlign="center" py={4} color="gray.500">
+                      Няма намерени сметки
+                    </Text>
                   </Td>
                 </Tr>
-              ))}
+              ) : (
+                accounts?.data.map((account) => (
+                  <Tr key={account.id} opacity={isPlaceholderData ? 0.5 : 1}>
+                    <Td>
+                      <Text fontWeight="bold" fontFamily="mono">
+                        {account.code}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Text isTruncated maxWidth="200px" title={account.name}>
+                        {account.name}
+                      </Text>
+                    </Td>
+                    <Td>{getAccountTypeBadge(account.account_type)}</Td>
+                    <Td isNumeric>{formatCurrency(account.opening_balance)}</Td>
+                    <Td>
+                      {account.is_debit_account ? (
+                        <Badge colorScheme="cyan">Дт</Badge>
+                      ) : (
+                        <Badge colorScheme="pink">Кт</Badge>
+                      )}
+                    </Td>
+                    <Td>
+                      {account.is_active ? (
+                        <Badge colorScheme="green">Активна</Badge>
+                      ) : (
+                        <Badge colorScheme="gray">Неактивна</Badge>
+                      )}
+                    </Td>
+                    <Td>
+                      <ActionsMenu type={"Account"} value={account} />
+                    </Td>
+                  </Tr>
+                ))
+              )}
             </Tbody>
           )}
         </Table>
@@ -133,7 +180,7 @@ function Accounts() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Accounts Management
+        Сметкоплан
       </Heading>
 
       <Navbar type={"Account"} addModalAs={AddAccount} />

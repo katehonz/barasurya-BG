@@ -1,4 +1,5 @@
 import {
+  Badge,
   Container,
   Heading,
   SkeletonText,
@@ -9,6 +10,13 @@ import {
   Th,
   Thead,
   Tr,
+  Text,
+  HStack,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatGroup,
+  Box,
 } from "@chakra-ui/react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
@@ -30,7 +38,7 @@ export const Route = createFileRoute("/_layout/assets")({
   validateSearch: (search) => assetsSearchSchema.parse(search),
 })
 
-const PER_PAGE = 5
+const PER_PAGE = 10
 
 function getAssetsQueryOptions({ page }: { page: number }) {
   return {
@@ -41,6 +49,83 @@ function getAssetsQueryOptions({ page }: { page: number }) {
       }),
     queryKey: ["assets", { page }],
   }
+}
+
+function formatCurrency(value: number | undefined | null): string {
+  if (value === undefined || value === null) return "-"
+  return new Intl.NumberFormat("bg-BG", {
+    style: "currency",
+    currency: "BGN",
+  }).format(value)
+}
+
+function getStatusBadge(status: string | undefined) {
+  switch (status) {
+    case "active":
+      return <Badge colorScheme="green">Активен</Badge>
+    case "disposed":
+      return <Badge colorScheme="red">Изведен</Badge>
+    case "suspended":
+      return <Badge colorScheme="yellow">Спрян</Badge>
+    default:
+      return <Badge>{status}</Badge>
+  }
+}
+
+function getCategoryLabel(category: string | null | undefined): string {
+  const categories: Record<string, string> = {
+    computers: "Компютри",
+    furniture: "Мебели",
+    vehicles: "Транспорт",
+    machinery: "Машини",
+    buildings: "Сгради",
+    land: "Земя",
+    software: "Софтуер",
+    other: "Други",
+  }
+  return category ? categories[category] || category : "-"
+}
+
+function AssetsStatistics() {
+  const { data: stats, isPending } = useQuery({
+    queryKey: ["assets-statistics"],
+    queryFn: () => AssetsService.getStatistics(),
+  })
+
+  if (isPending) {
+    return <SkeletonText noOfLines={2} />
+  }
+
+  return (
+    <Box mb={6} p={4} bg="gray.50" borderRadius="md" _dark={{ bg: "gray.700" }}>
+      <StatGroup>
+        <Stat>
+          <StatLabel>Общо активи</StatLabel>
+          <StatNumber>{stats?.total_count || 0}</StatNumber>
+        </Stat>
+        <Stat>
+          <StatLabel>Активни</StatLabel>
+          <StatNumber color="green.500">{stats?.active_count || 0}</StatNumber>
+        </Stat>
+        <Stat>
+          <StatLabel>Изведени</StatLabel>
+          <StatNumber color="red.500">{stats?.disposed_count || 0}</StatNumber>
+        </Stat>
+        <Stat>
+          <StatLabel>Обща стойност</StatLabel>
+          <StatNumber fontSize="lg">
+            {formatCurrency(parseFloat(stats?.total_acquisition_cost || "0"))}
+          </StatNumber>
+        </Stat>
+        <Stat>
+          <StatLabel>Балансова стойност</StatLabel>
+          <StatNumber fontSize="lg">
+            {formatCurrency(parseFloat(stats?.total_book_value || "0"))}
+          </StatNumber>
+        </Stat>
+      </StatGroup>
+    </Box>
+  )
 }
 
 function AssetsTable() {
@@ -76,19 +161,20 @@ function AssetsTable() {
         <Table size={{ base: "sm", md: "md" }}>
           <Thead>
             <Tr>
-              <Th>ID</Th>
-              <Th>Code</Th>
-              <Th>Name</Th>
-              <Th>Acquisition Date</Th>
-              <Th>Acquisition Cost</Th>
-              <Th>Status</Th>
-              <Th>Actions</Th>
+              <Th>Код</Th>
+              <Th>Наименование</Th>
+              <Th>Категория</Th>
+              <Th>Инв. номер</Th>
+              <Th isNumeric>Първ. стойност</Th>
+              <Th>Дата придоб.</Th>
+              <Th>Статус</Th>
+              <Th>Действия</Th>
             </Tr>
           </Thead>
           {isPending ? (
             <Tbody>
               <Tr>
-                {new Array(7).fill(null).map((_, index) => (
+                {new Array(8).fill(null).map((_, index) => (
                   <Td key={index}>
                     <SkeletonText noOfLines={1} paddingBlock="16px" />
                   </Td>
@@ -97,21 +183,36 @@ function AssetsTable() {
             </Tbody>
           ) : (
             <Tbody>
-              {assets?.data.map((asset) => (
-                <Tr key={asset.id} opacity={isPlaceholderData ? 0.5 : 1}>
-                  <Td>{asset.id}</Td>
-                  <Td>{asset.code}</Td>
-                  <Td isTruncated maxWidth="150px">
-                    {asset.name}
-                  </Td>
-                  <Td>{asset.acquisition_date}</Td>
-                  <Td>{asset.acquisition_cost}</Td>
-                  <Td>{asset.status}</Td>
-                  <Td>
-                    <ActionsMenu type={"Asset"} value={asset} />
+              {assets?.data.length === 0 ? (
+                <Tr>
+                  <Td colSpan={8}>
+                    <Text textAlign="center" py={4} color="gray.500">
+                      Няма намерени дълготрайни активи
+                    </Text>
                   </Td>
                 </Tr>
-              ))}
+              ) : (
+                assets?.data.map((asset) => (
+                  <Tr key={asset.id} opacity={isPlaceholderData ? 0.5 : 1}>
+                    <Td>
+                      <Text fontWeight="medium">{asset.code}</Text>
+                    </Td>
+                    <Td>
+                      <Text isTruncated maxWidth="200px" title={asset.name}>
+                        {asset.name}
+                      </Text>
+                    </Td>
+                    <Td>{getCategoryLabel(asset.category)}</Td>
+                    <Td>{asset.inventory_number || "-"}</Td>
+                    <Td isNumeric>{formatCurrency(asset.acquisition_cost)}</Td>
+                    <Td>{asset.acquisition_date}</Td>
+                    <Td>{getStatusBadge(asset.status)}</Td>
+                    <Td>
+                      <ActionsMenu type={"Asset"} value={asset} />
+                    </Td>
+                  </Tr>
+                ))
+              )}
             </Tbody>
           )}
         </Table>
@@ -130,9 +231,10 @@ function Assets() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Assets Management
+        Дълготрайни материални активи
       </Heading>
 
+      <AssetsStatistics />
       <Navbar type={"Asset"} addModalAs={AddAsset} />
       <AssetsTable />
     </Container>
