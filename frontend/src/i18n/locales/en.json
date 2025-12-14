@@ -158,6 +158,7 @@
   "navigation": {
     "home": "Home",
     "dashboard": "Dashboard",
+    "assets": "Assets",
     "items": "Items",
     "settings": "Settings",
     "admin": "Admin",

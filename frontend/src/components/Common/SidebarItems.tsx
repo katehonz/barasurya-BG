@@ -2,13 +2,29 @@ import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
-import { FiBox, FiPercent, FiBriefcase, FiHome, FiSettings, FiUsers, FiUser, FiSmile, FiCreditCard, FiShoppingBag, FiShoppingCart, FiTruck, FiFileText } from "react-icons/fi"
+import {
+  FiArchive,
+  FiBox,
+  FiBriefcase,
+  FiCreditCard,
+  FiFileText,
+  FiHome,
+  FiPercent,
+  FiSettings,
+  FiShoppingBag,
+  FiShoppingCart,
+  FiSmile,
+  FiTruck,
+  FiUser,
+  FiUsers,
+} from "react-icons/fi"
 
 import type { UserPublic } from "../../client"
 
 const menuItems = [
   { icon: FiHome, titleKey: "navigation.dashboard", path: "/" },
   { icon: FiCreditCard, titleKey: "menu.accounts", path: "/accounts" },
+  { icon: FiArchive, titleKey: "navigation.assets", path: "/assets" },
   { icon: FiShoppingBag, titleKey: "menu.stores", path: "/stores" },
   { icon: FiUser, titleKey: "erp.suppliers", path: "/suppliers" },
   { icon: FiSmile, titleKey: "erp.customers", path: "/customers" },
@@ -34,7 +50,10 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
 
   const finalItems = currentUser?.is_superuser
-    ? [...menuItems, { icon: FiUsers, titleKey: "navigation.admin", path: "/admin" }]
+    ? [
+        ...menuItems,
+        { icon: FiUsers, titleKey: "navigation.admin", path: "/admin" },
+      ]
     : menuItems
 
   const listItems = finalItems.map(({ icon, titleKey, path }) => (

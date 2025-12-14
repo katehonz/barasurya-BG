@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.api.routes import (
     accounts,
+    assets,
     bank_accounts,
     bank_transactions,
     customer_types,
@@ -28,6 +29,7 @@ from app.sales.api import invoices_router
 
 api_router = APIRouter()
 api_router.include_router(accounts.router)
+api_router.include_router(assets.router)
 api_router.include_router(bank_accounts.router)
 api_router.include_router(bank_transactions.router)
 api_router.include_router(customer_types.router)
