@@ -24,8 +24,8 @@
 ### 1. Клониране на репозиторията
 
 ```bash
-git clone https://github.com/barasurya/barasurya.git
-cd barasurya
+git clone https://github.com/katehonz/barasurya-BG.git
+cd barasurya-BG
 ```
 
 ### 2. Конфигурация
@@ -192,7 +192,7 @@ MIT License - свободни сте да използвате, модифиц�
 
 **Създадено от:** Димитър Гигов / Dimitar Gigov
 
-**Repository:** [https://github.com/barasurya/barasurya](https://github.com/barasurya/barasurya)
+**Repository:** [https://github.com/katehonz/barasurya-BG](https://github.com/katehonz/barasurya-BG)
 
 **Website:** [https://cyberbuch.org/](https://cyberbuch.org/)
 
