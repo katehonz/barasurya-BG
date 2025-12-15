@@ -45,7 +45,11 @@
     "language": "Език",
     "theme": "Тема",
     "darkMode": "Тъмен режим",
-    "lightMode": "Светъл режим"
+    "lightMode": "Светъл режим",
+    "show": "Покажи",
+    "hide": "Скрий",
+    "success": "Успех",
+    "error": "Грешка"
   },
   "users": {
     "users": "Потребители",
@@ -488,6 +492,56 @@
     "messages": {
       "generated": "ДДС справката е генерирана успешно.",
       "exported": "ДДС справката е експортирана успешно."
+    }
+  },
+  "settings": {
+    "title": "Настройки",
+    "tabs": {
+      "profile": "Профил",
+      "password": "Парола",
+      "appearance": "Изглед",
+      "danger": "Опасна зона",
+      "smtp": "SMTP",
+      "azure": "AI (Azure)",
+      "accounts": "Счетоводни сметки"
+    },
+    "smtp": {
+      "title": "SMTP настройки",
+      "description": "Конфигурирайте SMTP сървъра за изпращане на имейли от организацията.",
+      "host": "SMTP сървър",
+      "port": "Порт",
+      "username": "Потребител",
+      "password": "Парола",
+      "useTls": "Използвай TLS",
+      "fromEmail": "От имейл",
+      "fromName": "От име",
+      "fromNamePlaceholder": "Име на организация",
+      "testConnection": "Тест връзка",
+      "saved": "SMTP настройките са запазени успешно."
+    },
+    "azure": {
+      "title": "Azure Document Intelligence",
+      "description": "Конфигурирайте Azure Document Intelligence за автоматична обработка на фактури.",
+      "endpoint": "Endpoint URL",
+      "endpointHelp": "Azure endpoint URL за Document Intelligence услугата.",
+      "apiKey": "API ключ",
+      "apiKeyHelp": "Вашият Azure Document Intelligence API ключ.",
+      "modelId": "Model ID",
+      "modelIdHelp": "Модел за използване (по подразбиране: prebuilt-invoice).",
+      "saved": "Azure настройките са запазени успешно."
+    },
+    "accounts": {
+      "title": "Счетоводни сметки по подразбиране",
+      "description": "Конфигурирайте сметките по подразбиране за автоматични контировки.",
+      "clients": "Сметка Клиенти (вземания)",
+      "suppliers": "Сметка Доставчици (задължения)",
+      "vatPurchases": "Сметка ДДС Покупки",
+      "vatSales": "Сметка ДДС Продажби",
+      "revenue": "Сметка Приходи",
+      "cash": "Сметка Каса",
+      "bank": "Сметка Банка",
+      "selectAccount": "Изберете сметка...",
+      "saved": "Сметките по подразбиране са запазени успешно."
     }
   },
   "aiInvoices": {

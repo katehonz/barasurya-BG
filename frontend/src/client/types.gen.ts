@@ -185,6 +185,15 @@ export type AssetUpdate = {
 };
 
 /**
+ * Schema for updating only Azure settings.
+ */
+export type AzureSettingsUpdate = {
+    azure_endpoint?: (string | null);
+    azure_api_key?: (string | null);
+    azure_model_id?: (string | null);
+};
+
+/**
  * Схема за създаване на банкова сметка.
  */
 export type BankAccountCreate = {
@@ -477,6 +486,11 @@ export type BankTransactionUpdate = {
     metadata_json?: ({
     [key: string]: unknown;
 } | null);
+};
+
+export type Body_ai_invoices_upload_invoice = {
+    file: (Blob | File);
+    invoice_type?: ExtractedInvoiceType;
 };
 
 export type Body_login_login_access_token = {
@@ -808,6 +822,19 @@ export type CurrencyUpdate = {
     description?: (string | null);
 };
 
+/**
+ * Schema for updating only default accounts.
+ */
+export type DefaultAccountsUpdate = {
+    default_clients_account_id?: (string | null);
+    default_suppliers_account_id?: (string | null);
+    default_vat_purchases_account_id?: (string | null);
+    default_vat_sales_account_id?: (string | null);
+    default_revenue_account_id?: (string | null);
+    default_cash_account_id?: (string | null);
+    default_bank_account_id?: (string | null);
+};
+
 export type ExchangeRatePublic = {
     /**
      * Source currency ID
@@ -856,6 +883,10 @@ export type ExchangeRatesPublic = {
     data: Array<ExchangeRatePublic>;
     count: number;
 };
+
+export type ExtractedInvoiceStatus = 'pending_review' | 'approved' | 'rejected' | 'converted';
+
+export type ExtractedInvoiceType = 'sales' | 'purchase';
 
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
@@ -976,6 +1007,32 @@ export type InvoicesPublic = {
 
 export type InvoiceStatus = 'draft' | 'issued' | 'paid' | 'partially_paid' | 'overdue' | 'cancelled';
 
+export type InvoiceType = {
+    code: string;
+    name: string;
+};
+
+export type JournalEntryCreate = {
+    entry_date: string;
+    description?: (string | null);
+    currency_code?: string;
+    exchange_rate?: (number | null);
+    reference?: (string | null);
+};
+
+export type JournalEntryPublic = {
+    entry_date: string;
+    description?: (string | null);
+    currency_code?: string;
+    exchange_rate?: (number | null);
+    reference?: (string | null);
+    id: string;
+    date_created: string;
+    date_updated: string;
+    organization_id: string;
+    created_by_id: string;
+};
+
 export type Message = {
     message: string;
 };
@@ -1081,6 +1138,86 @@ export type OrganizationPublic = {
  * Роли в организацията с йерархия: ADMIN > MANAGER > MEMBER
  */
 export type OrganizationRole = 'admin' | 'manager' | 'member';
+
+/**
+ * Public schema for organization settings.
+ */
+export type OrganizationSettingsPublic = {
+    /**
+     * SMTP сървър
+     */
+    smtp_host?: (string | null);
+    /**
+     * SMTP порт
+     */
+    smtp_port?: (number | null);
+    /**
+     * SMTP потребител
+     */
+    smtp_username?: (string | null);
+    /**
+     * SMTP парола
+     */
+    smtp_password?: (string | null);
+    /**
+     * Използвай TLS
+     */
+    smtp_use_tls?: boolean;
+    /**
+     * Имейл подател
+     */
+    smtp_from_email?: (string | null);
+    /**
+     * Име на подател
+     */
+    smtp_from_name?: (string | null);
+    /**
+     * Azure endpoint URL
+     */
+    azure_endpoint?: (string | null);
+    /**
+     * Azure API ключ
+     */
+    azure_api_key?: (string | null);
+    /**
+     * Azure model ID
+     */
+    azure_model_id?: (string | null);
+    id: string;
+    organization_id: string;
+    default_clients_account_id?: (string | null);
+    default_suppliers_account_id?: (string | null);
+    default_vat_purchases_account_id?: (string | null);
+    default_vat_sales_account_id?: (string | null);
+    default_revenue_account_id?: (string | null);
+    default_cash_account_id?: (string | null);
+    default_bank_account_id?: (string | null);
+    date_created: string;
+    date_updated: string;
+};
+
+/**
+ * Schema for updating organization settings.
+ */
+export type OrganizationSettingsUpdate = {
+    smtp_host?: (string | null);
+    smtp_port?: (number | null);
+    smtp_username?: (string | null);
+    smtp_password?: (string | null);
+    smtp_use_tls?: (boolean | null);
+    smtp_from_email?: (string | null);
+    smtp_from_name?: (string | null);
+    azure_endpoint?: (string | null);
+    azure_api_key?: (string | null);
+    azure_model_id?: (string | null);
+    default_clients_account_id?: (string | null);
+    default_suppliers_account_id?: (string | null);
+    default_vat_purchases_account_id?: (string | null);
+    default_vat_sales_account_id?: (string | null);
+    default_revenue_account_id?: (string | null);
+    default_cash_account_id?: (string | null);
+    default_bank_account_id?: (string | null);
+};
 
 export type OrganizationsPublic = {
     data: Array<OrganizationPublic>;
@@ -2280,6 +2417,27 @@ export type SaleUpdate = {
 };
 
 /**
+ * Schema for updating only SMTP settings.
+ */
+export type SmtpSettingsUpdate = {
+    smtp_host?: (string | null);
+    smtp_port?: (number | null);
+    smtp_username?: (string | null);
+    smtp_password?: (string | null);
+    smtp_use_tls?: (boolean | null);
+    smtp_from_email?: (string | null);
+    smtp_from_name?: (string | null);
+};
+
+/**
+ * Result of SMTP connection test.
+ */
+export type SmtpTestResult = {
+    success: boolean;
+    message: string;
+};
+
+/**
  * Schema for creating a stock level.
  */
 export type StockLevelCreate = {
@@ -2503,6 +2661,41 @@ export type AccountsDeleteAccountData = {
 };
 
 export type AccountsDeleteAccountResponse = (Message);
+
+export type AiInvoicesUploadInvoiceData = {
+    formData: Body_ai_invoices_upload_invoice;
+};
+
+export type AiInvoicesUploadInvoiceResponse = (unknown);
+
+export type AiInvoicesListExtractedInvoicesData = {
+    limit?: number;
+    offset?: number;
+    status?: (ExtractedInvoiceStatus | null);
+};
+
+export type AiInvoicesListExtractedInvoicesResponse = (unknown);
+
+export type AiInvoicesGetExtractedInvoiceData = {
+    invoiceId: string;
+};
+
+export type AiInvoicesGetExtractedInvoiceResponse = (unknown);
+
+export type AiInvoicesApproveExtractedInvoiceData = {
+    invoiceId: string;
+};
+
+export type AiInvoicesApproveExtractedInvoiceResponse = (unknown);
+
+export type AiInvoicesRejectExtractedInvoiceData = {
+    invoiceId: string;
+    rejectionReason: string;
+};
+
+export type AiInvoicesRejectExtractedInvoiceResponse = (unknown);
+
+export type AiInvoicesGetProcessingStatsResponse = (unknown);
 
 export type AssetsListAssetsData = {
     category?: (string | null);
@@ -2794,6 +2987,19 @@ export type InvoicesDownloadInvoicePdfData = {
 
 export type InvoicesDownloadInvoicePdfResponse = (unknown);
 
+export type JournalEntriesReadJournalEntriesData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type JournalEntriesReadJournalEntriesResponse = (Array<JournalEntryPublic>);
+
+export type JournalEntriesCreateJournalEntryData = {
+    requestBody: JournalEntryCreate;
+};
+
+export type JournalEntriesCreateJournalEntryResponse = (JournalEntryPublic);
+
 export type LoginLoginAccessTokenData = {
     formData: Body_login_login_access_token;
 };
@@ -2889,6 +3095,34 @@ export type OrganizationsRemoveOrganizationMemberData = {
 };
 
 export type OrganizationsRemoveOrganizationMemberResponse = (Message);
+
+export type OrganizationSettingsGetSettingsResponse = (OrganizationSettingsPublic);
+
+export type OrganizationSettingsUpdateSettingsData = {
+    requestBody: OrganizationSettingsUpdate;
+};
+
+export type OrganizationSettingsUpdateSettingsResponse = (OrganizationSettingsPublic);
+
+export type OrganizationSettingsUpdateSmtpSettingsData = {
+    requestBody: SmtpSettingsUpdate;
+};
+
+export type OrganizationSettingsUpdateSmtpSettingsResponse = (OrganizationSettingsPublic);
+
+export type OrganizationSettingsUpdateAzureSettingsData = {
+    requestBody: AzureSettingsUpdate;
+};
+
+export type OrganizationSettingsUpdateAzureSettingsResponse = (OrganizationSettingsPublic);
+
+export type OrganizationSettingsUpdateDefaultAccountsData = {
+    requestBody: DefaultAccountsUpdate;
+};
+
+export type OrganizationSettingsUpdateDefaultAccountsResponse = (OrganizationSettingsPublic);
+
+export type OrganizationSettingsTestSmtpConnectionResponse = (SmtpTestResult);
 
 export type PaymentsReadPaymentsData = {
     limit?: number;
@@ -3356,6 +3590,8 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = (Message);
 
 export type UtilsHealthCheckResponse = (boolean);
+
+export type UtilsReadInvoiceTypesResponse = (Array<InvoiceType>);
 
 export type VatDownloadSalesRegisterData = {
     month?: number;

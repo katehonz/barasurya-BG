@@ -3,6 +3,7 @@ from .store import create_store
 from .user import create_user, get_user_by_email, update_user
 from .currency import currency
 from .exchange_rate import exchange_rate
+from . import organization_settings
 
 __all__ = [
     "authenticate",
@@ -12,4 +13,5 @@ __all__ = [
     "get_user_by_email",
     "currency",
     "exchange_rate",
+    "organization_settings",
 ]

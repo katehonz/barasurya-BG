@@ -1,158 +1,62 @@
 import {
   Box,
   Button,
-  Container,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
-  Select,
-  VStack,
-  useToast,
-} from "@chakra-ui/react"
-import { createFileRoute } from "@tanstack/react-router"
-import { useState } from "react"
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+} from "@chakra-ui/react";
+import { createFileRoute } from "@tanstack/react-router";
+// import { Api } from "../client/sdk.gen"; // TODO: Add SAFT service to SDK
 
 export const Route = createFileRoute("/saft")({
-  component: Saft,
-})
+  component: SaftComponent,
+});
 
-function Saft() {
-  const [reportType, setReportType] = useState("monthly")
-  const [year, setYear] = useState(new Date().getFullYear())
-  const [month, setMonth] = useState(new Date().getMonth() + 1)
-  const [isLoading, setIsLoading] = useState(false)
-  const toast = useToast()
+function SaftComponent() {
+  // TODO: Re-enable when SAFT service is implemented
+  const safts: { id: string }[] = [];
 
-  const handleDownload = async () => {
-    setIsLoading(true)
-    try {
-      const params = new URLSearchParams({
-        report_type: reportType,
-        year: year.toString(),
-      })
-      if (reportType === "monthly" && month) {
-        params.append("month", month.toString())
-      }
-      const response = await fetch(`/api/v1/saft?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      })
-      if (!response.ok) {
-        throw new Error("Failed to download SAF-T file")
-      }
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `saft_${reportType}_${year}${reportType === "monthly" ? "_" + month : ""}.xml`
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      toast({
-        title: "Успех",
-        description: "SAF-T файлът е изтеглен успешно.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      })
-    } catch (error) {
-      toast({
-        title: "Грешка",
-        description: "Неуспешно изтегляне на SAF-T файл.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  // const mutation = useMutation({
+  //   mutationFn: (newSaft: any) => Api.createSaft(newSaft),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["safts"] });
+  //   },
+  // });
 
-  const months = [
-    { value: 1, label: "Януари" },
-    { value: 2, label: "Февруари" },
-    { value: 3, label: "Март" },
-    { value: 4, label: "Април" },
-    { value: 5, label: "Май" },
-    { value: 6, label: "Юни" },
-    { value: 7, label: "Юли" },
-    { value: 8, label: "Август" },
-    { value: 9, label: "Септември" },
-    { value: 10, label: "Октомври" },
-    { value: 11, label: "Ноември" },
-    { value: 12, label: "Декември" },
-  ]
+  const handleCreateSaft = () => {
+    // TODO: Implement when SAFT service is ready
+    console.log("SAFT creation not implemented yet");
+  };
 
   return (
-    <Container maxW="container.md" py={8}>
-      <VStack spacing={8} align="stretch">
-        <Heading size="lg" textAlign="center">
-          SAF-T Експорт
-        </Heading>
-
-        <Box
-          p={6}
-          borderWidth="1px"
-          borderRadius="lg"
-          bg="white"
-          _dark={{ bg: "gray.800" }}
-          shadow="sm"
-        >
-          <VStack spacing={4}>
-            <FormControl>
-              <FormLabel>Тип на справката</FormLabel>
-              <Select
-                value={reportType}
-                onChange={(e) => setReportType(e.target.value)}
-              >
-                <option value="monthly">Месечна</option>
-                <option value="annual">Годишна</option>
-                <option value="on_demand">По заявка</option>
-              </Select>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Година</FormLabel>
-              <Input
-                type="number"
-                value={year}
-                onChange={(e) => setYear(parseInt(e.target.value))}
-                min={2020}
-                max={2030}
-              />
-            </FormControl>
-
-            {reportType === "monthly" && (
-              <FormControl>
-                <FormLabel>Месец</FormLabel>
-                <Select
-                  value={month}
-                  onChange={(e) => setMonth(parseInt(e.target.value))}
-                >
-                  {months.map((m) => (
-                    <option key={m.value} value={m.value}>
-                      {m.label}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-
-            <Button
-              colorScheme="blue"
-              onClick={handleDownload}
-              isLoading={isLoading}
-              loadingText="Изтегляне..."
-              width="full"
-              mt={4}
-            >
-              Изтегли SAF-T файл
-            </Button>
-          </VStack>
-        </Box>
-      </VStack>
-    </Container>
-  )
+    <Box>
+      <Heading mb={4}>SAF-T</Heading>
+      <Button onClick={handleCreateSaft} mb={4}>
+        Create SAF-T Report
+      </Button>
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>ID</Th>
+              <Th>Created At</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {safts?.map((saft: { id: string }) => (
+              <Tr key={saft.id}>
+                <Td>{saft.id}</Td>
+                <Td>{/* TODO: Add created at date */}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
 }

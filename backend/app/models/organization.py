@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from app.models.journal_entry import JournalEntry
     from app.models.measurement_unit import MeasurementUnit
     from app.models.organization_member import OrganizationMember
+    from app.models.organization_settings import OrganizationSettings
     from app.models.payable import Payable
     from app.models.payment import Payment
     from app.models.permission import Permission
@@ -154,6 +155,7 @@ class Organization(OrganizationBase, table=True):
     measurement_units: List["MeasurementUnit"] = Relationship(back_populates="organization")
     permissions: List["Permission"] = Relationship(back_populates="organization")
     roles: List["Role"] = Relationship(back_populates="organization")
+    settings: "OrganizationSettings" = Relationship(back_populates="organization")
 
     __table_args__ = (UniqueConstraint("name"),)
 

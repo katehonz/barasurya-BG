@@ -322,6 +322,16 @@ from app.models.exchange_rate import (
     ExchangeRatePublic,
     ExchangeRatesPublic,
 )
+from app.models.organization_settings import (
+    OrganizationSettings,
+    OrganizationSettingsCreate,
+    OrganizationSettingsUpdate,
+    OrganizationSettingsPublic,
+    SmtpSettingsUpdate,
+    AzureSettingsUpdate,
+    DefaultAccountsUpdate,
+    SmtpTestResult,
+)
 from app.models.document_upload import (
     DocumentUpload,
     DocumentUploadCreate,
@@ -649,6 +659,15 @@ __all__ = [
     "ExchangeRateUpdate",
     "ExchangeRatePublic",
     "ExchangeRatesPublic",
+    # Organization settings
+    "OrganizationSettings",
+    "OrganizationSettingsCreate",
+    "OrganizationSettingsUpdate",
+    "OrganizationSettingsPublic",
+    "SmtpSettingsUpdate",
+    "AzureSettingsUpdate",
+    "DefaultAccountsUpdate",
+    "SmtpTestResult",
     # Document processing
     "DocumentUpload",
     "DocumentUploadCreate",

@@ -45,7 +45,11 @@
     "language": "Language",
     "theme": "Theme",
     "darkMode": "Dark Mode",
-    "lightMode": "Light Mode"
+    "lightMode": "Light Mode",
+    "show": "Show",
+    "hide": "Hide",
+    "success": "Success",
+    "error": "Error"
   },
   "users": {
     "users": "Users",
@@ -383,6 +387,56 @@
     "messages": {
       "generated": "VAT report generated successfully.",
       "exported": "VAT report exported successfully."
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "profile": "My Profile",
+      "password": "Password",
+      "appearance": "Appearance",
+      "danger": "Danger Zone",
+      "smtp": "SMTP",
+      "azure": "AI (Azure)",
+      "accounts": "Default Accounts"
+    },
+    "smtp": {
+      "title": "SMTP Settings",
+      "description": "Configure SMTP server for sending emails from the organization.",
+      "host": "SMTP Server",
+      "port": "Port",
+      "username": "Username",
+      "password": "Password",
+      "useTls": "Use TLS",
+      "fromEmail": "From Email",
+      "fromName": "From Name",
+      "fromNamePlaceholder": "Organization Name",
+      "testConnection": "Test Connection",
+      "saved": "SMTP settings saved successfully."
+    },
+    "azure": {
+      "title": "Azure Document Intelligence",
+      "description": "Configure Azure Document Intelligence for automatic invoice processing.",
+      "endpoint": "Endpoint URL",
+      "endpointHelp": "Azure endpoint URL for Document Intelligence service.",
+      "apiKey": "API Key",
+      "apiKeyHelp": "Your Azure Document Intelligence API key.",
+      "modelId": "Model ID",
+      "modelIdHelp": "Model to use (default: prebuilt-invoice).",
+      "saved": "Azure settings saved successfully."
+    },
+    "accounts": {
+      "title": "Default Accounting Accounts",
+      "description": "Configure default accounting accounts for automatic postings.",
+      "clients": "Clients Account (Receivables)",
+      "suppliers": "Suppliers Account (Payables)",
+      "vatPurchases": "VAT Purchases Account",
+      "vatSales": "VAT Sales Account",
+      "revenue": "Revenue Account",
+      "cash": "Cash Account",
+      "bank": "Bank Account",
+      "selectAccount": "Select account...",
+      "saved": "Default accounts saved successfully."
     }
   },
   "aiInvoices": {

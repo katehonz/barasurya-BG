@@ -9,18 +9,30 @@ import {
 } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { useTranslation } from "react-i18next"
 
 import type { UserPublic } from "../../client"
 import Appearance from "../../components/UserSettings/Appearance"
 import ChangePassword from "../../components/UserSettings/ChangePassword"
 import DeleteAccount from "../../components/UserSettings/DeleteAccount"
 import UserInformation from "../../components/UserSettings/UserInformation"
+import {
+  SmtpSettings,
+  AzureSettings,
+  AccountingDefaults,
+} from "../../components/OrganizationSettings"
 
-const tabsConfig = [
-  { title: "My profile", component: UserInformation },
-  { title: "Password", component: ChangePassword },
-  { title: "Appearance", component: Appearance },
-  { title: "Danger zone", component: DeleteAccount },
+const userTabsConfig = [
+  { titleKey: "settings.tabs.profile", component: UserInformation },
+  { titleKey: "settings.tabs.password", component: ChangePassword },
+  { titleKey: "settings.tabs.appearance", component: Appearance },
+  { titleKey: "settings.tabs.danger", component: DeleteAccount },
+]
+
+const orgTabsConfig = [
+  { titleKey: "settings.tabs.smtp", component: SmtpSettings },
+  { titleKey: "settings.tabs.azure", component: AzureSettings },
+  { titleKey: "settings.tabs.accounts", component: AccountingDefaults },
 ]
 
 export const Route = createFileRoute("/_layout/settings")({
@@ -28,25 +40,31 @@ export const Route = createFileRoute("/_layout/settings")({
 })
 
 function UserSettings() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
-  const finalTabs = currentUser?.is_superuser
-    ? tabsConfig.slice(0, 3)
-    : tabsConfig
+
+  // Remove "Danger zone" for superusers
+  const userTabs = currentUser?.is_superuser
+    ? userTabsConfig.slice(0, 3)
+    : userTabsConfig
+
+  // Combine user tabs with organization tabs
+  const allTabs = [...userTabs, ...orgTabsConfig]
 
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} py={12}>
-        User Settings
+        {t("settings.title")}
       </Heading>
       <Tabs variant="enclosed">
-        <TabList>
-          {finalTabs.map((tab, index) => (
-            <Tab key={index}>{tab.title}</Tab>
+        <TabList flexWrap="wrap">
+          {allTabs.map((tab, index) => (
+            <Tab key={index}>{t(tab.titleKey)}</Tab>
           ))}
         </TabList>
         <TabPanels>
-          {finalTabs.map((tab, index) => (
+          {allTabs.map((tab, index) => (
             <TabPanel key={index}>
               <tab.component />
             </TabPanel>

@@ -10,6 +10,7 @@ from app.api.routes import (
     currencies,
     login,
     organizations,
+    organization_settings,
     permissions,
     private,
     purchases,
@@ -24,6 +25,7 @@ from app.api.routes import (
     saft,
     payments,
     vat,
+    journal_entries,
 )
 from app.core.config import settings
 from app.sales.api import invoices_router
@@ -39,6 +41,7 @@ api_router.include_router(bank_transactions.router)
 api_router.include_router(contraagents.router)
 api_router.include_router(currencies.router)
 api_router.include_router(organizations.router)
+api_router.include_router(organization_settings.router)
 api_router.include_router(login.router)
 api_router.include_router(payments.router)
 api_router.include_router(permissions.router)
@@ -54,6 +57,7 @@ api_router.include_router(users.router)
 api_router.include_router(utils.router)
 api_router.include_router(invoices_router, prefix="/invoices", tags=["invoices"])
 api_router.include_router(vat.router, prefix="/vat", tags=["vat"])
+api_router.include_router(journal_entries.router, prefix="/journal-entries", tags=["journal-entries"])
 
 
 if settings.ENVIRONMENT == "local":

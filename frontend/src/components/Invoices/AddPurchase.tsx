@@ -31,9 +31,9 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query"
 import { type SubmitHandler, useForm, useFieldArray } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 
-import { InvoicesService, type InvoiceCreate, ContraagentsService, type ContraagentPublic, OrganizationsService, UtilsService } from "../../client"
+import { InvoicesService, type InvoiceCreate, ContraagentsService, type ContraagentPublic, UtilsService } from "../../client"
 
 // Temporary product type for search
 interface ProductPublic {
@@ -48,7 +48,7 @@ import useCustomToast from "../../hooks/useCustomToast"
 import SearchModal from "../Common/SearchModal"
 
 
-const AddInvoiceSchema = z.object({
+const AddPurchaseSchema = z.object({
   invoice_no: z.string().min(1, "Invoice number is required."),
   contact_id: z.string().uuid("Contact is required."),
   issue_date: z.string().min(1, "Issue date is required."),
@@ -58,10 +58,8 @@ const AddInvoiceSchema = z.object({
   billing_address: z.string().optional().nullable(),
   billing_vat_number: z.string().optional().nullable(),
   billing_company_id: z.string().optional().nullable(),
-  payment_method: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
   vat_document_type: z.string().optional(),
-  oss_country: z.string().optional().nullable(),
   vat_reason: z.string().optional().nullable(),
   invoice_lines: z.array(z.object({
     description: z.string().min(1, "Description is required."),
@@ -73,57 +71,28 @@ const AddInvoiceSchema = z.object({
   })).min(1, "At least one invoice line is required."),
 })
 
-interface AddInvoiceProps {
+interface AddPurchaseProps {
   isOpen: boolean
   onClose: () => void
 }
 
-const euCountries = [
-  { code: "AT", name: "Austria" },
-  { code: "BE", name: "Belgium" },
-  { code: "BG", name: "Bulgaria" },
-  { code: "HR", name: "Croatia" },
-  { code: "CY", name: "Cyprus" },
-  { code: "CZ", name: "Czech Republic" },
-  { code: "DK", name: "Denmark" },
-  { code: "EE", name: "Estonia" },
-  { code: "FI", name: "Finland" },
-  { code: "FR", name: "France" },
-  { code: "DE", name: "Germany" },
-  { code: "GR", name: "Greece" },
-  { code: "HU", name: "Hungary" },
-  { code: "IE", name: "Ireland" },
-  { code: "IT", name: "Italy" },
-  { code: "LV", name: "Latvia" },
-  { code: "LT", name: "Lithuania" },
-  { code: "LU", name: "Luxembourg" },
-  { code: "MT", name: "Malta" },
-  { code: "NL", name: "Netherlands" },
-  { code: "PL", name: "Poland" },
-  { code: "PT", name: "Portugal" },
-  { code: "RO", name: "Romania" },
-  { code: "SK", name: "Slovakia" },
-  { code: "SI", name: "Slovenia" },
-  { code: "ES", name: "Spain" },
-  { code: "SE", name: "Sweden" },
-]
-
 // Mock VAT zero reasons for demonstration. In a real app, this would come from an API.
-const vatZeroReasons = [
-  { code: "01", description: "Intra-community supply" },
-  { code: "02", description: "Export" },
-  { code: "03", description: "Services abroad" },
-  { code: "99", description: "Other reason" },
-]
+// TODO: Use these when implementing VAT reason dropdown
+// const vatZeroReasons = [
+//   { code: "01", description: "Intra-community supply" },
+//   { code: "02", description: "Export" },
+//   { code: "03", description: "Services abroad" },
+//   { code: "99", description: "Other reason" },
+// ]
 
 
-export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
+export default function AddPurchase({ isOpen, onClose }: AddPurchaseProps) {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
-  const { data: currentOrganization } = useQuery({
-    queryKey: ["currentOrganization"],
-    queryFn: OrganizationsService.readCurrentOrganization,
-  });
+  // const { data: currentOrganization } = useQuery({
+  //   queryKey: ["currentOrganization"],
+  //   queryFn: OrganizationsService.readCurrentOrganization,
+  // });
 
   const { data: invoiceTypes, isLoading: isLoadingInvoiceTypes } = useQuery({
     queryKey: ["invoiceTypes"],
@@ -138,11 +107,10 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
     setValue,
     watch,
   } = useForm<InvoiceCreate>({
-    resolver: zodResolver(AddInvoiceSchema),
+    resolver: zodResolver(AddPurchaseSchema),
     defaultValues: {
       issue_date: new Date().toISOString().split("T")[0],
-      vat_document_type: "01", // Default to "Фактура"
-      oss_country: undefined,
+      vat_document_type: "01",
       invoice_lines: [{ description: "", quantity: 1, unit_price: 0, tax_rate: 20, discount_percent: 0 }],
     }
   })
@@ -166,12 +134,12 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
   const watchedInvoiceLines = watch("invoice_lines")
 
   // Use the actual VAT registered status from the organization settings
-  const isCompanyVatRegistered = currentOrganization?.is_vat_registered || false; 
+  // const isCompanyVatRegistered = currentOrganization?.is_vat_registered || false; 
 
-  // Determine if VAT reason field should be shown
-  const showVatReason = useMemo(() => {
-    return isCompanyVatRegistered && watchedInvoiceLines.some(line => Number(line.tax_rate || 0) === 0);
-  }, [isCompanyVatRegistered, watchedInvoiceLines])
+  // Determine if VAT reason field should be shown (TODO: implement in UI)
+  // const showVatReason = useMemo(() => {
+  //   return isCompanyVatRegistered && watchedInvoiceLines.some(line => Number(line.tax_rate || 0) === 0);
+  // }, [isCompanyVatRegistered, watchedInvoiceLines])
 
   useEffect(() => {
     let subtotal = 0
@@ -222,7 +190,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
   }
 
   const searchContacts = async (query: string) => {
-    const response = await ContraagentsService.readContraagents({ search: query, isCustomer: true })
+    const response = await ContraagentsService.readContraagents({ search: query, isSupplier: true })
     return response.data
   }
 
@@ -233,10 +201,10 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
 
   const mutation = useMutation({
     mutationFn: (data: InvoiceCreate) =>
-      InvoicesService.createInvoice({ requestBody: data }),
+      InvoicesService.createInvoice({ requestBody: data }), // TODO: Replace with PurchasesService
     onSuccess: () => {
-      showToast("Success!", "Invoice created successfully.", "success")
-      queryClient.invalidateQueries({ queryKey: ["invoices"] })
+      showToast("Success!", "Purchase Invoice created successfully.", "success")
+      queryClient.invalidateQueries({ queryKey: ["purchases"] })
       onClose()
     },
     onError: (err) => {
@@ -253,7 +221,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add Invoice</ModalHeader>
+        <ModalHeader>Add Purchase Invoice</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
@@ -272,13 +240,13 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem>
                    <FormControl isInvalid={!!errors.contact_id}>
-                    <FormLabel htmlFor="contact_id">Contact</FormLabel>
+                    <FormLabel htmlFor="contact_id">Supplier</FormLabel>
                     <InputGroup>
                       <Input
                         id="contact_name"
                         value={selectedContactName || ""}
                         readOnly
-                        placeholder="Select a contact"
+                        placeholder="Select a supplier"
                         onClick={() => setIsContactSearchModalOpen(true)}
                       />
                       <Button onClick={() => setIsContactSearchModalOpen(true)} ml={1}>Search</Button>
@@ -326,11 +294,11 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
               </Grid>
 
-              <Heading size="md" alignSelf="flex-start" mt={6}>Billing Information</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>Supplier Information</Heading>
               <Grid templateColumns="repeat(2, 1fr)" gap={4} w="full">
                 <GridItem colSpan={2}>
                   <FormControl isInvalid={!!errors.billing_name}>
-                    <FormLabel htmlFor="billing_name">Billing Name</FormLabel>
+                    <FormLabel htmlFor="billing_name">Supplier Name</FormLabel>
                     <Input
                       id="billing_name"
                       {...register("billing_name")}
@@ -341,7 +309,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem colSpan={2}>
                   <FormControl isInvalid={!!errors.billing_address}>
-                    <FormLabel htmlFor="billing_address">Billing Address</FormLabel>
+                    <FormLabel htmlFor="billing_address">Supplier Address</FormLabel>
                     <Input
                       id="billing_address"
                       {...register("billing_address")}
@@ -374,19 +342,8 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
               </Grid>
               
-              <Heading size="md" alignSelf="flex-start" mt={6}>Payment Information</Heading>
+
               <Grid templateColumns="repeat(2, 1fr)" gap={4} w="full">
-                <GridItem>
-                   <FormControl isInvalid={!!errors.payment_method}>
-                    <FormLabel htmlFor="payment_method">Payment Method</FormLabel>
-                    <Select id="payment_method" {...register("payment_method")}>
-                      <option value="cash">Cash</option>
-                      <option value="bank">Bank Transfer</option>
-                      <option value="card">Card</option>
-                    </Select>
-                    <FormErrorMessage>{errors.payment_method?.message}</FormErrorMessage>
-                  </FormControl>
-                </GridItem>
                 <GridItem>
                   <FormControl isInvalid={!!errors.vat_document_type}>
                     <FormLabel htmlFor="vat_document_type">VAT Document Type</FormLabel>
@@ -399,7 +356,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                   </FormControl>
                 </GridItem>
               </Grid>
-              
+
               <FormControl isInvalid={!!errors.notes} mt={4}>
                 <FormLabel htmlFor="notes">Notes</FormLabel>
                 <Textarea
@@ -409,40 +366,8 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 <FormErrorMessage>{errors.notes?.message}</FormErrorMessage>
               </FormControl>
 
-              {/* VAT and OSS Logic */}
-              <Heading size="md" alignSelf="flex-start" mt={6}>VAT and OSS Details</Heading>
-              <VStack spacing={4} align="stretch" w="full">
-                <FormControl isInvalid={!!errors.oss_country}>
-                  <FormLabel htmlFor="oss_country">OSS Country (One-Stop Shop)</FormLabel>
-                  <Select id="oss_country" {...register("oss_country")}>
-                    <option value="">Not applicable</option>
-                    {euCountries.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.name} ({country.code})
-                      </option>
-                    ))}
-                  </Select>
-                  <FormErrorMessage>{errors.oss_country?.message}</FormErrorMessage>
-                </FormControl>
 
-                {showVatReason && (
-                  <FormControl isInvalid={!!errors.vat_reason}>
-                    <FormLabel htmlFor="vat_reason">VAT Zero Reason</FormLabel>
-                    <Select id="vat_reason" {...register("vat_reason")}>
-                      <option value="">Select reason...</option>
-                      {vatZeroReasons.map((reason) => (
-                        <option key={reason.code} value={reason.code}>
-                          {reason.description}
-                        </option>
-                      ))}
-                    </Select>
-                    <FormErrorMessage>{errors.vat_reason?.message}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </VStack>
-
-
-              <Heading size="md" alignSelf="flex-start" mt={6}>Invoice Lines</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>Purchase Lines</Heading>
               <TableContainer w="full">
                 <Table>
                   <Thead>
@@ -567,7 +492,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
       <SearchModal<ContraagentPublic>
         isOpen={isContactSearchModalOpen}
         onClose={() => setIsContactSearchModalOpen(false)}
-        title="Search Contact"
+        title="Search Supplier"
         searchFun={searchContacts}
         onSelect={handleContactSelect}
         displayFields={[

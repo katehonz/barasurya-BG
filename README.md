@@ -1,15 +1,40 @@
-# Barasurya
-
-<a href="https://github.com/fn-hide/barasurya/actions?query=workflow%3ATest" target="_blank"><img src="https://github.com/fn-hide/barasurya/workflows/Test/badge.svg" alt="Test"></a>
-<a href="https://coverage-badge.samuelcolvin.workers.dev/redirect/fn-hide/barasurya" target="_blank"><img src="https://coverage-badge.samuelcolvin.workers.dev/fn-hide/barasurya.svg" alt="Coverage"></a>
-
+# Barasurya ERP - Българска версия
 
 <div align="center">
   <p>
-    <a href="https://github.com/fn-hide/barasurya" target="_blank">
-      <img width="100%" src="./img/barasurya-wide.png" alt="Barasurya banner"></a>
+    <img width="100%" src="./img/barasurya-wide.png" alt="Barasurya banner">
   </p>
 </div>
+
+---
+
+## Оригинален шаблон / Original Template
+
+Първоначалният шаблон е базиран на [Full Stack FastAPI Template](https://github.com/fn-hide/barasurya) от fn-hide.
+
+The original template is based on [Full Stack FastAPI Template](https://github.com/fn-hide/barasurya) by fn-hide.
+
+**The Full Stack FastAPI Template is licensed under the terms of the MIT license.**
+
+---
+
+## Българска адаптация / Bulgarian Adaptation
+
+Тази версия е адаптирана за **българското законодателство и счетоводна практика**.
+
+Всеки може свободно да продължи по-нататъшната разработка.
+
+This version is adapted for **Bulgarian legislation and accounting practices**.
+
+Everyone is free to continue further development.
+
+---
+
+**Създадено от / Created by:** Димитър Гигов / Dimitar Gigov
+
+**Website:** [https://cyberbuch.org/](https://cyberbuch.org/)
+
+---
 
 ## Technology Stack and Features
 
@@ -70,6 +95,8 @@ Check the file [release-notes.md](./release-notes.md).
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
 
-## License
+## License / Лиценз
 
-The Full Stack FastAPI Template is licensed under the terms of the MIT license.
+This project is licensed under the terms of the **MIT license**.
+
+Този проект е лицензиран под условията на **MIT лиценза**.

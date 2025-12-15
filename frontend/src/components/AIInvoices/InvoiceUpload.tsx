@@ -24,23 +24,6 @@ import { useTranslation } from 'react-i18next';
 
 import { OpenAPI } from '../../client/core/OpenAPI';
 
-interface ExtractedInvoice {
-  id: string;
-  invoice_type: 'sales' | 'purchase';
-  status: 'pending_review' | 'approved' | 'rejected';
-  confidence_score: number;
-  invoice_number?: string;
-  vendor_name?: string;
-  customer_name?: string;
-  total_amount?: number;
-  currency?: string;
-  date_created: string;
-  document_upload: {
-    original_filename: string;
-    file_size: number;
-  };
-}
-
 interface ProcessingStats {
   total: number;
   pending_review: number;

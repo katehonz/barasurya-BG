@@ -4,3 +4,12 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Sensitive files
+.env
+
+# Local data
+FILE/
+
+# Disabled features
+*.disabled

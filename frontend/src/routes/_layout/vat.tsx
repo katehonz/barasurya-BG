@@ -13,7 +13,7 @@ function Vat() {
 
   const handleDownloadSalesRegister = async () => {
     const response = await VatService.downloadSalesRegister()
-    const blob = new Blob([response], { type: "text/plain" })
+    const blob = new Blob([response as BlobPart], { type: "text/plain" })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
@@ -24,7 +24,7 @@ function Vat() {
 
   const handleDownloadPurchaseRegister = async () => {
     const response = await VatService.downloadPurchaseRegister()
-    const blob = new Blob([response], { type: "text/plain" })
+    const blob = new Blob([response as BlobPart], { type: "text/plain" })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
@@ -35,7 +35,7 @@ function Vat() {
 
   const handleDownloadVatDeclaration = async () => {
     const response = await VatService.downloadVatDeclaration()
-    const blob = new Blob([response], { type: "text/plain" })
+    const blob = new Blob([response as BlobPart], { type: "text/plain" })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
