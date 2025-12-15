@@ -1,3 +1,5 @@
+
+
 import html
 from datetime import date, timedelta
 from decimal import Decimal
@@ -71,20 +73,49 @@ class SAFTMasterFiles:
       </nsSAFT:GeneralLedgerAccounts>
         """
 
-    def _build_account(self, account: Any) -> str:
-        # TODO: Get account type and balance
-        account_type = "Bifunctional"
-        opening_balance = "0.00"
-        closing_balance = "0.00"
+    def _build_account(self, account_data: Any) -> str:
+        account = account_data["account"]
+        opening_balance = account_data["opening_balance"]
+        closing_balance = account_data["closing_balance"]
+
+        opening_debit = "0.00"
+        opening_credit = "0.00"
+        closing_debit = "0.00"
+        closing_credit = "0.00"
+
+        if account.is_debit_account:
+            if opening_balance >= 0:
+                opening_debit = self._format_decimal(opening_balance)
+            else:
+                opening_credit = self._format_decimal(-opening_balance)
+            if closing_balance >= 0:
+                closing_debit = self._format_decimal(closing_balance)
+            else:
+                closing_credit = self._format_decimal(-closing_balance)
+        else:  # credit account
+            if opening_balance >= 0:
+                opening_credit = self._format_decimal(opening_balance)
+            else:
+                opening_debit = self._format_decimal(-opening_balance)
+            if closing_balance >= 0:
+                closing_credit = self._format_decimal(closing_balance)
+            else:
+                closing_debit = self._format_decimal(-closing_balance)
+
+        # This logic for account type is a simplification.
+        account_type = "Bifunctional" # Safest default for SAF-T
+
         return f"""
           <nsSAFT:Account>
             <nsSAFT:AccountID>{account.code}</nsSAFT:AccountID>
             <nsSAFT:AccountDescription>{self._escape_xml(account.name)}</nsSAFT:AccountDescription>
-            <nsSAFT:TaxpayerAccountID>{account.standard_code or account.code}</nsSAFT:TaxpayerAccountID>
+            <nsSAFT:TaxpayerAccountID>{getattr(account, 'standard_code', account.code)}</nsSAFT:TaxpayerAccountID>
             <nsSAFT:AccountType>{account_type}</nsSAFT:AccountType>
-            <nsSAFT:AccountCreationDate>{self._format_date(account.inserted_at)}</nsSAFT:AccountCreationDate>
-            <nsSAFT:OpeningDebitBalance>{opening_balance}</nsSAFT:OpeningDebitBalance>
-            <nsSAFT:ClosingDebitBalance>{closing_balance}</nsSAFT:ClosingDebitBalance>
+            <nsSAFT:AccountCreationDate>{self._format_date(getattr(account, 'inserted_at', account.date_created))}</nsSAFT:AccountCreationDate>
+            <nsSAFT:OpeningDebitBalance>{opening_debit}</nsSAFT:OpeningDebitBalance>
+            <nsSAFT:OpeningCreditBalance>{opening_credit}</nsSAFT:OpeningCreditBalance>
+            <nsSAFT:ClosingDebitBalance>{closing_debit}</nsSAFT:ClosingDebitBalance>
+            <nsSAFT:ClosingCreditBalance>{closing_credit}</nsSAFT:ClosingCreditBalance>
           </nsSAFT:Account>
         """
 
@@ -139,7 +170,7 @@ class SAFTMasterFiles:
     def _build_company_structure(self, contact: Any) -> str:
         city = contact.city or "София"
         country = contact.country or "BG"
-        street = contact.street_name or contact.address or ""
+        street = contact.street_name or ""
         postal_code = contact.postal_code or ""
         building_number = contact.building_number or ""
         related_party = "Y" if contact.related_party else "N"
@@ -249,21 +280,19 @@ class SAFTMasterFiles:
         """
 
     def _build_product(self, product: Product) -> str:
-        # TODO: Get cn_code and goods_services_id
-        cn_code = product.cn_code or ""
+        # TODO: Get cn_code and goods_services_id from product model
+        cn_code = ""
         goods_services_id = "G" # Default to Goods
-        if product.category == "services":
-            goods_services_id = "S"
         
         return f"""
           <nsSAFT:Product>
-            <nsSAFT:ProductCode>{product.sku or product.id}</nsSAFT:ProductCode>
+            <nsSAFT:ProductCode>{product.id}</nsSAFT:ProductCode>
             <nsSAFT:GoodsServicesID>{goods_services_id}</nsSAFT:GoodsServicesID>
-            <nsSAFT:ProductGroup>{self._escape_xml(product.category or "")}</nsSAFT:ProductGroup>
+            <nsSAFT:ProductGroup>{self._escape_xml(product.name)}</nsSAFT:ProductGroup>
             <nsSAFT:Description>{self._escape_xml(product.name)}</nsSAFT:Description>
             <nsSAFT:ProductCommodityCode>{cn_code}</nsSAFT:ProductCommodityCode>
-            <nsSAFT:UOMBase>{product.unit or "PCE"}</nsSAFT:UOMBase>
-            <nsSAFT:UOMStandard>{product.unit or "PCE"}</nsSAFT:UOMStandard>
+            <nsSAFT:UOMBase>PCE</nsSAFT:UOMBase>
+            <nsSAFT:UOMStandard>PCE</nsSAFT:UOMStandard>
             <nsSAFT:UOMToUOMBaseConversionFactor>1.00</nsSAFT:UOMToUOMBaseConversionFactor>
           </nsSAFT:Product>
         """
@@ -310,7 +339,7 @@ class SAFTMasterFiles:
             <nsSAFT:AssetID>{asset.code}</nsSAFT:AssetID>
             <nsSAFT:AccountID>{asset.account_code or "205"}</nsSAFT:AccountID>
             <nsSAFT:Description>{self._escape_xml(asset.name)}</nsSAFT:Description>
-    {self._build_asset_contraagent(asset)} # Changed from _build_asset_supplier
+    {self._build_asset_contraagent(asset)}
             <nsSAFT:PurchaseOrderDate>{self._format_date(asset.purchase_order_date or asset.acquisition_date)}</nsSAFT:PurchaseOrderDate>
             <nsSAFT:DateOfAcquisition>{self._format_date(asset.acquisition_date)}</nsSAFT:DateOfAcquisition>
             <nsSAFT:StartUpDate>{self._format_date(asset.startup_date or asset.acquisition_date)}</nsSAFT:StartUpDate>
@@ -318,16 +347,16 @@ class SAFTMasterFiles:
           </nsSAFT:Asset>
         """
 
-    def _build_asset_contraagent(self, asset: Any) -> str: # Changed from _build_asset_supplier
-        if not asset.contraagent: # Changed from asset.supplier
+    def _build_asset_contraagent(self, asset: Any) -> str:
+        if not asset.contraagent:
             return ""
         return f"""
             <nsSAFT:AssetSupplier>
-              <nsSAFT:SupplierName>{self._escape_xml(asset.contraagent.name)}</nsSAFT:SupplierName> # Changed from asset.supplier.name
-              <nsSAFT:SupplierID>{asset.contraagent.vat_number or asset.contraagent.registration_number or ""}</nsSAFT:SupplierID> # Changed from asset.supplier.vat_number or asset.supplier.eik
+              <nsSAFT:SupplierName>{self._escape_xml(asset.contraagent.name)}</nsSAFT:SupplierName>
+              <nsSAFT:SupplierID>{asset.contraagent.vat_number or asset.contraagent.registration_number or ""}</nsSAFT:SupplierID>
               <nsSAFT:PostalAddress>
-                <nsSAFT:City>{self._escape_xml(asset.contraagent.city or "")}</nsSAFT:City> # Changed from asset.supplier.city
-                <nsSAFT:Country>{asset.contraagent.country or "BG"}</nsSAFT:Country> # Changed from asset.supplier.country
+                <nsSAFT:City>{self._escape_xml(asset.contraagent.city or "")}</nsSAFT:City>
+                <nsSAFT:Country>{asset.contraagent.country or "BG"}</nsSAFT:Country>
               </nsSAFT:PostalAddress>
             </nsSAFT:AssetSupplier>
         """
@@ -396,7 +425,7 @@ class SAFTMasterFiles:
 
     def _get_contraagents(self, is_customer: bool = False, is_supplier: bool = False) -> List[Contraagent]:
         """Retrieve contraagents filtered by customer/supplier status."""
-        with Session(self.organization.db_engine) as session:
+        with Session(self.organization.engine) as session:
             statement = select(Contraagent).where(Contraagent.organization_id == self.organization.id)
             if is_customer:
                 statement = statement.where(Contraagent.is_customer == True)
@@ -406,23 +435,67 @@ class SAFTMasterFiles:
 
     def _get_products(self) -> List[Product]:
         """Retrieve products for the organization."""
-        with Session(self.organization.db_engine) as session:
+        with Session(self.organization.engine) as session:
             return session.exec(select(Product).where(Product.organization_id == self.organization.id)).all()
 
-    def _get_accounts_with_balances(self) -> List[Account]:
+    def _get_accounts_with_balances(self) -> List[Any]:
         """Retrieve accounts for the organization with calculated balances."""
-        with Session(self.organization.db_engine) as session:
-            # This is a simplified example; actual balance calculation is complex
-            return session.exec(select(Account).where(Account.organization_id == self.organization.id)).all()
+        with Session(self.organization.engine) as session:
+            accounts = session.exec(select(Account).where(Account.organization_id == self.organization.id)).all()
+
+            start_date_period = date(self.year, self.month, 1)
+            end_date_period = (start_date_period.replace(day=28) + timedelta(days=4))
+            end_date_period -= timedelta(days=end_date_period.day)
+
+            start_date_year = date(self.year, 1, 1)
+
+            accounts_with_balances = []
+            for account in accounts:
+                # Calculate transactions before the period (for opening balance)
+                stmt_before = (
+                    select(func.sum(EntryLine.debit), func.sum(EntryLine.credit))
+                    .join(JournalEntry)
+                    .where(EntryLine.account_id == account.id)
+                    .where(JournalEntry.entry_date >= start_date_year)
+                    .where(JournalEntry.entry_date < start_date_period)
+                )
+                sum_debit_before, sum_credit_before = session.exec(stmt_before).first()
+                sum_debit_before = Decimal(str(sum_debit_before or 0.0))
+                sum_credit_before = Decimal(str(sum_credit_before or 0.0))
+
+                opening_balance = Decimal(str(account.opening_balance)) + sum_debit_before - sum_credit_before
+
+                # Calculate transactions within the period
+                stmt_period = (
+                    select(func.sum(EntryLine.debit), func.sum(EntryLine.credit))
+                    .join(JournalEntry)
+                    .where(EntryLine.account_id == account.id)
+                    .where(JournalEntry.entry_date >= start_date_period)
+                    .where(JournalEntry.entry_date <= end_date_period)
+                )
+                sum_debit_period, sum_credit_period = session.exec(stmt_period).first()
+                sum_debit_period = Decimal(str(sum_debit_period or 0.0))
+                sum_credit_period = Decimal(str(sum_credit_period or 0.0))
+
+                closing_balance = opening_balance + sum_debit_period - sum_credit_period
+
+                accounts_with_balances.append({
+                    "account": account,
+                    "opening_balance": opening_balance,
+                    "closing_balance": closing_balance
+                })
+
+            return accounts_with_balances
+
 
     def _get_assets(self) -> List[Asset]:
         """Retrieve assets for the organization."""
-        with Session(self.organization.db_engine) as session:
+        with Session(self.organization.engine) as session:
             return session.exec(select(Asset).where(Asset.organization_id == self.organization.id)).all()
 
     def _get_journal_entries(self) -> List[JournalEntry]:
         """Retrieve journal entries for the organization filtered by year/month."""
-        with Session(self.organization.db_engine) as session:
+        with Session(self.organization.engine) as session:
             statement = select(JournalEntry).where(
                 JournalEntry.organization_id == self.organization.id,
                 func.extract("year", JournalEntry.date) == self.year
@@ -433,7 +506,7 @@ class SAFTMasterFiles:
 
     def _get_entry_lines_for_journal_entry(self, journal_entry_id: UUID) -> List[EntryLine]:
         """Retrieve entry lines for a specific journal entry."""
-        with Session(self.organization.db_engine) as session:
+        with Session(self.organization.engine) as session:
             return session.exec(
                 select(EntryLine).where(EntryLine.journal_entry_id == journal_entry_id)
             ).all()

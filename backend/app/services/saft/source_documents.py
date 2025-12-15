@@ -11,6 +11,7 @@ from app.models.asset_transaction import AssetTransaction
 from app.models.organization import Organization
 from app.models.payment import Payment
 from app.models.purchase import Purchase
+from app.models.purchase_item import PurchaseItem
 from app.models.sale import Sale
 # TODO: StockMovement model doesn't exist yet
 # from app.models.stock_movement import StockMovement
@@ -113,7 +114,7 @@ class SAFTSourceDocuments:
               <nsSAFT:GrossTotal>{self._format_decimal(invoice.total)}</nsSAFT:GrossTotal>
             </nsSAFT:InvoiceDocumentTotals>
           </nsSAFT:Invoice>
-        """
+        ""
 
     def _build_invoice_customer_address(self, invoice: Any) -> str:
         return f"""
@@ -157,11 +158,12 @@ class SAFTSourceDocuments:
                 </nsSAFT:TaxAmount>
               </nsSAFT:TaxInformation>
             </nsSAFT:InvoiceLine>
-        """
+        ""
 
     def _build_purchase_invoices(self) -> str:
         invoices = self._get_purchase_invoices()
-        total_debit, total_credit = self._calculate_invoice_totals(invoices)
+        total_debit = sum(Decimal(i.amount) for i in invoices)
+        total_credit = sum(Decimal(i.amount) for i in invoices)
         invoices_xml = "\n".join([self._build_purchase_invoice(invoice) for invoice in invoices])
         if not invoices:
             invoices_xml = self._build_placeholder_purchase_invoice()
@@ -177,12 +179,97 @@ class SAFTSourceDocuments:
     def _build_placeholder_purchase_invoice(self) -> str:
         return ""
 
-    def _build_purchase_invoice(self, invoice: Any) -> str:
-        return ""
+    def _build_purchase_invoice(self, invoice: Purchase) -> str:
+        lines_xml = "\n".join([self._build_purchase_invoice_line(line, i) for i, line in enumerate(invoice.purchase_items, 1)])
+        # TODO: The Purchase model is missing many fields for a complete invoice.
+        # Using placeholders for missing fields.
+        invoice_date = invoice.date_purchase.date()
+        return f"""
+          <nsSAFT:Invoice>
+            <nsSAFT:InvoiceNo>{invoice.id}</nsSAFT:InvoiceNo>
+            <nsSAFT:SupplierInfo>
+              <nsSAFT:SupplierID>{invoice.contraagent_id or ""}</nsSAFT:SupplierID>
+              <nsSAFT:Name>{self._escape_xml(invoice.contraagent.name or "")}</nsSAFT:Name>
+    {self._build_invoice_supplier_address(invoice)}
+            </nsSAFT:SupplierInfo>
+            <nsSAFT:AccountID>501</nsSAFT:AccountID>
+            <nsSAFT:Period>{invoice_date.month}</nsSAFT:Period>
+            <nsSAFT:PeriodYear>{invoice_date.year}</nsSAFT:PeriodYear>
+            <nsSAFT:InvoiceDate>{self._format_date(invoice_date)}</nsSAFT:InvoiceDate>
+            <nsSAFT:InvoiceType>02</nsSAFT:InvoiceType>
+            <nsSAFT:SelfBillingIndicator>N</nsSAFT:SelfBillingIndicator>
+            <nsSAFT:SourceID>{invoice.created_by_id or "system"}</nsSAFT:SourceID>
+            <nsSAFT:GLPostingDate>{self._format_date(invoice.date_created or invoice_date)}</nsSAFT:GLPostingDate>
+            <nsSAFT:TransactionID></nsSAFT:TransactionID>
+    {lines_xml}
+            <nsSAFT:InvoiceDocumentTotals>
+              <nsSAFT:TaxInformationTotals>
+                <nsSAFT:TaxType>VAT</nsSAFT:TaxType>
+                <nsSAFT:TaxCode>20</nsSAFT:TaxCode>
+                <nsSAFT:TaxPercentage>20.00</nsSAFT:TaxPercentage>
+                <nsSAFT:TaxBase>{self._format_decimal(Decimal(invoice.amount))}</nsSAFT:TaxBase>
+                <nsSAFT:TaxAmount>
+                  <nsSAFT:Amount>0.00</nsSAFT:Amount>
+                  <nsSAFT:CurrencyCode>BGN</nsSAFT:CurrencyCode>
+                  <nsSAFT:CurrencyAmount>0.00</nsSAFT:CurrencyAmount>
+                  <nsSAFT:ExchangeRate>1.00</nsSAFT:ExchangeRate>
+                </nsSAFT:TaxAmount>
+              </nsSAFT:TaxInformationTotals>
+              <nsSAFT:NetTotal>{self._format_decimal(Decimal(invoice.amount))}</nsSAFT:NetTotal>
+              <nsSAFT:GrossTotal>{self._format_decimal(Decimal(invoice.amount))}</nsSAFT:GrossTotal>
+            </nsSAFT:InvoiceDocumentTotals>
+          </nsSAFT:Invoice>
+        ""
+
+    def _build_invoice_supplier_address(self, invoice: Purchase) -> str:
+        supplier = invoice.contraagent
+        return f"""
+              <nsSAFT:BillingAddress>
+                <nsSAFT:StreetName>{self._escape_xml(supplier.street_name or "")}</nsSAFT:StreetName>
+                <nsSAFT:City>{self._escape_xml(supplier.city or "")}</nsSAFT:City>
+                <nsSAFT:PostalCode>{supplier.postal_code or ""}</nsSAFT:PostalCode>
+                <nsSAFT:Country>{supplier.country or "BG"}</nsSAFT:Country>
+              </nsSAFT:BillingAddress>
+        """
+
+    def _build_purchase_invoice_line(self, line: PurchaseItem, index: int) -> str:
+        amount = Decimal(line.price) * Decimal(line.quantity)
+        return f"""
+            <nsSAFT:InvoiceLine>
+              <nsSAFT:LineNumber>{index}</nsSAFT:LineNumber>
+              <nsSAFT:AccountID>304</nsSAFT:AccountID>
+              <nsSAFT:ProductCode></nsSAFT:ProductCode>
+              <nsSAFT:ProductDescription></nsSAFT:ProductDescription>
+              <nsSAFT:Quantity>{self._format_decimal(Decimal(line.quantity))}</nsSAFT:Quantity>
+              <nsSAFT:InvoiceUOM>PCE</nsSAFT:InvoiceUOM>
+              <nsSAFT:UnitPrice>{self._format_decimal(Decimal(line.price))}</nsSAFT:UnitPrice>
+              <nsSAFT:TaxPointDate>{self._format_date(date.today())}</nsSAFT:TaxPointDate>
+              <nsSAFT:Description></nsSAFT:Description>
+              <nsSAFT:InvoiceLineAmount>
+                <nsSAFT:Amount>{self._format_decimal(amount)}</nsSAFT:Amount>
+                <nsSAFT:CurrencyCode>BGN</nsSAFT:CurrencyCode>
+                <nsSAFT:CurrencyAmount>{self._format_decimal(amount)}</nsSAFT:CurrencyAmount>
+                <nsSAFT:ExchangeRate>1.00</nsSAFT:ExchangeRate>
+              </nsSAFT:InvoiceLineAmount>
+              <nsSAFT:DebitCreditIndicator>D</nsSAFT:DebitCreditIndicator>
+              <nsSAFT:TaxInformation>
+                <nsSAFT:TaxType>VAT</nsSAFT:TaxType>
+                <nsSAFT:TaxCode>20</nsSAFT:TaxCode>
+                <nsSAFT:TaxPercentage>20.00</nsSAFT:TaxPercentage>
+                <nsSAFT:TaxBase>{self._format_decimal(amount)}</nsSAFT:TaxBase>
+                <nsSAFT:TaxAmount>
+                  <nsSAFT:Amount>0.00</nsSAFT:Amount>
+                  <nsSAFT:CurrencyCode>BGN</nsSAFT:CurrencyCode>
+                  <nsSAFT:CurrencyAmount>0.00</nsSAFT:CurrencyAmount>
+                  <nsSAFT:ExchangeRate>1.00</nsSAFT:ExchangeRate>
+                </nsSAFT:TaxAmount>
+              </nsSAFT:TaxInformation>
+            </nsSAFT:InvoiceLine>
+        ""
 
     def _build_payments(self) -> str:
         payments = self._get_payments()
-        total_amount = sum(p.amount for p in payments)
+        total_amount = sum(Decimal(p.amount) for p in payments)
         payments_xml = "\n".join([self._build_payment(payment) for payment in payments])
         if not payments:
             payments_xml = self._build_placeholder_payment()
@@ -199,8 +286,32 @@ class SAFTSourceDocuments:
     def _build_placeholder_payment(self) -> str:
         return ""
 
-    def _build_payment(self, payment: Any) -> str:
-        return ""
+    def _build_payment(self, payment: Payment) -> str:
+        # TODO: This is a very basic implementation of a payment.
+        # It needs to be extended with more details, especially regarding
+        # the counterparty (supplier/customer).
+        payment_date = payment.date_payment.date()
+        return f"""
+        <nsSAFT:Payment>
+          <nsSAFT:TransactionID>{payment.transaction_id or ""}</nsSAFT:TransactionID>
+          <nsSAFT:PaymentDate>{self._format_date(payment_date)}</nsSAFT:PaymentDate>
+          <nsSAFT:PaymentType>{payment.transaction_type or "RC"}</nsSAFT:PaymentType>
+          <nsSAFT:Description>{self._escape_xml(payment.description or "")}</nsSAFT:Description>
+          <nsSAFT:SystemID>{payment.id}</nsSAFT:SystemID>
+          <nsSAFT:SourceDocumentID>{payment.subject_id or ""}</nsSAFT:SourceDocumentID>
+          <nsSAFT:Settlement/>
+          <nsSAFT:Amount>
+            <nsSAFT:Amount>{self._format_decimal(Decimal(payment.amount))}</nsSAFT:Amount>
+            <nsSAFT:CurrencyCode>BGN</nsSAFT:CurrencyCode>
+            <nsSAFT:CurrencyAmount>{self._format_decimal(Decimal(payment.amount))}</nsSAFT:CurrencyAmount>
+            <nsSAFT:ExchangeRate>1.00</nsSAFT:ExchangeRate>
+          </nsSAFT:Amount>
+          <nsSAFT:PaymentMethod>
+            <nsSAFT:Mechanism>{payment.method or "BANK"}</nsSAFT:Mechanism>
+            <nsSAFT:Description>{payment.method or "BANK"}</nsSAFT:Description>
+          </nsSAFT:PaymentMethod>
+        </nsSAFT:Payment>
+        """
 
     def _build_movement_of_goods(self, **kwargs: Any) -> str:
         movements = self._get_stock_movements(**kwargs)
@@ -264,7 +375,7 @@ class SAFTSourceDocuments:
               </nsSAFT:AssetTransactionValuation>
             </nsSAFT:AssetTransactionValuations>
           </nsSAFT:AssetTransaction>
-        """
+        ""
 
     def _build_asset_supplier_customer(self, transaction: Any) -> str:
         if not (transaction.supplier_name or transaction.customer_name):
@@ -280,7 +391,7 @@ class SAFTSourceDocuments:
                 <nsSAFT:Country>{transaction.country or "BG"}</nsSAFT:Country>
               </nsSAFT:PostalAddress>
             </nsSAFT:AssetSupplierCustomer>
-        """
+        ""
 
     def _calculate_invoice_totals(self, invoices: List[Any]) -> Tuple[Decimal, Decimal]:
         total_debit = Decimal(0)
@@ -331,11 +442,11 @@ class SAFTSourceDocuments:
 
             statement = (
                 select(Purchase)
-                .options(selectinload(Purchase.lines), selectinload(Purchase.supplier))
+                .options(selectinload(Purchase.purchase_items), selectinload(Purchase.contraagent))
                 .where(Purchase.organization_id == self.organization.id)
-                .where(Purchase.date >= start_date)
-                .where(Purchase.date <= end_date)
-                .order_by(Purchase.date, Purchase.id)
+                .where(Purchase.date_purchase >= start_date)
+                .where(Purchase.date_purchase <= end_date)
+                .order_by(Purchase.date_purchase, Purchase.id)
             )
             purchases = session.exec(statement).all()
             return purchases

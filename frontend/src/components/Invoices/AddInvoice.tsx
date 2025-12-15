@@ -32,6 +32,7 @@ import { type SubmitHandler, useForm, useFieldArray } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useState, useEffect, useMemo } from "react"
+import { useTranslation } from "react-i18next"
 
 import { InvoicesService, type InvoiceCreate, ContraagentsService, type ContraagentPublic, OrganizationsService, UtilsService } from "../../client"
 
@@ -118,6 +119,7 @@ const vatZeroReasons = [
 
 
 export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
   const { data: currentOrganization } = useQuery({
@@ -253,7 +255,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add Invoice</ModalHeader>
+        <ModalHeader>{t("invoices.addInvoice")}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
@@ -261,7 +263,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
               <Grid templateColumns="repeat(2, 1fr)" gap={4} w="full">
                 <GridItem>
                   <FormControl isInvalid={!!errors.invoice_no}>
-                    <FormLabel htmlFor="invoice_no">Invoice Number</FormLabel>
+                    <FormLabel htmlFor="invoice_no">{t("invoices.invoiceNo")}</FormLabel>
                     <Input
                       id="invoice_no"
                       {...register("invoice_no")}
@@ -272,16 +274,16 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem>
                    <FormControl isInvalid={!!errors.contact_id}>
-                    <FormLabel htmlFor="contact_id">Contact</FormLabel>
+                    <FormLabel htmlFor="contact_id">{t("invoices.contact")}</FormLabel>
                     <InputGroup>
                       <Input
                         id="contact_name"
                         value={selectedContactName || ""}
                         readOnly
-                        placeholder="Select a contact"
+                        placeholder={t("invoices.selectContact")}
                         onClick={() => setIsContactSearchModalOpen(true)}
                       />
-                      <Button onClick={() => setIsContactSearchModalOpen(true)} ml={1}>Search</Button>
+                      <Button onClick={() => setIsContactSearchModalOpen(true)} ml={1}>{t("invoices.search")}</Button>
                     </InputGroup>
                     <Input type="hidden" {...register("contact_id")} />
                     <FormErrorMessage>{errors.contact_id?.message}</FormErrorMessage>
@@ -289,11 +291,11 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
               </Grid>
               
-              <Heading size="md" alignSelf="flex-start" mt={6}>Dates</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>{t("invoices.dates")}</Heading>
               <Grid templateColumns="repeat(3, 1fr)" gap={4} w="full">
                 <GridItem>
                   <FormControl isInvalid={!!errors.issue_date}>
-                    <FormLabel htmlFor="issue_date">Issue Date</FormLabel>
+                    <FormLabel htmlFor="issue_date">{t("invoices.issueDate")}</FormLabel>
                     <Input
                       id="issue_date"
                       {...register("issue_date")}
@@ -304,7 +306,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem>
                   <FormControl isInvalid={!!errors.due_date}>
-                    <FormLabel htmlFor="due_date">Due Date</FormLabel>
+                    <FormLabel htmlFor="due_date">{t("invoices.dueDate")}</FormLabel>
                     <Input
                       id="due_date"
                       {...register("due_date")}
@@ -315,7 +317,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem>
                   <FormControl isInvalid={!!errors.tax_event_date}>
-                    <FormLabel htmlFor="tax_event_date">Tax Event Date</FormLabel>
+                    <FormLabel htmlFor="tax_event_date">{t("invoices.taxEventDate")}</FormLabel>
                     <Input
                       id="tax_event_date"
                       {...register("tax_event_date")}
@@ -326,11 +328,11 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
               </Grid>
 
-              <Heading size="md" alignSelf="flex-start" mt={6}>Billing Information</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>{t("invoices.billingInfo")}</Heading>
               <Grid templateColumns="repeat(2, 1fr)" gap={4} w="full">
                 <GridItem colSpan={2}>
                   <FormControl isInvalid={!!errors.billing_name}>
-                    <FormLabel htmlFor="billing_name">Billing Name</FormLabel>
+                    <FormLabel htmlFor="billing_name">{t("invoices.billingName")}</FormLabel>
                     <Input
                       id="billing_name"
                       {...register("billing_name")}
@@ -341,7 +343,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem colSpan={2}>
                   <FormControl isInvalid={!!errors.billing_address}>
-                    <FormLabel htmlFor="billing_address">Billing Address</FormLabel>
+                    <FormLabel htmlFor="billing_address">{t("invoices.billingAddress")}</FormLabel>
                     <Input
                       id="billing_address"
                       {...register("billing_address")}
@@ -352,7 +354,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem>
                   <FormControl isInvalid={!!errors.billing_vat_number}>
-                    <FormLabel htmlFor="billing_vat_number">VAT Number</FormLabel>
+                    <FormLabel htmlFor="billing_vat_number">{t("invoices.vatNumber")}</FormLabel>
                     <Input
                       id="billing_vat_number"
                       {...register("billing_vat_number")}
@@ -363,7 +365,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
                 <GridItem>
                   <FormControl isInvalid={!!errors.billing_company_id}>
-                    <FormLabel htmlFor="billing_company_id">Company ID</FormLabel>
+                    <FormLabel htmlFor="billing_company_id">{t("invoices.companyId")}</FormLabel>
                     <Input
                       id="billing_company_id"
                       {...register("billing_company_id")}
@@ -374,22 +376,22 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 </GridItem>
               </Grid>
               
-              <Heading size="md" alignSelf="flex-start" mt={6}>Payment Information</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>{t("invoices.paymentInfo")}</Heading>
               <Grid templateColumns="repeat(2, 1fr)" gap={4} w="full">
                 <GridItem>
                    <FormControl isInvalid={!!errors.payment_method}>
-                    <FormLabel htmlFor="payment_method">Payment Method</FormLabel>
+                    <FormLabel htmlFor="payment_method">{t("invoices.paymentMethod")}</FormLabel>
                     <Select id="payment_method" {...register("payment_method")}>
-                      <option value="cash">Cash</option>
-                      <option value="bank">Bank Transfer</option>
-                      <option value="card">Card</option>
+                      <option value="cash">{t("invoices.paymentMethods.cash")}</option>
+                      <option value="bank">{t("invoices.paymentMethods.bank")}</option>
+                      <option value="card">{t("invoices.paymentMethods.card")}</option>
                     </Select>
                     <FormErrorMessage>{errors.payment_method?.message}</FormErrorMessage>
                   </FormControl>
                 </GridItem>
                 <GridItem>
                   <FormControl isInvalid={!!errors.vat_document_type}>
-                    <FormLabel htmlFor="vat_document_type">VAT Document Type</FormLabel>
+                    <FormLabel htmlFor="vat_document_type">{t("invoices.vatDocumentType")}</FormLabel>
                     <Select id="vat_document_type" {...register("vat_document_type")} isDisabled={isLoadingInvoiceTypes}>
                       {invoiceTypes?.map((type) => (
                         <option key={type.code} value={type.code}>{type.name}</option>
@@ -399,9 +401,9 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                   </FormControl>
                 </GridItem>
               </Grid>
-              
+
               <FormControl isInvalid={!!errors.notes} mt={4}>
-                <FormLabel htmlFor="notes">Notes</FormLabel>
+                <FormLabel htmlFor="notes">{t("invoices.notes")}</FormLabel>
                 <Textarea
                   id="notes"
                   {...register("notes")}
@@ -410,12 +412,12 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
               </FormControl>
 
               {/* VAT and OSS Logic */}
-              <Heading size="md" alignSelf="flex-start" mt={6}>VAT and OSS Details</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>{t("invoices.vatOssDetails")}</Heading>
               <VStack spacing={4} align="stretch" w="full">
                 <FormControl isInvalid={!!errors.oss_country}>
-                  <FormLabel htmlFor="oss_country">OSS Country (One-Stop Shop)</FormLabel>
+                  <FormLabel htmlFor="oss_country">{t("invoices.ossCountry")}</FormLabel>
                   <Select id="oss_country" {...register("oss_country")}>
-                    <option value="">Not applicable</option>
+                    <option value="">{t("invoices.notApplicable")}</option>
                     {euCountries.map((country) => (
                       <option key={country.code} value={country.code}>
                         {country.name} ({country.code})
@@ -427,9 +429,9 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
 
                 {showVatReason && (
                   <FormControl isInvalid={!!errors.vat_reason}>
-                    <FormLabel htmlFor="vat_reason">VAT Zero Reason</FormLabel>
+                    <FormLabel htmlFor="vat_reason">{t("invoices.vatZeroReason")}</FormLabel>
                     <Select id="vat_reason" {...register("vat_reason")}>
-                      <option value="">Select reason...</option>
+                      <option value="">{t("invoices.selectReason")}</option>
                       {vatZeroReasons.map((reason) => (
                         <option key={reason.code} value={reason.code}>
                           {reason.description}
@@ -442,15 +444,15 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
               </VStack>
 
 
-              <Heading size="md" alignSelf="flex-start" mt={6}>Invoice Lines</Heading>
+              <Heading size="md" alignSelf="flex-start" mt={6}>{t("invoices.invoiceLines")}</Heading>
               <TableContainer w="full">
                 <Table>
                   <Thead>
                     <Tr>
-                      <Th>Description</Th>
-                      <Th isNumeric>Quantity</Th>
-                      <Th isNumeric>Unit Price</Th>
-                      <Th isNumeric>Tax Rate</Th>
+                      <Th>{t("invoices.description")}</Th>
+                      <Th isNumeric>{t("invoices.quantity")}</Th>
+                      <Th isNumeric>{t("invoices.unitPrice")}</Th>
+                      <Th isNumeric>{t("invoices.taxRate")}</Th>
                       <Th></Th>
                     </Tr>
                   </Thead>
@@ -462,7 +464,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                             <InputGroup>
                               <Input
                                 {...register(`invoice_lines.${index}.description` as const)}
-                                placeholder="Item description"
+                                placeholder={t("invoices.itemDescription")}
                                 onClick={() => {
                                   setCurrentLineIndex(index)
                                   setIsProductSearchModalOpen(true)
@@ -475,7 +477,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                                   setIsProductSearchModalOpen(true)
                                 }}
                               >
-                                Search Product
+                                {t("invoices.searchProduct")}
                               </Button>
                             </InputGroup>
                             <Input type="hidden" {...register(`invoice_lines.${index}.product_id`)} />
@@ -522,7 +524,7 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                         </Td>
                         <Td>
                           <Button colorScheme="red" size="sm" onClick={() => remove(index)}>
-                            Remove
+                            {t("common.remove")}
                           </Button>
                         </Td>
                       </Tr>
@@ -534,16 +536,16 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
                 onClick={() => append({ description: "", quantity: 1, unit_price: 0, tax_rate: 20, discount_percent: 0 })}
                 alignSelf="flex-start"
               >
-                Add Line
+                {t("invoices.addLine")}
               </Button>
 
               {/* Totals Summary */}
               <Grid templateColumns="repeat(2, 1fr)" gap={4} w="full" mt={4}>
                 <GridItem colSpan={1} /> {/* Empty column for alignment */}
                 <GridItem colSpan={1}>
-                  <Text textAlign="right" fontWeight="bold">Subtotal: {invoiceSubtotal.toFixed(2)}</Text>
-                  <Text textAlign="right" fontWeight="bold">Tax: {invoiceTax.toFixed(2)}</Text>
-                  <Text textAlign="right" fontWeight="extrabold" fontSize="xl">Total: {invoiceTotal.toFixed(2)}</Text>
+                  <Text textAlign="right" fontWeight="bold">{t("invoices.subtotal")}: {invoiceSubtotal.toFixed(2)}</Text>
+                  <Text textAlign="right" fontWeight="bold">{t("invoices.tax")}: {invoiceTax.toFixed(2)}</Text>
+                  <Text textAlign="right" fontWeight="extrabold" fontSize="xl">{t("invoices.total")}: {invoiceTotal.toFixed(2)}</Text>
                 </GridItem>
               </Grid>
 
@@ -556,10 +558,10 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
               type="submit"
               isLoading={isSubmitting}
             >
-              Save
+              {t("common.save")}
             </Button>
             <Button variant="ghost" onClick={onClose}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           </ModalFooter>
         </form>
@@ -567,25 +569,25 @@ export default function AddInvoice({ isOpen, onClose }: AddInvoiceProps) {
       <SearchModal<ContraagentPublic>
         isOpen={isContactSearchModalOpen}
         onClose={() => setIsContactSearchModalOpen(false)}
-        title="Search Contact"
+        title={t("invoices.searchContact")}
         searchFun={searchContacts}
         onSelect={handleContactSelect}
         displayFields={[
-          { key: "name", label: "Name" },
-          { key: "vat_number", label: "VAT No.", format: (value) => value || "N/A" },
-          { key: "registration_number", label: "EIK", format: (value) => value || "N/A" },
+          { key: "name", label: t("invoices.name") },
+          { key: "vat_number", label: t("invoices.vatNo"), format: (value) => value || "N/A" },
+          { key: "registration_number", label: t("invoices.eik"), format: (value) => value || "N/A" },
         ]}
       />
       <SearchModal<ProductPublic>
         isOpen={isProductSearchModalOpen}
         onClose={() => setIsProductSearchModalOpen(false)}
-        title="Search Product"
+        title={t("invoices.searchProduct")}
         searchFun={searchProducts}
         onSelect={handleProductSelect}
         displayFields={[
-          { key: "name", label: "Name" },
-          { key: "sku", label: "SKU", format: (value) => value || "N/A" },
-          { key: "price", label: "Price", format: (value) => value?.toString() || "N/A" },
+          { key: "name", label: t("invoices.name") },
+          { key: "sku", label: t("invoices.sku"), format: (value) => value || "N/A" },
+          { key: "price", label: t("invoices.price"), format: (value) => value?.toString() || "N/A" },
         ]}
       />
     </Modal>

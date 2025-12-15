@@ -102,31 +102,31 @@ class SAFTHeader:
         """
 
     def _build_address(self) -> str:
-        # TODO: Get address from organization
-        street = ""
-        number = ""
-        city = ""
-        postal_code = ""
-        country = "BG"
+        street = self.organization.street_name or ""
+        number = self.organization.building_number or ""
+        city = self.organization.city or ""
+        postal_code = self.organization.postal_code or ""
+        country = self.organization.country or "BG"
+        region = self.organization.region or ""
         return f"""
           <nsSAFT:Address>
             <nsSAFT:StreetName>{self._escape_xml(street)}</nsSAFT:StreetName>
             <nsSAFT:Number>{self._escape_xml(number)}</nsSAFT:Number>
             <nsSAFT:AdditionalAddressDetail/>
-            <nsSAFT:Building/>
+            <nsSAFT:Building>{self._escape_xml(self.organization.building or "")}</nsSAFT:Building>
             <nsSAFT:City>{self._escape_xml(city)}</nsSAFT:City>
             <nsSAFT:PostalCode>{postal_code}</nsSAFT:PostalCode>
-            <nsSAFT:Region/>
+            <nsSAFT:Region>{self._escape_xml(region)}</nsSAFT:Region>
             <nsSAFT:Country>{country}</nsSAFT:Country>
             <nsSAFT:AddressType>StreetAddress</nsSAFT:AddressType>
           </nsSAFT:Address>
         """
 
     def _build_contact(self) -> str:
-        # TODO: Get contact info from organization
-        contact_name = ""
-        contact_phone = ""
-        contact_email = ""
+        contact_name = self.organization.legal_representative_name or ""
+        contact_phone = self.organization.phone or ""
+        contact_email = self.organization.email or ""
+        website = self.organization.website or ""
         first_name, last_name = self._split_name(contact_name)
         return f"""
           <nsSAFT:Contact>
@@ -143,28 +143,27 @@ class SAFTHeader:
             <nsSAFT:Telephone>{contact_phone}</nsSAFT:Telephone>
             <nsSAFT:Fax/>
             <nsSAFT:Email>{contact_email}</nsSAFT:Email>
-            <nsSAFT:Website/>
+            <nsSAFT:Website>{website}</nsSAFT:Website>
           </nsSAFT:Contact>
         """
 
     def _build_tax_registration(self) -> str:
-        # TODO: Get tax info from organization
-        eik = self._format_eik()
-        vat_number = ""
+        eik = self.organization.registration_number or ""
+        vat_number = self.organization.vat_number or ""
         tax_type = "100020"
+        tax_authority = self.organization.tax_authority or "NRA"
         return f"""
           <nsSAFT:TaxRegistration>
             <nsSAFT:TaxRegistrationNumber>{eik}</nsSAFT:TaxRegistrationNumber>
             <nsSAFT:TaxType>{tax_type}</nsSAFT:TaxType>
             <nsSAFT:TaxNumber>{vat_number}</nsSAFT:TaxNumber>
-            <nsSAFT:TaxAuthority>NRA</nsSAFT:TaxAuthority>
+            <nsSAFT:TaxAuthority>{tax_authority}</nsSAFT:TaxAuthority>
             <nsSAFT:TaxVerificationDate>{date.today().isoformat()}</nsSAFT:TaxVerificationDate>
           </nsSAFT:TaxRegistration>
         """
 
     def _build_bank_account(self) -> str:
-        # TODO: Get bank info from organization
-        iban = ""
+        iban = self.organization.bank_iban or ""
         return f"""
         <nsSAFT:BankAccount>
           <nsSAFT:IBANNumber>{iban}</nsSAFT:IBANNumber>
@@ -172,9 +171,8 @@ class SAFTHeader:
         """
 
     def _build_ownership(self) -> str:
-        # TODO: Get ownership info from organization
-        owner_name = ""
-        owner_egn = ""
+        owner_name = self.organization.legal_representative_name or ""
+        owner_egn = self.organization.legal_representative_id or ""
         return f"""
         <nsSAFT:Ownership>
           <nsSAFT:IsPartOfGroup>1</nsSAFT:IsPartOfGroup>
@@ -189,18 +187,20 @@ class SAFTHeader:
         """
 
     def _format_eik(self) -> str:
-        eik = self.organization.eik or ""
+        eik = self.organization.registration_number or ""
         return eik.zfill(12)
 
     def _get_region(self) -> str:
-        region_code = self.organization.region_code or "22"
+        # The SAF-T region is expected to be a 2-digit code.
+        # The Organization.region field should store this code.
+        region_code = self.organization.region or "22"
         return f"BG-{region_code}"
 
     def _get_currency(self) -> str:
-        return self.organization.default_currency or "BGN"
+        return self.organization.currency_code or "BGN"
 
     def _get_tax_basis(self) -> str:
-        return self.organization.tax_basis or "A"
+        return self.organization.tax_accounting_basis or "A"
 
     def _split_name(self, full_name: str) -> Tuple[str, str]:
         if not full_name:
