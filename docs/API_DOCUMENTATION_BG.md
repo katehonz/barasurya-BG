@@ -9,7 +9,7 @@ API документацията описва всички налични енд
 ### Base URL
 ```
 Production: https://api.barasurya.com/v1
-Development: http://localhost:8000/v1
+Development: http://localhost:8000/api/v1
 ```
 
 ### Аутентикация

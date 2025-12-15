@@ -24,8 +24,8 @@
 ### 1. Клониране на репозиторията
 
 ```bash
-git clone https://github.com/katehonz/barasurya-BG.git
-cd barasurya-BG
+git clone https://github.com/barasurya/barasurya.git
+cd barasurya
 ```
 
 ### 2. Конфигурация
@@ -128,7 +128,7 @@ docker compose run --rm prestart
 ## Структура на проекта
 
 ```
-barasurya-BG/
+barasurya/
 ├── backend/                 # FastAPI backend
 │   ├── app/
 │   │   ├── api/            # API endpoints
@@ -191,6 +191,8 @@ MIT License - свободни сте да използвате, модифиц�
 ## Автори
 
 **Създадено от:** Димитър Гигов / Dimitar Gigov
+
+**Repository:** [https://github.com/barasurya/barasurya](https://github.com/barasurya/barasurya)
 
 **Website:** [https://cyberbuch.org/](https://cyberbuch.org/)
 
