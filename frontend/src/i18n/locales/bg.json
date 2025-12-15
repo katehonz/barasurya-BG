@@ -100,7 +100,7 @@
     "invalidFormat": "Невалиден формат"
   },
   "erp": {
-    "products": "Продукти",
+    "products": "Артикули",
     "product": "Продукт",
     "contraagents": "Контрагенти",
     "contraagent": "Контрагент",
@@ -112,7 +112,7 @@
     "order": "Поръчка",
     "invoices": "Фактури",
     "invoice": "Фактура",
-    "inventory": "Склад",
+    "inventory": "Материални запаси",
     "stock": "Наличност",
     "reports": "Отчети",
     "report": "Отчет",
@@ -170,15 +170,16 @@
     "admin": "Администрация",
     "myAccount": "Моят акаунт"
   },
-  "menu": {
-    "accounts": "Сметкоплан",
-    "stores": "Складове",
-    "customerTypes": "Типове клиенти",
-    "itemCategories": "Категории артикули",
-    "itemUnits": "Мерни единици",
-    "userSettings": "Потребителски настройки"
-  },
-  "stores": {
+      "menu": {
+      "accounts": "Сметкоплан",
+      "stores": "Складове",
+      "customerTypes": "Типове клиенти",
+      "itemCategories": "Категории артикули",
+      "itemUnits": "Мерни единици",
+      "userSettings": "Потребителски настройки",
+      "banks": "Банки",
+      "journalEntries": "Счетоводни операции"
+    },  "stores": {
     "title": "Складове",
     "store": "Склад",
     "addStore": "Добавяне на склад",
@@ -497,13 +498,13 @@
   "settings": {
     "title": "Настройки",
     "tabs": {
-      "profile": "Профил",
+      "profile": "Моят профил",
       "password": "Парола",
       "appearance": "Изглед",
       "danger": "Опасна зона",
       "smtp": "SMTP",
       "azure": "AI (Azure)",
-      "accounts": "Счетоводни сметки"
+      "accounts": "Сметки по подразбиране"
     },
     "smtp": {
       "title": "SMTP настройки",
@@ -577,7 +578,7 @@
     },
     "stats": {
       "total": "Общо",
-      "pendingReview": "За преглед",
+      "pendingReview": "Изчакващи",
       "approved": "Одобрени",
       "rejected": "Отхвърлени"
     },
