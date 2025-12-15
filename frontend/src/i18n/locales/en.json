@@ -507,6 +507,13 @@
       "saved": "Default accounts saved successfully."
     }
   },
+  "saft": {
+    "title": "SAF-T",
+    "description": "Standard Audit File for Tax purposes (SAF-T) according to NRA requirements.",
+    "downloadSaft": "Download SAF-T File",
+    "downloadSuccess": "SAF-T file downloaded successfully",
+    "downloadError": "Error downloading SAF-T file"
+  },
   "aiInvoices": {
     "title": "AI Invoices",
     "upload": "Upload",
